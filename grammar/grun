@@ -1,0 +1,8 @@
+#!/bin/bash
+# Dieses Script startet grun
+#
+# zunächst feststellen, wo das script liegt
+scriptpath=$(dirname $(python -c 'import os,sys;print os.path.realpath(sys.argv[1])' $0))
+
+# Java ausführen
+java -cp "$scriptpath/antlr-4.1-complete.jar:." org.antlr.v4.runtime.misc.TestRig $*
