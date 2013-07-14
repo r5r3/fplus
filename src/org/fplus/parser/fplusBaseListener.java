@@ -56,6 +56,19 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterPlaceholder(@NotNull fplusParser.PlaceholderContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitPlaceholder(@NotNull fplusParser.PlaceholderContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterContentLine(@NotNull fplusParser.ContentLineContext ctx) { }
 	/**
 	 * {@inheritDoc}

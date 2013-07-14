@@ -42,6 +42,17 @@ public interface fplusListener extends ParseTreeListener {
 	void exitModuleBlock(@NotNull fplusParser.ModuleBlockContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#placeholder}.
+	 * @param ctx the parse tree
+	 */
+	void enterPlaceholder(@NotNull fplusParser.PlaceholderContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#placeholder}.
+	 * @param ctx the parse tree
+	 */
+	void exitPlaceholder(@NotNull fplusParser.PlaceholderContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#contentLine}.
 	 * @param ctx the parse tree
 	 */

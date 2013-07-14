@@ -40,5 +40,35 @@ public class Variable {
         return result;
     }
     
+    /**
+     * Get an element for this variable as a new variable
+     * @param i
+     * @return
+     */
+    public Variable getElement(int i) {
+        Variable result = new Variable(this.name);
+        result.addValue(this.values.get(i));
+        return result;
+    }
     
+    /**
+     * Returns the value at a given index as a string
+     * @param i
+     * @return
+     */
+    public String getValue(int i) {
+        return values.get(i);   
+    }
+    
+    public void setValue(int i, String newvalue) {
+        values.set(i, newvalue);
+    }
+    
+    /**
+     * The number of elements in this variable
+     * @return
+     */
+    public int length() {
+        return this.values.size();
+    }
 }

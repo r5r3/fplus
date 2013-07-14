@@ -92,13 +92,15 @@ contentBlock
 // content blocks are build up of content lines
 contentLine
     :
-        (~Prefix)*? Newline
+        (placeholder | ~Prefix)*? Newline
     ;
 
 // a placeholder used in content blocks
-Placeholder
+placeholder
     :
-        '${' Identifier '}'
+        '$' '{' Identifier '}'
+    |
+        '$' '{' Identifier '(' Identifier ')' '}'
     ;
 
 // token definitions
@@ -107,7 +109,11 @@ Comma           :   ',';
 Semicolon       :   ';';
 LeftBrace       :   '{';
 RightBrace      :   '}';
-DollarLeftBrace :   '${';
+Dollar          :   '$';
+LeftParen       :   '(';
+RightParen      :   ')';
+LeftBracket     :   '[';
+RightBracket    :   ']';
 
 // All commands start with this prefix
 Prefix          :   '!$'[Ff][Pp] ;

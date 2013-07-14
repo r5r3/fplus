@@ -1,5 +1,6 @@
 package org.fplus;
 
+import java.util.HashMap;
 import java.util.List;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -8,6 +9,7 @@ import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.misc.Interval;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeProperty;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.fplus.parser.fplusBaseListener;
 import org.fplus.parser.fplusLexer;
@@ -29,6 +31,12 @@ public class Translator extends fplusBaseListener {
     // all expensions are stored in parse tree properties
     private ParseTreeProperty<String> expansions = new ParseTreeProperty<String>();
     
+    // all variables are stored in tree properties
+    private ParseTreeProperty<HashMap<String,Variable>> variables = new ParseTreeProperty<HashMap<String, Variable>>();
+    
+    // in addition, loop variables are stored in this extra property
+    private ParseTreeProperty<Variable> loop_variables = new ParseTreeProperty<Variable>();
+        
     // the complete translation
     private StringBuilder translation = null;
 
@@ -47,43 +55,112 @@ public class Translator extends fplusBaseListener {
         this.expansions.put(ctx, expansion);
     }
     
+    /**
+     * Read an expansion for a node
+     * @param ctx
+     * @return
+     */
     private String getExpansion(ParseTree ctx) {
         return this.expansions.get(ctx);
     }
     
-    @Override
-    public void exitLoopBlock(fplusParser.LoopBlockContext ctx) {
-        //create the loop variable
-        Variable loop_variable = getList(ctx.loopBegin().listAssignment());
-        // look for variables to replace in the loop body
-        int start = ctx.loopBlockContent().getStart().getTokenIndex();
-        int stop = ctx.loopBlockContent().getStop().getTokenIndex();
-        Token placeholder = null;
-        for (int i=start; i<=stop; i++) {
-            Token currentToken = tokenstream.get(i);
-            if (currentToken.getType() == fplusLexer.Placeholder 
-                    && getIdentifierFromPlaceholder(currentToken).equalsIgnoreCase(loop_variable.name)) {
-                placeholder = currentToken;
-            }
-        }
-        // any placeholders found? if so, replace the expansion
-        if (placeholder != null) {
-            // get the complete text contained in the loop
-            String text = this.getExpansion(ctx.loopBlockContent());
-            // loop over all values of the loop variable
-            StringBuilder buffer = new StringBuilder();
-            for (String val:loop_variable.values) {
-                buffer.append(text.replace(placeholder.getText(), val));
-            }
-            this.setExpansion(ctx.loopBlockContent(), buffer.toString());
+    /**
+     * Add a variable to a node, it is visible for this node and all children
+     * @param ctx
+     * @param var
+     */
+    private void addVariable(ParseTree ctx, Variable var) {
+        // are there already variables?
+        HashMap<String,Variable> vars = this.variables.get(ctx);
+        if (vars == null) {
+            vars = new HashMap<String, Variable>();
+            //store the variable
+            vars.put(var.name, var);
+            this.variables.put(ctx, vars);
+        } else {
+            vars.put(var.name, var);
         }
         
-        //merge and filter the content of this block
-        mergeRuleExpansions(ctx);
-        this.setExpansion(ctx, removePrefixedLines(this.getExpansion(ctx)));
+    }
+    
+    /**
+     * Find a variable defined in ths context or in a parent context.
+     * @param ctx
+     * @param name
+     * @return
+     */
+    private Variable getVariable(ParseTree ctx, String name) {
+        // are there any variables in this context?
+        HashMap<String,Variable> vars = this.variables.get(ctx);
+        if (vars != null) {
+            // we have variables, is the searched one included?
+            if (vars.containsKey(name)) return vars.get(name);            
+        }
+        // nothing found, take a look into the parent
+        if (ctx.getParent() != null) return getVariable(ctx.getParent(), name);
+        // nothing found and no parent
+        return null;
+    }
+    
+    /**
+     * The start of a loop is used to retrieve loop variable
+     * @param ctx 
+     */
+    @Override
+    public void enterLoopBlock(fplusParser.LoopBlockContext ctx) {
+        //create the loop variable
+        Variable loop_variable = getList(ctx.loopBegin().listAssignment());
+        
+        // check if we already have a variable with this name
+        Variable test = this.getVariable(ctx, loop_variable.name);
+        if (test != null) {
+            Logger.Warning("Loop variable " + loop_variable.name + " hides a variable with the same name!", null);
+        }
+        
+        // store the first element of the loop variable in the context, 
+        // this ensures that the placeholders are expanded on the first visit
+        this.addVariable(ctx, loop_variable.getElement(0));
+        
+        // store the variable also for later usage in the loop_variables 
+        this.loop_variables.put(ctx, loop_variable);        
     }
 
-    
+    /**
+     * The actual loop iteration is done here 
+     * @param ctx 
+     */
+    @Override
+    public void exitLoopBlock(fplusParser.LoopBlockContext ctx) {
+        // get the loop variable
+        Variable loop_variable = this.loop_variables.get(ctx);
+        
+        // create a new walker to walk the subtree of the loop block centent over and over again within the loop
+        ParseTreeWalker walker = new ParseTreeWalker();
+        
+        // the string for the expansion
+        StringBuilder expansion = new StringBuilder();
+        
+        // get the single value of the loop variable that is stored in the tree
+        Variable var = this.getVariable(ctx, loop_variable.name);
+
+        // set the head of the subtreecleaner to this context
+        SubtreeCleaner scleaner = new SubtreeCleaner(ctx);
+        
+        // loop over all elements of the loop variable
+        for (int i=0;i<loop_variable.length();i++) {
+            // remove all variables that are stored in deeper levels of the tree
+            walker.walk(scleaner, ctx);
+            // set the value of the loop variable
+            var.setValue(0, loop_variable.getValue(i));
+            // walk the subtree
+            walker.walk(this, ctx.loopBlockContent());
+            // get the expansion
+            expansion.append(this.getExpansion(ctx.loopBlockContent()));
+        }
+        
+        // store the expansion 
+        this.setExpansion(ctx, expansion.toString());
+    }
     
     /**
      * this method is used to store the expansion of every rule.
@@ -103,7 +180,9 @@ public class Translator extends fplusBaseListener {
     public void exitEveryRule(ParserRuleContext ctx) {
         // some rules have there own merging method
         if (ctx instanceof fplusParser.LoopBlockContext) return;
+        if (ctx instanceof fplusParser.PlaceholderContext) return;
         
+        // contatinate the expansions from all children
         mergeRuleExpansions(ctx);
     }
 
@@ -133,6 +212,50 @@ public class Translator extends fplusBaseListener {
             System.out.println(translation);
         }        
     }
+
+    @Override
+    public void exitPlaceholder(fplusParser.PlaceholderContext ctx) {
+        //get at first the name of the variable
+        List<TerminalNode> ids = ctx.Identifier();
+        String varname = ids.get(0).getSymbol().getText();
+        //is there a subscript?
+        String subscriptname = null;
+        if (ids.size() > 1) subscriptname = ids.get(1).getSymbol().getText();
+        
+        //find the variable in a the current context
+        Variable var = this.getVariable(ctx, varname);
+        if (var == null) {
+            Logger.Error("Variable not found: "+varname, null);
+        } else {
+            
+            //is there a subscript?
+            int subscript = 0;
+            if (subscriptname != null) {
+                Variable subscriptvar = this.getVariable(ctx, subscriptname);
+                if (subscriptvar == null) {
+                    Logger.Error("Variable not found: "+subscriptname, null);
+                } else {
+                    //try to convert the subscript to an integer
+                    String subvalue = subscriptvar.getValue(0);
+                    try {
+                        subscript = Integer.parseInt(subvalue);
+                    } catch (NumberFormatException ne) {
+                        Logger.Error("Unable to convert the value of "+subscriptname+" ("+subvalue+") to an integer.", null);
+                    }
+                }
+            }
+
+            // subscript in range?
+            if (subscript+1 > var.length()) {
+                Logger.Error(String.format("Subscript out of range for variable %s(%d)", varname, subscript), null);
+            }
+            
+            // set the expansion for this placeholder
+            this.setExpansion(ctx, var.getValue(subscript));    
+        }
+    }
+    
+    
     
     /**
      * Remove lines that start with !$FP
@@ -147,17 +270,18 @@ public class Translator extends fplusBaseListener {
         }
         return buffer.toString();
     }
+
     /**
      * Extracts the Identifier used in a Placeholder
      * @param tok
      * @return
      */
-    private String getIdentifierFromPlaceholder(Token tok) {
-        if (tok.getType() == fplusParser.Placeholder) {
-            return charstream.getText(new Interval(tok.getStartIndex()+2, tok.getStopIndex()-1));
-        }
-        return null;
-    }
+//    private String getIdentifierFromPlaceholder(Token tok) {
+//        if (tok.getType() == fplusParser.Placeholder) {
+//            return charstream.getText(new Interval(tok.getStartIndex()+2, tok.getStopIndex()-1));
+//        }
+//        return null;
+//    }
     
     /**
      * Creates a new Variable from a List Assignment
@@ -200,5 +324,33 @@ public class Translator extends fplusBaseListener {
             }
         }
         return result;        
+    }
+    
+    /**
+     * Used to remove variable definitiions in deeper levels of the tree 
+     * to aviod overwrite warnings
+     */
+    private class SubtreeCleaner extends fplusBaseListener {
+
+        private ParserRuleContext head;
+        
+        /**
+         * if set, then the head is not cleaned
+         * @param newhead
+         */
+        public SubtreeCleaner(ParserRuleContext newhead) {
+            this.head = newhead;
+        }
+        
+        @Override
+        public void exitEveryRule(ParserRuleContext ctx) {
+            // don't clean the head
+            if (head != null && ctx == head) return;
+            
+            // check if we have variables at this position of the tree
+            HashMap<String, Variable> vars = variables.get(ctx);
+            if (vars != null) variables.removeFrom(ctx);
+        }
+       
     }
 }
