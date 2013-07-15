@@ -31,6 +31,17 @@ public interface fplusListener extends ParseTreeListener {
 	void exitListItem(@NotNull fplusParser.ListItemContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#variableDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariableDefinition(@NotNull fplusParser.VariableDefinitionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#variableDefinition}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariableDefinition(@NotNull fplusParser.VariableDefinitionContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#moduleBlock}.
 	 * @param ctx the parse tree
 	 */
@@ -62,17 +73,6 @@ public interface fplusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitContentLine(@NotNull fplusParser.ContentLineContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link fplusParser#loopBlockContent}.
-	 * @param ctx the parse tree
-	 */
-	void enterLoopBlockContent(@NotNull fplusParser.LoopBlockContentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link fplusParser#loopBlockContent}.
-	 * @param ctx the parse tree
-	 */
-	void exitLoopBlockContent(@NotNull fplusParser.LoopBlockContentContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link fplusParser#list}.

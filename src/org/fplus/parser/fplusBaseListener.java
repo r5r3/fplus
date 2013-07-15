@@ -43,6 +43,19 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterVariableDefinition(@NotNull fplusParser.VariableDefinitionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitVariableDefinition(@NotNull fplusParser.VariableDefinitionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterModuleBlock(@NotNull fplusParser.ModuleBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -76,19 +89,6 @@ public class fplusBaseListener implements fplusListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitContentLine(@NotNull fplusParser.ContentLineContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterLoopBlockContent(@NotNull fplusParser.LoopBlockContentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitLoopBlockContent(@NotNull fplusParser.LoopBlockContentContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

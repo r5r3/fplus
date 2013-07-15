@@ -20,7 +20,7 @@ fortranFile
 programBlock
     :
         WS? Program WS Identifier WS? Newline
-        (contentBlock | loopBlock | Newline)*        
+        (contentBlock)*        
         WS? End WS Program WS? Identifier? WS? Newline?
     ;
 
@@ -44,14 +44,8 @@ templateBlock
 loopBlock
     :
         loopBegin WS? Newline
-        loopBlockContent
+        contentBlock
         WS? Prefix WS End WS Do WS? Newline
-    ;
-
-// a loop block can contains several things
-loopBlockContent
-    :
-        (contentBlock | loopBlock | Newline)*
     ;
 
 // a loop is started with one of these alternatives
@@ -79,14 +73,14 @@ listAssignment
     :
         Identifier WS? '=' WS? IntegerConstant WS? ',' WS? IntegerConstant
     |
-        Identifier WS? In WS? list
+        Identifier WS? '=' WS? list
     ;
 
 // a content block is found inside a loop and contains everything 
 // and placeholders to be replaced. It is allowed to by empty
 contentBlock
     :
-        (contentLine)+
+        (loopBlock | variableDefinition | contentLine)+
     ;
 
 // content blocks are build up of content lines
@@ -101,6 +95,12 @@ placeholder
         '$' '{' Identifier '}'
     |
         '$' '{' Identifier '(' Identifier ')' '}'
+    ;
+
+// variable definition, such a variable can be used everywhere in the same scope unit
+variableDefinition
+    :
+        WS? Prefix WS listAssignment WS? Newline
     ;
 
 // token definitions
@@ -122,7 +122,6 @@ Prefix          :   '!$'[Ff][Pp] ;
 Template        :   [Tt][Ee][Mm][Pp][Ll][Aa][Tt][Ee] ;
 End             :   [Ee][Nn][Dd] ;
 Do              :   [Dd][Oo] ;    
-In              :   [Ii][Nn] ;
 Program         :   [Pp][Rr][Oo][Gg][Rr][Aa][Mm] ;
 Module          :   [Mm][Oo][Dd][Uu][Ll][Ee] ;
 Contains        :   [Cc][Oo][Nn][Tt][Aa][Ii][Nn][Ss] ;
@@ -136,8 +135,8 @@ Identifier
     ;
 
 IntegerConstant
-    :   NonzeroDigit
-        Digit*
+    :   
+        Digit+
     ;
 
 fragment Nondigit

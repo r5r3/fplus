@@ -12,7 +12,6 @@ import org.antlr.v4.runtime.tree.ParseTreeProperty;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.fplus.parser.fplusBaseListener;
-import org.fplus.parser.fplusLexer;
 import org.fplus.parser.fplusParser;
 
 /**
@@ -39,6 +38,9 @@ public class Translator extends fplusBaseListener {
         
     // the complete translation
     private StringBuilder translation = null;
+    
+    // a sign used to add comments to the file
+    private char LineCommentPrefix = '!';
 
     public Translator(fplusParser parser) {
         this.parser = parser;
@@ -153,9 +155,9 @@ public class Translator extends fplusBaseListener {
             // set the value of the loop variable
             var.setValue(0, loop_variable.getValue(i));
             // walk the subtree
-            walker.walk(this, ctx.loopBlockContent());
+            walker.walk(this, ctx.contentBlock());
             // get the expansion
-            expansion.append(this.getExpansion(ctx.loopBlockContent()));
+            expansion.append(this.getExpansion(ctx.contentBlock()));
         }
         
         // store the expansion 
@@ -181,6 +183,7 @@ public class Translator extends fplusBaseListener {
         // some rules have there own merging method
         if (ctx instanceof fplusParser.LoopBlockContext) return;
         if (ctx instanceof fplusParser.PlaceholderContext) return;
+        if (ctx instanceof fplusParser.VariableDefinitionContext) return;
         
         // contatinate the expansions from all children
         mergeRuleExpansions(ctx);
@@ -254,8 +257,20 @@ public class Translator extends fplusBaseListener {
             this.setExpansion(ctx, var.getValue(subscript));    
         }
     }
-    
-    
+
+    /**
+     * Define a variable in the parent context
+     * @param ctx 
+     */
+    @Override
+    public void exitVariableDefinition(fplusParser.VariableDefinitionContext ctx) {
+        // create the new variable
+        Variable new_var = getList(ctx.listAssignment());
+        // place it inside the parents context
+        this.addVariable(ctx.getParent(), new_var);
+        // this line has no expansion
+        this.setExpansion(ctx, String.format("%s%s %s\n", ctx.WS(0).getSymbol().getText(), LineCommentPrefix, new_var.toString()));
+    }
     
     /**
      * Remove lines that start with !$FP
@@ -270,18 +285,6 @@ public class Translator extends fplusBaseListener {
         }
         return buffer.toString();
     }
-
-    /**
-     * Extracts the Identifier used in a Placeholder
-     * @param tok
-     * @return
-     */
-//    private String getIdentifierFromPlaceholder(Token tok) {
-//        if (tok.getType() == fplusParser.Placeholder) {
-//            return charstream.getText(new Interval(tok.getStartIndex()+2, tok.getStopIndex()-1));
-//        }
-//        return null;
-//    }
     
     /**
      * Creates a new Variable from a List Assignment
