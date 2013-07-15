@@ -34,6 +34,6 @@ public class Fplus {
         ParseTree tree = parser.fortranFile();
         // walk the tree
         ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(new Translator(parser), tree);
+        walker.walk(new Translator(parser, tree), tree);
     }
 }

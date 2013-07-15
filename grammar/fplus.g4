@@ -10,8 +10,7 @@ grammar fplus;
 // the parser can handle program and module files
 fortranFile
     :
-    contentBlock?
-    moduleBlock*
+    (moduleBlock | contentBlock)*
     programBlock?
     contentBlock?
     ;
@@ -28,7 +27,9 @@ programBlock
 moduleBlock
     :
         WS? Module WS Identifier WS? Newline
+        (contentBlock | interfaceLine)*
         WS? Contains WS? Newline
+        contentBlock?
         WS? End WS Module WS? Identifier? Newline?
     ;
 // a template block contains functions or subroutines and is used to create 
@@ -36,7 +37,7 @@ moduleBlock
 templateBlock
     :
         WS? Prefix WS Template WS? Identifier? Newline
-        loopBlock*
+        contentBlock*
         WS? Prefix WS End WS Template WS? Identifier? Newline 
     ;
 
@@ -52,6 +53,36 @@ loopBlock
 loopBegin
     :   
         WS? Prefix WS Do WS listAssignment
+    ;
+
+// a function or subroutine block
+procedureBlock
+    :
+        functionBlock
+    |
+        subroutineBlock
+    ;
+
+// a function block, can have a return type
+functionBlock
+    :
+        (~Function)* Function WS Identifier (~Newline)* Newline
+        (contentBlock)?
+        WS? End WS Function WS? Identifier? WS? Newline
+    ;
+
+// a subroutine block, no return type
+subroutineBlock
+    :
+        WS? Subroutine WS Identifier (~Newline)* Newline
+        (contentBlock)?
+        WS? End WS Subroutine WS? Identifier? WS? Newline
+    ;
+
+// the interface definition for templates
+interfaceLine
+    :
+        WS? Prefix WS Interface WS Template WS Identifier WS? Newline
     ;
 
 // used to initialize arrays of replacements
@@ -80,7 +111,17 @@ listAssignment
 // and placeholders to be replaced. It is allowed to by empty
 contentBlock
     :
-        (loopBlock | variableDefinition | contentLine)+
+        (
+            loopBlock 
+        |
+            templateBlock
+        |
+            variableDefinition 
+        |
+            procedureBlock
+        | 
+            contentLine
+        )+
     ;
 
 // content blocks are build up of content lines
@@ -120,11 +161,14 @@ Prefix          :   '!$'[Ff][Pp] ;
 
 // Key words, case insensitive
 Template        :   [Tt][Ee][Mm][Pp][Ll][Aa][Tt][Ee] ;
+Interface       :   [Ii][Nn][Tt][Ee][Rr][Ff][Aa][Cc][Ee] ;
 End             :   [Ee][Nn][Dd] ;
 Do              :   [Dd][Oo] ;    
 Program         :   [Pp][Rr][Oo][Gg][Rr][Aa][Mm] ;
 Module          :   [Mm][Oo][Dd][Uu][Ll][Ee] ;
 Contains        :   [Cc][Oo][Nn][Tt][Aa][Ii][Nn][Ss] ;
+Function        :   [Ff][Uu][Nn][Cc][Tt][Ii][Oo][Nn] ;
+Subroutine      :   [Ss][Uu][Bb][Rr][Oo][Uu][Tt][Ii][Nn][Ee] ;
 
 
 Identifier

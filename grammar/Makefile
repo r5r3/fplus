@@ -16,6 +16,12 @@ generated: fplus.g4 $(ANTLR4JAR)
 	cp generated/*.java generated/*.tokens ../src/org/fplus/parser/.
 	javac -cp $(ANTLR4JAR) generated/*.java
 
+debug: fplus.g4 $(ANTLR4JAR)
+	mkdir -p generated_debug
+	$(ANTLR4) -o generated_debug fplus.g4
+	javac -cp $(ANTLR4JAR) generated_debug/*.java
+
 clean:
 	rm -rf generated
+	rm -rf generated_debug
 	rm -rf runtime

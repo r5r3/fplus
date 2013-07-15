@@ -26,6 +26,7 @@ public class Translator extends fplusBaseListener {
     private fplusParser parser = null;
     private CharStream charstream = null;
     private TokenStream tokenstream = null;
+    private ParseTree head = null;
     
     // all expensions are stored in parse tree properties
     private ParseTreeProperty<String> expansions = new ParseTreeProperty<String>();
@@ -37,15 +38,20 @@ public class Translator extends fplusBaseListener {
     private ParseTreeProperty<Variable> loop_variables = new ParseTreeProperty<Variable>();
         
     // the complete translation
-    private StringBuilder translation = null;
+    private String translation = null;
+    
+    // this variable is set to true if a expansion causes a expansion somewhere 
+    // else in the tree to change.
+    private boolean needSecondWalk = false;
     
     // a sign used to add comments to the file
     private char LineCommentPrefix = '!';
 
-    public Translator(fplusParser parser) {
+    public Translator(fplusParser parser, ParseTree head) {
         this.parser = parser;
         this.tokenstream = parser.getInputStream();
         this.charstream = tokenstream.getTokenSource().getInputStream();
+        this.head = head;
     }
     
     /**
@@ -180,13 +186,30 @@ public class Translator extends fplusBaseListener {
      */
     @Override
     public void exitEveryRule(ParserRuleContext ctx) {
-        // some rules have there own merging method
-        if (ctx instanceof fplusParser.LoopBlockContext) return;
-        if (ctx instanceof fplusParser.PlaceholderContext) return;
-        if (ctx instanceof fplusParser.VariableDefinitionContext) return;
-        
         // contatinate the expansions from all children
         mergeRuleExpansions(ctx);
+        
+        // is this is the head node, then walk the tree again to get the 
+        // changes from interfaces for templates
+        if (ctx != this.head) return;
+        
+        // walk again?
+        if (needSecondWalk) {
+            //create a tree walker
+            ParseTreeWalker walker = new ParseTreeWalker();
+
+            //create the merger
+            ExpansionMerger merger = new ExpansionMerger();
+
+            //walk the tree to merge all expansion
+            walker.walk(merger, ctx);
+        }
+        
+        // store the final result if this head node
+        translation = this.getExpansion(ctx);
+        System.out.println("");
+        System.out.println("RESULT:");
+        System.out.println(translation);
     }
 
     /**
@@ -194,6 +217,11 @@ public class Translator extends fplusBaseListener {
      * @param ctx
      */
     private void mergeRuleExpansions(ParserRuleContext ctx) {
+        // some rules have there own merging method
+        if (ctx instanceof fplusParser.LoopBlockContext) return;
+        if (ctx instanceof fplusParser.PlaceholderContext) return;
+        if (ctx instanceof fplusParser.VariableDefinitionContext) return;
+
         StringBuilder buffer = new StringBuilder();
         for (int i=0; i<ctx.getChildCount();i++) {
             ParseTree child = ctx.getChild(i);
@@ -206,15 +234,7 @@ public class Translator extends fplusBaseListener {
             }
         }
         if (buffer.length() > 0) this.setExpansion(ctx, buffer.toString());
-
-        // store the final result if this head node
-        if (ctx instanceof fplusParser.FortranFileContext) {
-            translation = buffer;
-            System.out.println("");
-            System.out.println("RESULT:");
-            System.out.println(translation);
-        }        
-    }
+    }   
 
     @Override
     public void exitPlaceholder(fplusParser.PlaceholderContext ctx) {
@@ -326,9 +346,9 @@ public class Translator extends fplusBaseListener {
                 }
             }
         }
-        return result;        
+        return result;   
     }
-    
+        
     /**
      * Used to remove variable definitiions in deeper levels of the tree 
      * to aviod overwrite warnings
@@ -356,4 +376,26 @@ public class Translator extends fplusBaseListener {
         }
        
     }
+    
+    /**
+     * Used to walk the tree after the first walk again and to merge 
+     * all expansion.
+     * 
+     * This is needed because interfaces blocks are not in the same subtree then
+     * their corresponding template definitions
+     */
+    private class ExpansionMerger extends fplusBaseListener {
+
+        /**
+         * Merge the Expansions from all children
+         * @param ctx 
+         */
+        @Override
+        public void exitEveryRule(ParserRuleContext ctx) {
+            // contatinate the expansions from all children
+            mergeRuleExpansions(ctx);
+        }
+
+    }
+    
 }
