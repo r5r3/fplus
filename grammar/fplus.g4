@@ -27,7 +27,7 @@ programBlock
 moduleBlock
     :
         WS? Module WS Identifier WS? Newline
-        (contentBlock | interfaceLine)*
+        (contentBlock | interfaceLine | typeDefinitionBlock)*
         WS? Contains WS? Newline
         contentBlock?
         WS? End WS Module WS? Identifier? Newline?
@@ -77,6 +77,35 @@ subroutineBlock
         WS? Subroutine WS Identifier (~Newline)* Newline
         (contentBlock)?
         WS? End WS Subroutine WS? Identifier? WS? Newline
+    ;
+
+// a definition of a type with possibly included generic templates
+typeDefinitionBlock
+    :
+        WS? Type WS? (WS? ',' WS? typeAttributes)* WS? (':'':')? WS? Identifier (~Newline)* Newline
+        (contentBlock | genericTypeBoundLine)*
+        WS? End WS Type WS? Identifier? WS? Newline
+    ;
+
+// type atributes are part of type definitions
+typeAttributes
+    :
+        (
+            Private
+        |
+            Public
+        |
+            Sequence
+        |
+            Abstract
+        )
+    |        
+        (Extends | Bind) WS? '(' WS? Identifier WS? ')'
+    ;
+
+genericTypeBoundLine
+    :
+        WS? Prefix WS Generic WS? ( WS? ',' WS? (Private | Public))* WS? ':'':' WS? Identifier WS? '=''>' WS? Identifier WS? Newline
     ;
 
 // the interface definition for templates
@@ -148,6 +177,7 @@ variableDefinition
 Assign          :   '=';
 Comma           :   ',';
 Semicolon       :   ';';
+Colon           :   ':';
 LeftBrace       :   '{';
 RightBrace      :   '}';
 Dollar          :   '$';
@@ -155,6 +185,8 @@ LeftParen       :   '(';
 RightParen      :   ')';
 LeftBracket     :   '[';
 RightBracket    :   ']';
+Smaller         :   '<';
+Larger          :   '>';
 
 // All commands start with this prefix
 Prefix          :   '!$'[Ff][Pp] ;
@@ -169,6 +201,14 @@ Module          :   [Mm][Oo][Dd][Uu][Ll][Ee] ;
 Contains        :   [Cc][Oo][Nn][Tt][Aa][Ii][Nn][Ss] ;
 Function        :   [Ff][Uu][Nn][Cc][Tt][Ii][Oo][Nn] ;
 Subroutine      :   [Ss][Uu][Bb][Rr][Oo][Uu][Tt][Ii][Nn][Ee] ;
+Type            :   [Tt][Yy][Pp][Ee] ;
+Extends         :   [Ee][Xx][Tt][Ee][Nn][Dd][Ss] ; 
+Private         :   [Pp][Rr][Ii][Vv][Aa][Tt][Ee] ;
+Public          :   [Pp][Uu][Bb][Ll][Ii][Cc] ;
+Sequence        :   [Ss][Ee][Qq][Uu][Ee][Nn][Cc][Ee] ;
+Abstract        :   [Aa][Bb][Ss][Tt][Rr][Aa][Cc][Tt] ;
+Bind            :   [Bb][Ii][Nn][Dd] ;
+Generic         :   [Gg][Ee][Nn][Ee][Rr][Ii][Cc] ;
 
 
 Identifier

@@ -43,6 +43,19 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterTypeDefinitionBlock(@NotNull fplusParser.TypeDefinitionBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitTypeDefinitionBlock(@NotNull fplusParser.TypeDefinitionBlockContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterModuleBlock(@NotNull fplusParser.ModuleBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -82,6 +95,19 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterList(@NotNull fplusParser.ListContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitList(@NotNull fplusParser.ListContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterLoopBlock(@NotNull fplusParser.LoopBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -95,13 +121,13 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterList(@NotNull fplusParser.ListContext ctx) { }
+	@Override public void enterGenericTypeBoundLine(@NotNull fplusParser.GenericTypeBoundLineContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void exitList(@NotNull fplusParser.ListContext ctx) { }
+	@Override public void exitGenericTypeBoundLine(@NotNull fplusParser.GenericTypeBoundLineContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -141,6 +167,19 @@ public class fplusBaseListener implements fplusListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitFunctionBlock(@NotNull fplusParser.FunctionBlockContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterTypeAttributes(@NotNull fplusParser.TypeAttributesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitTypeAttributes(@NotNull fplusParser.TypeAttributesContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
