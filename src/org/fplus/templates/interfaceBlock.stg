@@ -1,0 +1,12 @@
+group interfaceBlock;
+
+interface(name, procname) ::= <<
+interface <name>
+    <procname:module_procedure_line(); separator="\n">
+end interface <name>
+
+>>
+
+module_procedure_line(procname) ::= <<
+module procedure <procname>
+>>

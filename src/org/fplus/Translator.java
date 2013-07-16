@@ -1,5 +1,7 @@
 package org.fplus;
 
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +16,10 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.fplus.parser.fplusBaseListener;
 import org.fplus.parser.fplusParser;
+import org.stringtemplate.v4.AutoIndentWriter;
+import org.stringtemplate.v4.ST;
+import org.stringtemplate.v4.STGroup;
+import org.stringtemplate.v4.STGroupFile;
 
 /**
  * The actual work is done within this class. 
@@ -37,6 +43,9 @@ public class Translator extends fplusBaseListener {
     
     // in addition, loop variables are stored in this extra property
     private ParseTreeProperty<Variable> loop_variables = new ParseTreeProperty<Variable>();
+    
+    // are we in the first pass of a loop?
+    private ParseTreeProperty<Boolean> loop_in_first_pass = new ParseTreeProperty<Boolean>();
     
     // interfaces block locations are detected on the first walk, but the expansion
     // is created when the template is reached
@@ -138,7 +147,10 @@ public class Translator extends fplusBaseListener {
         this.addVariable(ctx, loop_variable.getElement(0));
         
         // store the variable also for later usage in the loop_variables 
-        this.loop_variables.put(ctx, loop_variable);        
+        this.loop_variables.put(ctx, loop_variable);
+        
+        // we are now in the first pass of the loop body
+        this.loop_in_first_pass.put(ctx, true);
     }
 
     /**
@@ -161,6 +173,9 @@ public class Translator extends fplusBaseListener {
 
         // set the head of the subtreecleaner to this context
         SubtreeCleaner scleaner = new SubtreeCleaner(ctx);
+        
+        // we have now left the first pass and loop not over the loop body again
+        this.loop_in_first_pass.put(ctx, false);
         
         // loop over all elements of the loop variable
         for (int i=0;i<loop_variable.length();i++) {
@@ -196,7 +211,7 @@ public class Translator extends fplusBaseListener {
     public void exitEveryRule(ParserRuleContext ctx) {
         // contatinate the expansions from all children
         mergeRuleExpansions(ctx);
-        
+ 
         // is this is the head node, then walk the tree again to get the 
         // changes from interfaces for templates
         if (ctx != this.head) return;
@@ -211,6 +226,13 @@ public class Translator extends fplusBaseListener {
 
             //walk the tree to merge all expansion
             walker.walk(merger, ctx);
+        }
+        
+        // are there unexpanded interface lines?
+        if (!interfaceLines.isEmpty()) {
+            for (fplusParser.InterfaceLineContext ilc:interfaceLines.values()) {
+                Logger.Warning(String.format("unused interface line '%s'.", ilc.Identifier().getText()), ilc.Interface().getSymbol().getLine());
+            }
         }
         
         // store the final result if this head node
@@ -229,6 +251,8 @@ public class Translator extends fplusBaseListener {
         if (ctx instanceof fplusParser.LoopBlockContext) return;
         if (ctx instanceof fplusParser.PlaceholderContext) return;
         if (ctx instanceof fplusParser.VariableDefinitionContext) return;
+        if (ctx instanceof fplusParser.InterfaceLineContext) return;
+        if (ctx instanceof fplusParser.TemplateBlockContext) return;
 
         StringBuilder buffer = new StringBuilder();
         for (int i=0; i<ctx.getChildCount();i++) {
@@ -320,7 +344,41 @@ public class Translator extends fplusBaseListener {
         // we need a second run for the interface block expansion to be included into the translation result
         needSecondWalk = true;
         
+        // get the interface block context
+        String name = ctx.Identifier(0).getSymbol().getText();
+        fplusParser.InterfaceLineContext ilc = interfaceLines.get(name);
+        if (ilc == null) {
+            Logger.Warning(String.format("Template %s has no interface block.", name), ctx.Template(0).getSymbol().getLine());
+        } else {
+            // create the interface block from the procedure names
+            STGroup tgroup = new STGroupFile("org/fplus/templates/interfaceBlock.stg");
+            ST intface = tgroup.getInstanceOf("interface");
+            intface.add("name", name);
+            intface.add("procname", proceduresInCurrentTemplate);
+            StringWriter sw = new StringWriter();
+            AutoIndentWriter aiw = new AutoIndentWriter(sw);
+            TerminalNode firstWS = ilc.WS(0);
+            TerminalNode prefix = ilc.Prefix();
+            if (firstWS.getSymbol().getTokenIndex() < prefix.getSymbol().getTokenIndex()) {
+                aiw.pushIndentation(firstWS.getSymbol().getText());
+                
+            }
+            try {
+                intface.write(aiw);
+            } catch (IOException ex) {}
+            //store the created string as expansion for the interface block
+            this.setExpansion(ilc, sw.toString());
+
+            //remove the interface line from the hash map of interface lines. each interface line
+            // should be used exactly ones.
+            interfaceLines.remove(name);
+        }
         
+        // remove the list of procedures, not longer needed
+        proceduresInCurrentTemplate = null;
+        
+        // the the expansion to the expansion of the contentblock
+        this.setExpansion(ctx, this.getExpansion(ctx.contentBlock()));     
     }
 
     /**
@@ -332,23 +390,41 @@ public class Translator extends fplusBaseListener {
         // are we in a template?
         if (proceduresInCurrentTemplate == null) return;
         
+        // are we in a loop? and if so, are we in the first pass
+        ParseTree tree = ctx;
+        while (tree != head) {
+            tree = tree.getParent();
+            Boolean inFirstPass = this.loop_in_first_pass.get(tree);
+            if (inFirstPass != null && inFirstPass == true) return;
+        }
+        
         // get the identifier
         List<TerminalNode> id = null;
+        ParserRuleContext subroutineOrFunctionBlock = null;
+        TerminalNode subroutineOrFunction = null;
         int endline = 0;
         if (ctx.functionBlock() != null) {
             id = ctx.functionBlock().Identifier();
             endline = ctx.functionBlock().End().getSymbol().getLine();
+            subroutineOrFunctionBlock = ctx.functionBlock();
+            subroutineOrFunction = ctx.functionBlock().Function(0);
         }
         if (ctx.subroutineBlock() != null) {
             id = ctx.subroutineBlock().Identifier();
             endline = ctx.subroutineBlock().End().getSymbol().getLine();
+            subroutineOrFunctionBlock = ctx.subroutineBlock();
+            subroutineOrFunction = ctx.subroutineBlock().Subroutine(0);
         }
         
         // id will never be null, but we can avoid a warning with this line
         if (id == null) return;
         
         // get the original name
-        String id1 = id.get(0).getSymbol().getText();
+        int nameIDindex = 0;
+        while (id.get(nameIDindex).getSymbol().getTokenIndex() < subroutineOrFunction.getSymbol().getTokenIndex()) {
+            nameIDindex += 1;
+        }
+        String id1 = id.get(nameIDindex).getSymbol().getText();
         
         // create the new name
         String newname = String.format("%s_%d", id1, proceduresInCurrentTemplate.size()+1);
@@ -357,7 +433,7 @@ public class Translator extends fplusBaseListener {
         proceduresInCurrentTemplate.add(newname);
         
         // the the expansion for the identifier
-        this.setExpansion(id.get(0), newname);
+        this.setExpansion(id.get(nameIDindex), newname);
         
         // how many identifiers?
         if (id.size() > 1 && id.get(id.size()-1).getSymbol().getLine() == endline) {
@@ -367,6 +443,10 @@ public class Translator extends fplusBaseListener {
             // the the expansion for the identifier
             this.setExpansion(id.get(id.size()-1), newname);
         }
+        
+        // we have changed some expansions, that means we have to merge the expansion for this block again
+        mergeRuleExpansions(subroutineOrFunctionBlock);
+        mergeRuleExpansions(ctx);
     }
     
     

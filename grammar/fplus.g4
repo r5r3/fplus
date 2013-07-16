@@ -37,7 +37,7 @@ moduleBlock
 templateBlock
     :
         WS? Prefix WS Template WS? Identifier? Newline
-        contentBlock*
+        (contentBlock)?
         WS? Prefix WS End WS Template WS? Identifier? Newline 
     ;
 
@@ -66,7 +66,7 @@ procedureBlock
 // a function block, can have a return type
 functionBlock
     :
-        (~Function)* Function WS Identifier (~Newline)* Newline
+        (placeholder | ~(Function|Newline))* Function WS Identifier (~Newline)* Newline
         (contentBlock)?
         WS? End WS Function WS? Identifier? WS? Newline
     ;
@@ -127,7 +127,7 @@ contentBlock
 // content blocks are build up of content lines
 contentLine
     :
-        (placeholder | ~Prefix)*? Newline
+        WS? (placeholder | ~(Prefix | Subroutine | Function))*? Newline
     ;
 
 // a placeholder used in content blocks
