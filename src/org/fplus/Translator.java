@@ -1,5 +1,6 @@
 package org.fplus;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import org.antlr.v4.runtime.CharStream;
@@ -36,7 +37,14 @@ public class Translator extends fplusBaseListener {
     
     // in addition, loop variables are stored in this extra property
     private ParseTreeProperty<Variable> loop_variables = new ParseTreeProperty<Variable>();
-        
+    
+    // interfaces block locations are detected on the first walk, but the expansion
+    // is created when the template is reached
+    private HashMap<String, fplusParser.InterfaceLineContext> interfaceLines = new HashMap<String, fplusParser.InterfaceLineContext>();
+    
+    // this list is used to store the procedures that are found while walker trough a template
+    private ArrayList<String> proceduresInCurrentTemplate = null;
+    
     // the complete translation
     private String translation = null;
     
@@ -225,10 +233,9 @@ public class Translator extends fplusBaseListener {
         StringBuilder buffer = new StringBuilder();
         for (int i=0; i<ctx.getChildCount();i++) {
             ParseTree child = ctx.getChild(i);
-            if (child instanceof ParserRuleContext) {
-                String expansion = this.getExpansion(child);
+            String expansion = this.getExpansion(child);
+            if (expansion != null) {
                 buffer.append(expansion);
-                //System.out.println(expansion);
             } else {
                 buffer.append(child.getText());
             }
@@ -278,6 +285,92 @@ public class Translator extends fplusBaseListener {
         }
     }
 
+    /**
+     * An interface line is the location where the interface block for a template 
+     * is created. 
+     * @param ctx 
+     */
+    @Override
+    public void exitInterfaceLine(fplusParser.InterfaceLineContext ctx) {
+        String name = ctx.Identifier().getSymbol().getText();
+        interfaceLines.put(name, ctx);
+    }
+
+    /**
+     * An empty list of procedures is created at the beginning of an template
+     * @param ctx 
+     */
+    @Override
+    public void enterTemplateBlock(fplusParser.TemplateBlockContext ctx) {
+        // ensure that we ware not in an nested template
+        if (proceduresInCurrentTemplate != null) Logger.Error("Nested templates are not allowed!", ctx.Template(0).getSymbol().getLine());
+        
+        // create the new list
+        proceduresInCurrentTemplate = new ArrayList<String>();
+    }
+
+    
+    
+    /**
+     * The interface block is created on exit of the template block
+     * @param ctx 
+     */
+    @Override
+    public void exitTemplateBlock(fplusParser.TemplateBlockContext ctx) {
+        // we need a second run for the interface block expansion to be included into the translation result
+        needSecondWalk = true;
+        
+        
+    }
+
+    /**
+     * If we are within a template, we need to store the function or subroutine name
+     * @param ctx 
+     */
+    @Override
+    public void exitProcedureBlock(fplusParser.ProcedureBlockContext ctx) {
+        // are we in a template?
+        if (proceduresInCurrentTemplate == null) return;
+        
+        // get the identifier
+        List<TerminalNode> id = null;
+        int endline = 0;
+        if (ctx.functionBlock() != null) {
+            id = ctx.functionBlock().Identifier();
+            endline = ctx.functionBlock().End().getSymbol().getLine();
+        }
+        if (ctx.subroutineBlock() != null) {
+            id = ctx.subroutineBlock().Identifier();
+            endline = ctx.subroutineBlock().End().getSymbol().getLine();
+        }
+        
+        // id will never be null, but we can avoid a warning with this line
+        if (id == null) return;
+        
+        // get the original name
+        String id1 = id.get(0).getSymbol().getText();
+        
+        // create the new name
+        String newname = String.format("%s_%d", id1, proceduresInCurrentTemplate.size()+1);
+        
+        // add this procedure to the list of all procedures in this template
+        proceduresInCurrentTemplate.add(newname);
+        
+        // the the expansion for the identifier
+        this.setExpansion(id.get(0), newname);
+        
+        // how many identifiers?
+        if (id.size() > 1 && id.get(id.size()-1).getSymbol().getLine() == endline) {
+            // check if the first and the last identifier are identical
+            String id2 = id.get(id.size()-1).getSymbol().getText();
+            if (!id1.equalsIgnoreCase(id2)) Logger.Error(String.format("Identifiers at begin and end don't match: %s != %s", id1, id2), id.get(0).getSymbol().getLine());
+            // the the expansion for the identifier
+            this.setExpansion(id.get(id.size()-1), newname);
+        }
+    }
+    
+    
+    
     /**
      * Define a variable in the parent context
      * @param ctx 

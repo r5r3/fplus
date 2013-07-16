@@ -7,7 +7,10 @@ contains
 	!$FP template test1
 
 		subroutine test1(arg1)
-		end subroutine
+		end subroutine test1
+		
+		subroutine test2(arg1)
+		end subroutine test2
 
 	!$FP end template 
 
