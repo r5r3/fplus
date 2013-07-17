@@ -19,7 +19,9 @@ fortranFile
 programBlock
     :
         WS? Program WS Identifier WS? Newline
-        (contentBlock)*        
+        (contentBlock)*
+        (WS? Contains WS? Newline)?
+        (contentBlock)*
         WS? End WS Program WS? Identifier? WS? Newline?
     ;
 
@@ -27,8 +29,8 @@ programBlock
 moduleBlock
     :
         WS? Module WS Identifier WS? Newline
-        (contentBlock | interfaceLine | typeDefinitionBlock)*
-        WS? Contains WS? Newline
+        (interfaceLine | contentBlock)*
+        (WS? Contains WS? Newline)?
         contentBlock?
         WS? End WS Module WS? Identifier? Newline?
     ;
@@ -74,7 +76,7 @@ functionBlock
 // a subroutine block, no return type
 subroutineBlock
     :
-        WS? Subroutine WS Identifier (~Newline)* Newline
+        WS? Recursive? WS? Subroutine WS Identifier (~Newline)* Newline
         (contentBlock)?
         WS? End WS Subroutine WS? Identifier? WS? Newline
     ;
@@ -83,8 +85,22 @@ subroutineBlock
 typeDefinitionBlock
     :
         WS? Type WS? (WS? ',' WS? typeAttributes)* WS? (':'':')? WS? Identifier (~Newline)* Newline
+        (contentBlock)?
+        (WS? Contains WS? Newline)?
         (contentBlock | genericTypeBoundLine)*
         WS? End WS Type WS? Identifier? WS? Newline
+    ;
+
+// a fortran interface block
+fortranInterfaceBlock
+    :
+        WS? Interface WS? Identifier? WS? Newline
+        (
+            WS? (Module)? WS? Procedure WS Identifier (WS? ',' WS? Identifier)* WS? Newline
+        |
+            procedureBlock
+        )*
+        WS? End WS Interface WS? Identifier? WS? Newline
     ;
 
 // type atributes are part of type definitions
@@ -148,7 +164,13 @@ contentBlock
             variableDefinition 
         |
             procedureBlock
-        | 
+        |
+            typeDefinitionBlock
+        |
+            fortranInterfaceBlock
+        |
+            lineComment
+        |
             contentLine
         )+
     ;
@@ -156,7 +178,25 @@ contentBlock
 // content blocks are build up of content lines
 contentLine
     :
-        WS? (placeholder | ~(Prefix | Subroutine | Function))*? Newline
+        WS? 
+        (
+            placeholder 
+        | 
+            ~(
+                Prefix 
+             | 
+                Subroutine 
+             | 
+                Function 
+             | 
+                Contains 
+             | 
+                Module
+             | 
+                Program
+             )
+        )*? 
+        ( Newline | lineComment)
     ;
 
 // a placeholder used in content blocks
@@ -173,6 +213,12 @@ variableDefinition
         WS? Prefix WS listAssignment WS? Newline
     ;
 
+// the last rule is an line comment
+lineComment
+    :
+        WS? '!' ~('$') (placeholder | ~(Newline))* Newline
+    ;
+
 // token definitions
 Assign          :   '=';
 Comma           :   ',';
@@ -187,6 +233,7 @@ LeftBracket     :   '[';
 RightBracket    :   ']';
 Smaller         :   '<';
 Larger          :   '>';
+Exclamation     :   '!';
 
 // All commands start with this prefix
 Prefix          :   '!$'[Ff][Pp] ;
@@ -201,6 +248,8 @@ Module          :   [Mm][Oo][Dd][Uu][Ll][Ee] ;
 Contains        :   [Cc][Oo][Nn][Tt][Aa][Ii][Nn][Ss] ;
 Function        :   [Ff][Uu][Nn][Cc][Tt][Ii][Oo][Nn] ;
 Subroutine      :   [Ss][Uu][Bb][Rr][Oo][Uu][Tt][Ii][Nn][Ee] ;
+Procedure       :   [Pp][Rr][Oo][Cc][Ee][Dd][Uu][Rr][Ee] ;
+Recursive       :   [Rr][Ee][Cc][Uu][Rr][Ss][Ii][Vv][Ee] ;
 Type            :   [Tt][Yy][Pp][Ee] ;
 Extends         :   [Ee][Xx][Tt][Ee][Nn][Dd][Ss] ; 
 Private         :   [Pp][Rr][Ii][Vv][Aa][Tt][Ee] ;

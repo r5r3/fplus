@@ -64,6 +64,17 @@ public interface fplusListener extends ParseTreeListener {
 	void exitPlaceholder(@NotNull fplusParser.PlaceholderContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#lineComment}.
+	 * @param ctx the parse tree
+	 */
+	void enterLineComment(@NotNull fplusParser.LineCommentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#lineComment}.
+	 * @param ctx the parse tree
+	 */
+	void exitLineComment(@NotNull fplusParser.LineCommentContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#contentLine}.
 	 * @param ctx the parse tree
 	 */
@@ -86,17 +97,6 @@ public interface fplusListener extends ParseTreeListener {
 	void exitList(@NotNull fplusParser.ListContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link fplusParser#loopBlock}.
-	 * @param ctx the parse tree
-	 */
-	void enterLoopBlock(@NotNull fplusParser.LoopBlockContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link fplusParser#loopBlock}.
-	 * @param ctx the parse tree
-	 */
-	void exitLoopBlock(@NotNull fplusParser.LoopBlockContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link fplusParser#genericTypeBoundLine}.
 	 * @param ctx the parse tree
 	 */
@@ -106,6 +106,17 @@ public interface fplusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGenericTypeBoundLine(@NotNull fplusParser.GenericTypeBoundLineContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#loopBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterLoopBlock(@NotNull fplusParser.LoopBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#loopBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitLoopBlock(@NotNull fplusParser.LoopBlockContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link fplusParser#fortranFile}.
@@ -194,6 +205,17 @@ public interface fplusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitSubroutineBlock(@NotNull fplusParser.SubroutineBlockContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#fortranInterfaceBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterFortranInterfaceBlock(@NotNull fplusParser.FortranInterfaceBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#fortranInterfaceBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitFortranInterfaceBlock(@NotNull fplusParser.FortranInterfaceBlockContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link fplusParser#programBlock}.

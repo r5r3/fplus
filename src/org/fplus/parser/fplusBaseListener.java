@@ -82,6 +82,19 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterLineComment(@NotNull fplusParser.LineCommentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitLineComment(@NotNull fplusParser.LineCommentContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterContentLine(@NotNull fplusParser.ContentLineContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -108,19 +121,6 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterLoopBlock(@NotNull fplusParser.LoopBlockContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitLoopBlock(@NotNull fplusParser.LoopBlockContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterGenericTypeBoundLine(@NotNull fplusParser.GenericTypeBoundLineContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -128,6 +128,19 @@ public class fplusBaseListener implements fplusListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitGenericTypeBoundLine(@NotNull fplusParser.GenericTypeBoundLineContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterLoopBlock(@NotNull fplusParser.LoopBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitLoopBlock(@NotNull fplusParser.LoopBlockContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -232,6 +245,19 @@ public class fplusBaseListener implements fplusListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitSubroutineBlock(@NotNull fplusParser.SubroutineBlockContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterFortranInterfaceBlock(@NotNull fplusParser.FortranInterfaceBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitFortranInterfaceBlock(@NotNull fplusParser.FortranInterfaceBlockContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
