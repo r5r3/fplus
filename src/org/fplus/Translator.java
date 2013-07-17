@@ -3,6 +3,7 @@ package org.fplus;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import org.antlr.v4.runtime.CharStream;
@@ -50,6 +51,10 @@ public class Translator extends fplusBaseListener {
     // interfaces block locations are detected on the first walk, but the expansion
     // is created when the template is reached
     private HashMap<String, fplusParser.InterfaceLineContext> interfaceLines = new HashMap<String, fplusParser.InterfaceLineContext>();
+    
+    // generic type bound procedures are located in the first walk, but the expansion
+    // is generated when the tamplate is reached
+    private HashMap<String, fplusParser.GenericTypeBoundLineContext> genericLines = new HashMap<String, fplusParser.GenericTypeBoundLineContext>();
     
     // this list is used to store the procedures that are found while walker trough a template
     private ArrayList<String> proceduresInCurrentTemplate = null;
@@ -235,10 +240,16 @@ public class Translator extends fplusBaseListener {
             }
         }
         
+        // are there unexpanded generic lines?
+        if (!genericLines.isEmpty()) {
+            for (fplusParser.GenericTypeBoundLineContext glc:genericLines.values()) {
+                Logger.Warning(String.format("unused interface line '%s'.", glc.Identifier().get(glc.Identifier().size()-1).getText()), glc.Generic().getSymbol().getLine());
+            }
+        }
+        
         // store the final result if this head node
         translation = this.getExpansion(ctx);
-        System.out.println("");
-        System.out.println("RESULT:");
+        System.out.println(String.format("%s This file was automatically created by fplus on %s", LineCommentPrefix, new GregorianCalendar().getTime().toString()));
         System.out.println(translation);
     }
 
@@ -252,6 +263,7 @@ public class Translator extends fplusBaseListener {
         if (ctx instanceof fplusParser.PlaceholderContext) return;
         if (ctx instanceof fplusParser.VariableDefinitionContext) return;
         if (ctx instanceof fplusParser.InterfaceLineContext) return;
+        if (ctx instanceof fplusParser.GenericTypeBoundLineContext) return;
         if (ctx instanceof fplusParser.TemplateBlockContext) return;
 
         StringBuilder buffer = new StringBuilder();
@@ -321,6 +333,17 @@ public class Translator extends fplusBaseListener {
     }
 
     /**
+     * The location of a type bound procedure is located in the first walk
+     * @param ctx 
+     */
+    @Override
+    public void exitGenericTypeBoundLine(fplusParser.GenericTypeBoundLineContext ctx) {
+        // the name is the last identifier
+        String name = ctx.Identifier().get(ctx.Identifier().size()-1).getText();
+        genericLines.put(name, ctx);
+    }
+
+    /**
      * An empty list of procedures is created at the beginning of an template
      * @param ctx 
      */
@@ -344,12 +367,21 @@ public class Translator extends fplusBaseListener {
         // we need a second run for the interface block expansion to be included into the translation result
         needSecondWalk = true;
         
-        // get the interface block context
+        // get the interface block or generic line context
         String name = ctx.Identifier(0).getSymbol().getText();
         fplusParser.InterfaceLineContext ilc = interfaceLines.get(name);
-        if (ilc == null) {
-            Logger.Warning(String.format("Template %s has no interface block.", name), ctx.Template(0).getSymbol().getLine());
-        } else {
+        fplusParser.GenericTypeBoundLineContext glc = genericLines.get(name);
+        // only one of the alternatives is allowed
+        if (ilc != null && glc != null) {
+            Logger.Error(String.format("template %s can not be used for an interface block and for and type-bound procedure at the same time", name), ctx.Template(0).getSymbol().getLine());
+        }
+        // but one of the alternatives must be there
+        if (ilc == null && glc == null) {
+            Logger.Warning(String.format("Template %s has no interface block and is not used for a type-bound procedure", name), ctx.Template(0).getSymbol().getLine());
+        }
+        
+        // create the interface block
+        if (ilc != null) {
             // create the interface block from the procedure names
             STGroup tgroup = new STGroupFile("org/fplus/templates/interfaceBlock.stg");
             ST intface = tgroup.getInstanceOf("interface");
@@ -361,17 +393,45 @@ public class Translator extends fplusBaseListener {
             TerminalNode prefix = ilc.Prefix();
             if (firstWS.getSymbol().getTokenIndex() < prefix.getSymbol().getTokenIndex()) {
                 aiw.pushIndentation(firstWS.getSymbol().getText());
-                
             }
             try {
                 intface.write(aiw);
             } catch (IOException ex) {}
-            //store the created string as expansion for the interface block
+            // store the created string as expansion for the interface block
             this.setExpansion(ilc, sw.toString());
 
-            //remove the interface line from the hash map of interface lines. each interface line
+            // remove the interface line from the hash map of interface lines. each interface line
             // should be used exactly ones.
             interfaceLines.remove(name);
+        }
+        
+        // create the type-bound procedure block
+        if (glc != null) {
+            // create the interface block from the procedure names
+            STGroup tgroup = new STGroupFile("org/fplus/templates/genericTypeBound.stg");
+            ST intface = tgroup.getInstanceOf("genericLine");
+            // create the genric line without the => 
+            int index1 = glc.Generic().getSymbol().getStartIndex();
+            int index2 = glc.AssignPointer().getSymbol().getStopIndex();
+            intface.add("line", charstream.getText(new Interval(index1, index2)));
+            intface.add("procname", proceduresInCurrentTemplate);
+            intface.add("access", "private");
+            StringWriter sw = new StringWriter();
+            AutoIndentWriter aiw = new AutoIndentWriter(sw);
+            TerminalNode firstWS = glc.WS(0);
+            TerminalNode prefix = glc.Prefix();
+            if (firstWS.getSymbol().getTokenIndex() < prefix.getSymbol().getTokenIndex()) {
+                aiw.pushIndentation(firstWS.getSymbol().getText());  
+            }
+            try {
+                intface.write(aiw);
+            } catch (IOException ex) {}
+            // store the created string as expansion for the interface block
+            this.setExpansion(glc, sw.toString());
+
+            // remove the generic line from the hash map of genric lines. each generic line
+            // should be used exactly ones.
+            genericLines.remove(name);            
         }
         
         // remove the list of procedures, not longer needed

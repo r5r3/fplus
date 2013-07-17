@@ -83,7 +83,9 @@
     <target name="-pre-jar">
         <copy todir="build/classes">
             <fileset dir="grammar/runtime"/>
-        </copy>        
+        </copy>
+        <!-- don't add the antlr lib to the classpath, the classes are all embedded -->
+        <property name="jar.classpath" value=""/>     
     </target>
     
     <!-- clean up the grammar folder -->

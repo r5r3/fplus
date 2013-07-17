@@ -1,0 +1,16 @@
+group genericTypeBound;
+
+/**
+ * @line            the old line up to =>
+ * @access          the access modifier for the implementations
+ * @implementations the names of the implementations
+ */
+genericLine(line, access, procname) ::= <<
+<line> <procname; separator=", ">
+<procname:implementationLine(access); separator="\n">
+
+>>
+
+implementationLine(name, access) ::= <<
+procedure, <access> :: <name>
+>>

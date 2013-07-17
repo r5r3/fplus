@@ -105,7 +105,7 @@ typeAttributes
 
 genericTypeBoundLine
     :
-        WS? Prefix WS Generic WS? ( WS? ',' WS? (Private | Public))* WS? ':'':' WS? Identifier WS? '=''>' WS? Identifier WS? Newline
+        WS? Prefix WS Generic WS? ( WS? ',' WS? (Private | Public))* WS? ':'':' WS? Identifier WS? AssignPointer WS? Identifier WS? Newline
     ;
 
 // the interface definition for templates
@@ -238,6 +238,11 @@ fragment Digit
 StringLiteral
     :
         '"' .*? '"'
+    ;
+
+AssignPointer
+    :
+        '=' '>'
     ;
 
 // New lines are not skipped

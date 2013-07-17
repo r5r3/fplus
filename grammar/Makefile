@@ -8,6 +8,8 @@ all: runtime generated
 runtime: $(ANTLR4JAR)
 	mkdir -p runtime
 	unzip -d runtime $(ANTLR4JAR) "org/antlr/runtime/*"
+	unzip -d runtime $(ANTLR4JAR) "org/antlr/v4/runtime/*"
+	unzip -d runtime $(ANTLR4JAR) "org/stringtemplate/*"
 
 generated: fplus.g4 $(ANTLR4JAR)
 	mkdir -p generated
