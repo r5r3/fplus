@@ -149,7 +149,7 @@ public class Translator extends fplusBaseListener {
         
         // store the first element of the loop variable in the context, 
         // this ensures that the placeholders are expanded on the first visit
-        this.addVariable(ctx, loop_variable.getElement(0));
+        this.addVariable(ctx, loop_variable.getElement(1));
         
         // store the variable also for later usage in the loop_variables 
         this.loop_variables.put(ctx, loop_variable);
@@ -183,11 +183,11 @@ public class Translator extends fplusBaseListener {
         this.loop_in_first_pass.put(ctx, false);
         
         // loop over all elements of the loop variable
-        for (int i=0;i<loop_variable.length();i++) {
+        for (int i=1;i<=loop_variable.length();i++) {
             // remove all variables that are stored in deeper levels of the tree
             walker.walk(scleaner, ctx);
             // set the value of the loop variable
-            var.setValue(0, loop_variable.getValue(i));
+            var.setValue(1, loop_variable.getValue(i));
             // walk the subtree
             walker.walk(this, ctx.contentBlock());
             // get the expansion
@@ -295,14 +295,14 @@ public class Translator extends fplusBaseListener {
         } else {
             
             //is there a subscript?
-            int subscript = 0;
+            int subscript = 1;
             if (subscriptname != null) {
                 Variable subscriptvar = this.getVariable(ctx, subscriptname);
                 if (subscriptvar == null) {
                     Logger.Error("Variable not found: "+subscriptname, null);
                 } else {
                     //try to convert the subscript to an integer
-                    String subvalue = subscriptvar.getValue(0);
+                    String subvalue = subscriptvar.getValue(1);
                     try {
                         subscript = Integer.parseInt(subvalue);
                     } catch (NumberFormatException ne) {
@@ -312,7 +312,7 @@ public class Translator extends fplusBaseListener {
             }
 
             // subscript in range?
-            if (subscript+1 > var.length()) {
+            if (subscript > var.length() || subscript < 1) {
                 Logger.Error(String.format("Subscript out of range for variable %s(%d)", varname, subscript), null);
             }
             

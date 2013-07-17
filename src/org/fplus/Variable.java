@@ -10,6 +10,11 @@ import java.util.ArrayList;
  * Robert Schuster
  */
 public class Variable {
+    
+    /**
+     * The index starts at 1 when in fortran mode
+     */
+    private static boolean fortranMode = true;
 
     public String name;
     ArrayList<String> values;
@@ -47,7 +52,7 @@ public class Variable {
      */
     public Variable getElement(int i) {
         Variable result = new Variable(this.name);
-        result.addValue(this.values.get(i));
+        result.addValue(this.getValue(i));
         return result;
     }
     
@@ -57,11 +62,11 @@ public class Variable {
      * @return
      */
     public String getValue(int i) {
-        return values.get(i);   
+        return fortranMode ? values.get(i-1) : values.get(i);   
     }
     
     public void setValue(int i, String newvalue) {
-        values.set(i, newvalue);
+        values.set(fortranMode ? i-1 : i, newvalue);
     }
     
     /**
