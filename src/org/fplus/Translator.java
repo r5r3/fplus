@@ -45,6 +45,9 @@ public class Translator extends fplusBaseListener {
     // in addition, loop variables are stored in this extra property
     private ParseTreeProperty<Variable> loop_variables = new ParseTreeProperty<Variable>();
     
+    // the values of expressions are evaluated and stored here
+    private ParseTreeProperty<Variable> expressions = new ParseTreeProperty<Variable>();
+    
     // are we in the first pass of a loop?
     private ParseTreeProperty<Boolean> loop_in_first_pass = new ParseTreeProperty<Boolean>();
     
@@ -92,6 +95,24 @@ public class Translator extends fplusBaseListener {
      */
     private String getExpansion(ParseTree ctx) {
         return this.expansions.get(ctx);
+    }
+    
+    /**
+     * Store the value of an expression for a node
+     * @param ctx
+     * @param expansion
+     */
+    private void setExpression(ParseTree ctx, Variable value) {
+        this.expressions.put(ctx, value);
+    }
+    
+    /**
+     * Read an value of an expression for a node
+     * @param ctx
+     * @return
+     */
+    private Variable getExpression(ParseTree ctx) {
+        return this.expressions.get(ctx);
     }
     
     /**
@@ -265,6 +286,7 @@ public class Translator extends fplusBaseListener {
         if (ctx instanceof fplusParser.InterfaceLineContext) return;
         if (ctx instanceof fplusParser.GenericTypeBoundLineContext) return;
         if (ctx instanceof fplusParser.TemplateBlockContext) return;
+        if (ctx instanceof fplusParser.ExprContext) return;
 
         StringBuilder buffer = new StringBuilder();
         for (int i=0; i<ctx.getChildCount();i++) {
@@ -279,46 +301,160 @@ public class Translator extends fplusBaseListener {
         if (buffer.length() > 0) this.setExpansion(ctx, buffer.toString());
     }   
 
+    /**
+     * A variable expression expands to the value of the variable.
+     * @param ctx 
+     */
     @Override
-    public void exitPlaceholder(fplusParser.PlaceholderContext ctx) {
-        //get at first the name of the variable
-        List<TerminalNode> ids = ctx.Identifier();
-        String varname = ids.get(0).getSymbol().getText();
-        //is there a subscript?
-        String subscriptname = null;
-        if (ids.size() > 1) subscriptname = ids.get(1).getSymbol().getText();
-        
+    public void exitExprVariable(fplusParser.ExprVariableContext ctx) {
+        String varname = ctx.Identifier().getText();
         //find the variable in a the current context
         Variable var = this.getVariable(ctx, varname);
         if (var == null) {
-            Logger.Error("Variable not found: "+varname, null);
+            Logger.Error("Variable not found: "+varname, null);  
         } else {
-            
-            //is there a subscript?
-            int subscript = 1;
-            if (subscriptname != null) {
-                Variable subscriptvar = this.getVariable(ctx, subscriptname);
-                if (subscriptvar == null) {
-                    Logger.Error("Variable not found: "+subscriptname, null);
+            // store the expansion as a text
+            if (var.length() == 1) {
+                this.setExpansion(ctx, var.getValue(1));
+            } else if (var.length() > 1) {
+                this.setExpansion(ctx, var.getElementsString());
+            } else {
+                Logger.Error("empty variable used in expression", ctx.Identifier().getSymbol().getLine());
+            }
+            // store the variable for further usage
+            this.setExpression(ctx, var);
+        }
+    }
+
+    /**
+     * This expands to the value of the variable at the given index
+     * @param ctx 
+     */
+    @Override
+    public void exitExprArraySubscript(fplusParser.ExprArraySubscriptContext ctx) {
+        String varname = ctx.Identifier().getText();
+        //find the variable in a the current context
+        Variable var = this.getVariable(ctx, varname);
+        if (var == null) {
+            Logger.Error("Variable not found: "+varname, null);  
+        } else {
+            //get the index from the expression in parens 
+            fplusParser.ExprContext index = ctx.expr();
+            // get the corresponding variable
+            Variable indexvar = this.getExpression(index);
+            //only one element?
+            if (indexvar.length() != 1) {
+                Logger.Error("A variable subscript must have exactly one element.", index.start.getLine());
+            } else {
+                // variable contains an integer value?
+                Integer intval = indexvar.getValueAsInt(1);
+                if (intval == null) {
+                    Logger.Error(String.format("unable to convert variable '%s' to an integer: %s", indexvar.name, indexvar.getValue(1)), index.start.getLine());
                 } else {
-                    //try to convert the subscript to an integer
-                    String subvalue = subscriptvar.getValue(1);
-                    try {
-                        subscript = Integer.parseInt(subvalue);
-                    } catch (NumberFormatException ne) {
-                        Logger.Error("Unable to convert the value of "+subscriptname+" ("+subvalue+") to an integer.", null);
+                    // subscript out of range? 
+                    if (intval > var.length() || intval < 1) {
+                        Logger.Error(String.format("variable '%s' out of range with subscript %d", var.name, intval), index.start.getLine());
+                    } else {
+                        // everything fine, use the value of var at index expr
+                        if (var.length() == 1) {
+                            this.setExpansion(ctx, var.getValue(1));
+                            this.setExpression(ctx, var);
+                        } else if (var.length() > 1) {
+                            this.setExpansion(ctx, var.getValue(intval));
+                            this.setExpression(ctx, var.getElement(intval));
+                        } else {
+                            Logger.Error("empty variable used in expression", ctx.Identifier().getSymbol().getLine());
+                        }                      
                     }
                 }
             }
+        }     
+    }
 
-            // subscript in range?
-            if (subscript > var.length() || subscript < 1) {
-                Logger.Error(String.format("Subscript out of range for variable %s(%d)", varname, subscript), null);
-            }
-            
-            // set the expansion for this placeholder
-            this.setExpansion(ctx, var.getValue(subscript));    
-        }
+    /**
+     * This just expands to the value of the constant
+     * @param ctx 
+     */
+    @Override
+    public void exitExprConstants(fplusParser.ExprConstantsContext ctx) {
+        // create a new variable
+        String name = String.format("anonymous_l%d_c%d", ctx.IntegerConstant().getSymbol().getLine(), ctx.IntegerConstant().getSymbol().getCharPositionInLine());
+        Variable var = new Variable(name);
+        var.addValue(ctx.IntegerConstant().getText());
+        // set expansion and expression value
+        this.setExpansion(ctx, ctx.IntegerConstant().getText());
+        this.setExpression(ctx, var);
+    }
+
+    /**
+     * This expands to the value of the included expression
+     * @param ctx 
+     */
+    @Override
+    public void exitExprParens(fplusParser.ExprParensContext ctx) {
+        this.setExpansion(ctx, this.getExpansion(ctx.expr()));
+        this.setExpression(ctx, this.getExpression(ctx.expr()));
+    }
+
+    /**
+     * Calculate and addition or an substraction. 
+     * The included arrays must be convertable to integers
+     * @param ctx 
+     */
+    @Override
+    public void exitExprAddSub(fplusParser.ExprAddSubContext ctx) {
+        // get the first operand
+        Variable var1 = this.getExpression(ctx.expr(0));
+        // get the second operand
+        Variable var2 = this.getExpression(ctx.expr(1));
+        Logger.Error("not yet implemented", null);
+    }
+    
+    
+    
+    @Override
+    public void exitPlaceholder(fplusParser.PlaceholderContext ctx) {
+        // the placeholder expands to the expansion of the included expression
+        String exprtext = this.getExpansion(ctx.expr());
+        this.setExpansion(ctx, exprtext);
+//        //get at first the name of the variable
+//        List<TerminalNode> ids = ctx.Identifier();
+//        String varname = ids.get(0).getSymbol().getText();
+//        //is there a subscript?
+//        String subscriptname = null;
+//        if (ids.size() > 1) subscriptname = ids.get(1).getSymbol().getText();
+//        
+//        //find the variable in a the current context
+//        Variable var = this.getVariable(ctx, varname);
+//        if (var == null) {
+//            Logger.Error("Variable not found: "+varname, null);
+//        } else {
+//            
+//            //is there a subscript?
+//            int subscript = 1;
+//            if (subscriptname != null) {
+//                Variable subscriptvar = this.getVariable(ctx, subscriptname);
+//                if (subscriptvar == null) {
+//                    Logger.Error("Variable not found: "+subscriptname, null);
+//                } else {
+//                    //try to convert the subscript to an integer
+//                    String subvalue = subscriptvar.getValue(1);
+//                    try {
+//                        subscript = Integer.parseInt(subvalue);
+//                    } catch (NumberFormatException ne) {
+//                        Logger.Error("Unable to convert the value of "+subscriptname+" ("+subvalue+") to an integer.", null);
+//                    }
+//                }
+//            }
+//
+//            // subscript in range?
+//            if (subscript > var.length() || subscript < 1) {
+//                Logger.Error(String.format("Subscript out of range for variable %s(%d)", varname, subscript), null);
+//            }
+//            
+//            // set the expansion for this placeholder
+//            this.setExpansion(ctx, var.getValue(subscript));    
+//        }
     }
 
     /**

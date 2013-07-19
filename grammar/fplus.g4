@@ -202,9 +202,7 @@ contentLine
 // a placeholder used in content blocks
 placeholder
     :
-        '$' '{' Identifier '}'
-    |
-        '$' '{' Identifier '(' Identifier ')' '}'
+        '$' '{' WS? expr WS? '}'
     ;
 
 // variable definition, such a variable can be used everywhere in the same scope unit
@@ -217,6 +215,22 @@ variableDefinition
 lineComment
     :
         WS? '!' ~('$') (placeholder | ~(Newline))* Newline
+    ;
+
+// expressions could be used in if statements or placeholders
+expr
+    :
+        expr WS? op=('*'|'/') WS? expr                      # ExprMulDiv
+    |
+        expr WS? op=('+'|'-') WS? expr                      # ExprAddSub
+    |
+        '(' WS? expr WS? ')'                                # ExprParens
+    |
+        IntegerConstant                                     # ExprConstants
+    |
+        Identifier WS? '(' WS? expr WS? ')'                 # ExprArraySubscript
+    |
+        Identifier                                          # ExprVariable
     ;
 
 // token definitions
@@ -234,6 +248,10 @@ RightBracket    :   ']';
 Smaller         :   '<';
 Larger          :   '>';
 Exclamation     :   '!';
+Plus            :   '+';
+Minus           :   '-';
+Star            :   '*';
+Slash           :   '/';
 
 // All commands start with this prefix
 Prefix          :   '!$'[Ff][Pp] ;
@@ -282,6 +300,11 @@ fragment NonzeroDigit
 
 fragment Digit
     :   [0-9]
+    ;
+
+FloatConstant
+    :
+        IntegerConstant '.' IntegerConstant?
     ;
 
 StringLiteral

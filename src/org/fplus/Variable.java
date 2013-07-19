@@ -34,13 +34,23 @@ public class Variable {
 
     @Override
     public String toString() {
-        String result = this.name + " =";
+        String result = this.name + " = ";
         if (this.values.isEmpty()) {
-            result += " empty";
+            result += "empty";
         } else {
-            for (int i = 0; i < this.values.size(); i++) {
-                result += " {" + this.values.get(i) + "}";
-            }
+            result += this.getElementsString();
+        }
+        return result;
+    }
+    
+    /**
+     * Get all array elements in {}.
+     * @return
+     */
+    public String getElementsString() {
+        String result = "";
+        for (int i = 0; i < this.values.size(); i++) {
+            result += "{" + this.values.get(i) + "} ";
         }
         return result;
     }
@@ -70,10 +80,41 @@ public class Variable {
     }
     
     /**
+     * Returns the value at the position i as integer if convertable, if not 
+     * null is returned.
+     * @param i
+     * @return
+     */
+    public Integer getValueAsInt(int i) {
+        String val = this.getValue(i);
+        try {
+            Integer x = Integer.valueOf(val);
+            return x;
+        } catch (NumberFormatException ex) {
+            return null;
+        }
+    }
+    
+    /**
      * The number of elements in this variable
      * @return
      */
     public int length() {
         return this.values.size();
+    }
+    
+    /**
+     * Add the values of the variable var to this variable and return the 
+     * result as a new variable.
+     * @param var   a variable of the same dimension than this variable, 
+     *              or one dimensional, or any dimension in the case that 
+     *              this variable is one dimensional.
+     * @return
+     */
+    public Variable addVariable(Variable var) {
+        // convert both variables to Integer arrays
+        Integer[] var1 = new Integer[this.length()];
+        Integer[] var2 = new Integer[this.length()];
+        return null;
     }
 }
