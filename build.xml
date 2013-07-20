@@ -92,7 +92,12 @@
     <target name="-post-clean">
         <exec executable="make" dir="grammar">
             <arg line="clean"/>
-        </exec>        
+        </exec>   
     </target>
 
+    <!-- build a executable shell script with embeded jar -->
+    <target name="-post-jar">
+        <copyfile src="starter/starter.sh" dest="dist/fplus"/>        
+        <chmod file="dist/fplus" perm="+x"/>    
+    </target>
 </project>
