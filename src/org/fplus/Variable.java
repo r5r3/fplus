@@ -104,17 +104,73 @@ public class Variable {
     }
     
     /**
-     * Add the values of the variable var to this variable and return the 
-     * result as a new variable.
+     * Add, substract, multiply, or divied the values of the variable var to 
+     * this variable and return the result as a new variable.
      * @param var   a variable of the same dimension than this variable, 
      *              or one dimensional, or any dimension in the case that 
      *              this variable is one dimensional.
      * @return
      */
-    public Variable addVariable(Variable var) {
+    public Variable mathematicalOperation(char operation, Variable var) {
+        Variable result = new Variable(this.name + operation + var.name);
+        // check the dimensions
+        int l1 = this.length();
+        int l2 = var.length();
+        // all variables need add least one element
+        if (l1 == 0 || l2 == 0) {
+            Logger.Warning("empty variables in mathematical expression", null);
+            return null;
+        }
+        // if the dimensions are different, then one of them needs to be 1
+        if (l1 != l2 && l1 != 1 && l2 != 1) {
+            Logger.Warning("the dimensions must be either the same, or one of them must be one.", null);
+            return null;
+        }
         // convert both variables to Integer arrays
-        Integer[] var1 = new Integer[this.length()];
-        Integer[] var2 = new Integer[this.length()];
+        Integer[] var1 = new Integer[l1];
+        Integer[] var2 = new Integer[l2];
+        for (int i=0; i<l1; i++) {
+            var1[i] = this.getValueAsInt(fortranMode ? i+1 : i);
+            if (var1[i] == null) {
+                Logger.Warning("mathematical expressions are only implemented for integers. This is not an integer: "+this.getValue(fortranMode ? i+1 : i), null);
+                return null;
+            }
+        }
+        for (int i=0; i<l2; i++) {
+            var2[i] = var.getValueAsInt(fortranMode ? i+1 : i);
+            if (var2[i] == null) {
+                Logger.Warning("mathematical expressions are only implemented for integers. This is not an integer: "+var.getValue(fortranMode ? i+1 : i), null);
+                return null;
+            }
+        }
+        // perform the actual operation
+        if (l1 == 1) {
+            for (int i=0; i<l2; i++) {
+                if (operation == '+') result.addValue(Integer.toString(var1[0]+var2[i]));
+                if (operation == '-') result.addValue(Integer.toString(var1[0]-var2[i]));
+                if (operation == '*') result.addValue(Integer.toString(var1[0]*var2[i]));
+                if (operation == '/') result.addValue(Integer.toString(var1[0]/var2[i]));
+            }
+            return result;
+        }
+        if (l2 == 1) {
+            for (int i=0; i<l1; i++) {
+                if (operation == '+') result.addValue(Integer.toString(var1[i]+var2[0]));
+                if (operation == '-') result.addValue(Integer.toString(var1[i]-var2[0]));
+                if (operation == '*') result.addValue(Integer.toString(var1[i]*var2[0]));
+                if (operation == '/') result.addValue(Integer.toString(var1[i]/var2[0]));
+            }
+            return result;
+        }
+        if (l1 == l2) {
+            for (int i=0; i<l1; i++) {
+                if (operation == '+') result.addValue(Integer.toString(var1[i]+var2[i]));
+                if (operation == '-') result.addValue(Integer.toString(var1[i]-var2[i]));
+                if (operation == '*') result.addValue(Integer.toString(var1[i]*var2[i]));
+                if (operation == '/') result.addValue(Integer.toString(var1[i]/var2[i]));
+            }
+            return result;            
+        }
         return null;
     }
 }

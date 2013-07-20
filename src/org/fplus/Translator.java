@@ -397,7 +397,7 @@ public class Translator extends fplusBaseListener {
     }
 
     /**
-     * Calculate and addition or an substraction. 
+     * Calculate an addition or an substraction. 
      * The included arrays must be convertable to integers
      * @param ctx 
      */
@@ -407,9 +407,47 @@ public class Translator extends fplusBaseListener {
         Variable var1 = this.getExpression(ctx.expr(0));
         // get the second operand
         Variable var2 = this.getExpression(ctx.expr(1));
-        Logger.Error("not yet implemented", null);
+        // perform the calculation
+        Variable result = var1.mathematicalOperation(ctx.op.getText().charAt(0), var2);
+        if (result == null) {
+            Logger.Error("evaluation of mathematical expressin failed", ctx.op.getLine());
+            return;
+        }
+        // store the expansion as a text
+        if (result.length() == 1) {
+            this.setExpansion(ctx, result.getValue(1));
+        } else if (result.length() > 1) {
+            this.setExpansion(ctx, result.getElementsString());
+        }
+        // store the variable for further usage
+        this.setExpression(ctx, result);
     }
-    
+
+    /**
+     * Calculate a multiplication or dividation
+     * @param ctx 
+     */
+    @Override
+    public void exitExprMulDiv(fplusParser.ExprMulDivContext ctx) {
+        // get the first operand
+        Variable var1 = this.getExpression(ctx.expr(0));
+        // get the second operand
+        Variable var2 = this.getExpression(ctx.expr(1));
+        // perform the calculation
+        Variable result = var1.mathematicalOperation(ctx.op.getText().charAt(0), var2);
+        if (result == null) {
+            Logger.Error("evaluation of mathematical expressin failed", ctx.op.getLine());
+            return;
+        }
+        // store the expansion as a text
+        if (result.length() == 1) {
+            this.setExpansion(ctx, result.getValue(1));
+        } else if (result.length() > 1) {
+            this.setExpansion(ctx, result.getElementsString());
+        }
+        // store the variable for further usage
+        this.setExpression(ctx, result);
+    }
     
     
     @Override
@@ -417,44 +455,6 @@ public class Translator extends fplusBaseListener {
         // the placeholder expands to the expansion of the included expression
         String exprtext = this.getExpansion(ctx.expr());
         this.setExpansion(ctx, exprtext);
-//        //get at first the name of the variable
-//        List<TerminalNode> ids = ctx.Identifier();
-//        String varname = ids.get(0).getSymbol().getText();
-//        //is there a subscript?
-//        String subscriptname = null;
-//        if (ids.size() > 1) subscriptname = ids.get(1).getSymbol().getText();
-//        
-//        //find the variable in a the current context
-//        Variable var = this.getVariable(ctx, varname);
-//        if (var == null) {
-//            Logger.Error("Variable not found: "+varname, null);
-//        } else {
-//            
-//            //is there a subscript?
-//            int subscript = 1;
-//            if (subscriptname != null) {
-//                Variable subscriptvar = this.getVariable(ctx, subscriptname);
-//                if (subscriptvar == null) {
-//                    Logger.Error("Variable not found: "+subscriptname, null);
-//                } else {
-//                    //try to convert the subscript to an integer
-//                    String subvalue = subscriptvar.getValue(1);
-//                    try {
-//                        subscript = Integer.parseInt(subvalue);
-//                    } catch (NumberFormatException ne) {
-//                        Logger.Error("Unable to convert the value of "+subscriptname+" ("+subvalue+") to an integer.", null);
-//                    }
-//                }
-//            }
-//
-//            // subscript in range?
-//            if (subscript > var.length() || subscript < 1) {
-//                Logger.Error(String.format("Subscript out of range for variable %s(%d)", varname, subscript), null);
-//            }
-//            
-//            // set the expansion for this placeholder
-//            this.setExpansion(ctx, var.getValue(subscript));    
-//        }
     }
 
     /**
