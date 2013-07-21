@@ -1,6 +1,7 @@
 package org.fplus;
 
 import java.util.ArrayList;
+import org.fplus.parser.fplusParser;
 
 /**
  * Variables are used in loop and else where to hold replacements.
@@ -101,6 +102,104 @@ public class Variable {
      */
     public int length() {
         return this.values.size();
+    }
+    
+    /**
+     * Perform a comparison between two variables
+     * @param operation
+     * @param var
+     * @return
+     */
+    public Variable logicalOperation(int operation, Variable var) {
+       Variable result = new Variable(this.name + fplusParser.tokenNames[operation].replace("'", "") + var.name);
+        // check the dimensions
+        int l1 = this.length();
+        int l2 = var.length();
+        // all variables need add least one element
+        if (l1 == 0 || l2 == 0) {
+            Logger.Warning("empty variables in logical expression", null);
+            return null;
+        }
+        // if the dimensions are different, then one of them needs to be 1
+        if (l1 != l2 && l1 != 1 && l2 != 1) {
+            Logger.Warning("the dimensions must be either the same, or one of them must be one.", null);
+            return null;
+        }
+        // convert both variables to Integer arrays. if both variables are integeres, they are compared 
+        // as integeres, if at least one is a string, they are compared as strings with lexical order
+        Integer[] var1 = new Integer[l1];
+        Integer[] var2 = new Integer[l2];
+        for (int i=0; i<l1; i++) {
+            var1[i] = this.getValueAsInt(fortranMode ? i+1 : i);
+        }
+        for (int i=0; i<l2; i++) {
+            var2[i] = var.getValueAsInt(fortranMode ? i+1 : i);
+        }
+        // perform the actual operation
+        if (l1 == 1) {
+            for (int i=0; i<l2; i++) {
+                if (operation == fplusParser.Equal) {
+                    if (var1[0] != null && var2[i] != null) result.addValue(var1[0] == var2[i] ? "T" : "F");
+                    else result.addValue(this.getValue(fortranMode ? 1 : 0).equals(var.getValue(fortranMode ? i+1 : i)) ? "T" : "F");
+                }
+                if (operation == fplusParser.Larger) {
+                    if (var1[0] != null && var2[i] != null) result.addValue(var1[0] > var2[i] ? "T" : "F");
+                    else result.addValue(this.getValue(fortranMode ? 1 : 0).compareTo(var.getValue(fortranMode ? i+1 : i)) > 0 ? "T" : "F");
+                }
+                if (operation == fplusParser.Smaller) {
+                    if (var1[0] != null && var2[i] != null) result.addValue(var1[0] < var2[i] ? "T" : "F");
+                    else result.addValue(this.getValue(fortranMode ? 1 : 0).compareTo(var.getValue(fortranMode ? i+1 : i)) < 0 ? "T" : "F");
+                }
+                if (operation == fplusParser.NotEqual) {
+                    if (var1[0] != null && var2[i] != null) result.addValue(var1[0] == var2[i] ? "F" : "T");
+                    else result.addValue(this.getValue(fortranMode ? 1 : 0).equals(var.getValue(fortranMode ? i+1 : i)) ? "F" : "T");
+                }
+            }
+            return result;
+        }
+        if (l2 == 1) {
+            for (int i=0; i<l1; i++) {
+                if (operation == fplusParser.Equal) {
+                    if (var1[i] != null && var2[0] != null) result.addValue(var1[i] == var2[0] ? "T" : "F");
+                    else result.addValue(this.getValue(fortranMode ? i+1 : i).equals(var.getValue(fortranMode ? 1 : 0)) ? "T" : "F");
+                }
+                if (operation == fplusParser.Larger) {
+                    if (var1[i] != null && var2[0] != null) result.addValue(var1[i] > var2[0] ? "T" : "F");
+                    else result.addValue(this.getValue(fortranMode ? i+1 : i).compareTo(var.getValue(fortranMode ? 1 : 0)) > 0 ? "T" : "F");
+                }
+                if (operation == fplusParser.Smaller) {
+                    if (var1[i] != null && var2[0] != null) result.addValue(var1[i] < var2[0] ? "T" : "F");
+                    else result.addValue(this.getValue(fortranMode ? i+1 : i).compareTo(var.getValue(fortranMode ? 1 : 0)) < 0 ? "T" : "F");
+                }
+                if (operation == fplusParser.NotEqual) {
+                    if (var1[i] != null && var2[0] != null) result.addValue(var1[i] == var2[0] ? "F" : "T");
+                    else result.addValue(this.getValue(fortranMode ? i+1 : i).equals(var.getValue(fortranMode ? 1 : 0)) ? "F" : "T");
+                }
+            }
+            return result;
+        }
+        if (l1 == l2) {
+            for (int i=0; i<l1; i++) {
+                if (operation == fplusParser.Equal) {
+                    if (var1[i] != null && var2[i] != null) result.addValue(var1[i] == var2[i] ? "T" : "F");
+                    else result.addValue(this.getValue(fortranMode ? i+1 : i).equals(var.getValue(fortranMode ? i+1 : i)) ? "T" : "F");
+                }
+                if (operation == fplusParser.Larger) {
+                    if (var1[i] != null && var2[i] != null) result.addValue(var1[i] > var2[i] ? "T" : "F");
+                    else result.addValue(this.getValue(fortranMode ? i+1 : i).compareTo(var.getValue(fortranMode ? i+1 : i)) > 0 ? "T" : "F");
+                }
+                if (operation == fplusParser.Smaller) {
+                    if (var1[i] != null && var2[i] != null) result.addValue(var1[i] < var2[i] ? "T" : "F");
+                    else result.addValue(this.getValue(fortranMode ? i+1 : i).compareTo(var.getValue(fortranMode ? i+1 : i)) < 0 ? "T" : "F");
+                }
+                if (operation == fplusParser.NotEqual) {
+                    if (var1[i] != null && var2[i] != null) result.addValue(var1[i] == var2[i] ? "F" : "T");
+                    else result.addValue(this.getValue(fortranMode ? i+1 : i).equals(var.getValue(fortranMode ? i+1 : i)) ? "F" : "T");
+                }
+            }
+            return result;            
+        }
+        return null;
     }
     
     /**

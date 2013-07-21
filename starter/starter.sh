@@ -2,17 +2,17 @@
 
 # find the location of the script
 work_path=$PWD
-MYSELF=`which "$0" 2>/dev/null`
-while [ -L $MYSELF ] ; do
-    cd $(dirname $MYSELF)
-    MYSELF=$(readlink $MYSELF)
-    cd $(dirname $MYSELF)
-    MYSELF="$PWD/$(basename $MYSELF)"
+self=`which "$0" 2>/dev/null`
+while [ -L $self ] ; do
+    cd $(dirname $self)
+    self=$(readlink $self)
+    cd $(dirname $self)
+    self="$PWD/$(basename $self)"
 done
 cd $work_path
 
 # the jar should be located next to the script
-folder=$(dirname $MYSELF)
+folder=$(dirname $self)
 jarname="${folder}/fplus.jar"
 java=java
 if test -n "$JAVA_HOME"; then

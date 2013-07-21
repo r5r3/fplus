@@ -48,6 +48,9 @@ public class Translator extends fplusBaseListener {
     // the values of expressions are evaluated and stored here
     private ParseTreeProperty<Variable> expressions = new ParseTreeProperty<Variable>();
     
+    // the result of logical expressions are stored in booleans
+    private ParseTreeProperty<Variable> logicalExpressions = new ParseTreeProperty<Variable>();
+    
     // are we in the first pass of a loop?
     private ParseTreeProperty<Boolean> loop_in_first_pass = new ParseTreeProperty<Boolean>();
     
@@ -113,6 +116,24 @@ public class Translator extends fplusBaseListener {
      */
     private Variable getExpression(ParseTree ctx) {
         return this.expressions.get(ctx);
+    }
+    
+    /**
+     * Store the value of a logical expression for a node
+     * @param ctx
+     * @param expansion
+     */
+    private void setLogicalExpression(ParseTree ctx, Variable value) {
+        this.logicalExpressions.put(ctx, value);
+    }
+    
+    /**
+     * Read an value of a logical expression for a node
+     * @param ctx
+     * @return
+     */
+    private Variable getLogicalExpression(ParseTree ctx) {
+        return this.logicalExpressions.get(ctx);
     }
     
     /**
@@ -287,6 +308,8 @@ public class Translator extends fplusBaseListener {
         if (ctx instanceof fplusParser.GenericTypeBoundLineContext) return;
         if (ctx instanceof fplusParser.TemplateBlockContext) return;
         if (ctx instanceof fplusParser.ExprContext) return;
+        if (ctx instanceof fplusParser.LogicalExprContext) return;
+        if (ctx instanceof fplusParser.IfSingleLineContext) return;
 
         StringBuilder buffer = new StringBuilder();
         for (int i=0; i<ctx.getChildCount();i++) {
@@ -448,7 +471,53 @@ public class Translator extends fplusBaseListener {
         // store the variable for further usage
         this.setExpression(ctx, result);
     }
-    
+
+    /**
+     * comparisson are evaluated here, this is only implemented for variables
+     * of the same length.
+     * @param ctx 
+     */
+    @Override
+    public void exitLogicalExprCompare(fplusParser.LogicalExprCompareContext ctx) {
+        // find the both variables included in this logical epression
+        Variable var1 = this.getExpression(ctx.expr(0));
+        Variable var2 = this.getExpression(ctx.expr(1));
+        // both variables have to have the same length
+        Variable result = var1.logicalOperation(ctx.op.getType(), var2);
+        if (result == null) {
+            Logger.Error("evaluation of logical expressin failed", ctx.op.getLine());
+            return;
+        }
+        // store the expansion as a text
+        if (result.length() == 1) {
+            this.setExpansion(ctx, result.getValue(1));
+        } else if (result.length() > 1) {
+            this.setExpansion(ctx, result.getElementsString());
+        }
+        // store the variable for further usage
+        this.setLogicalExpression(ctx, result);
+    }
+
+    /**
+     * Comment or uncomment the single line
+     * @param ctx 
+     */
+    @Override
+    public void exitIfSingleLine(fplusParser.IfSingleLineContext ctx) {
+        //get the value of the logical extression
+        Variable lexpr = this.getLogicalExpression(ctx.logicalExpr());
+        if (lexpr.length() > 1) {
+            Logger.Error("single value expected in logical expression, found: "+lexpr.getElementsString(), ctx.start.getLine());
+        } else {
+            // the condition is true, uncomment the content line
+            if (lexpr.getValue(1).equals("T")) {
+                this.setExpansion(ctx, Helper.getLeadingWS(ctx) + this.getExpansion(ctx.contentLine()));
+            } else {
+                // the condition if false, the content line remains commented
+                this.setExpansion(ctx, Helper.getLeadingWS(ctx) + this.LineCommentPrefix + " " + this.getExpansion(ctx.contentLine()));
+            }
+        }
+    }
     
     @Override
     public void exitPlaceholder(fplusParser.PlaceholderContext ctx) {

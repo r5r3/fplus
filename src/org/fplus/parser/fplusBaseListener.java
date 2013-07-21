@@ -69,6 +69,19 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterLogicalExprOr(@NotNull fplusParser.LogicalExprOrContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitLogicalExprOr(@NotNull fplusParser.LogicalExprOrContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterLoopBlock(@NotNull fplusParser.LoopBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -160,6 +173,19 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterLogicalExprCompare(@NotNull fplusParser.LogicalExprCompareContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitLogicalExprCompare(@NotNull fplusParser.LogicalExprCompareContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterFortranInterfaceBlock(@NotNull fplusParser.FortranInterfaceBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -219,6 +245,19 @@ public class fplusBaseListener implements fplusListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitInterfaceLine(@NotNull fplusParser.InterfaceLineContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterIfBlock(@NotNull fplusParser.IfBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitIfBlock(@NotNull fplusParser.IfBlockContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -303,6 +342,32 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterIfStatement(@NotNull fplusParser.IfStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitIfStatement(@NotNull fplusParser.IfStatementContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterLogicalExprNot(@NotNull fplusParser.LogicalExprNotContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitLogicalExprNot(@NotNull fplusParser.LogicalExprNotContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterListItem(@NotNull fplusParser.ListItemContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -329,13 +394,13 @@ public class fplusBaseListener implements fplusListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterProcedureBlock(@NotNull fplusParser.ProcedureBlockContext ctx) { }
+	@Override public void enterIfSingleLine(@NotNull fplusParser.IfSingleLineContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void exitProcedureBlock(@NotNull fplusParser.ProcedureBlockContext ctx) { }
+	@Override public void exitIfSingleLine(@NotNull fplusParser.IfSingleLineContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -349,6 +414,32 @@ public class fplusBaseListener implements fplusListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitExprParens(@NotNull fplusParser.ExprParensContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterProcedureBlock(@NotNull fplusParser.ProcedureBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitProcedureBlock(@NotNull fplusParser.ProcedureBlockContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterLogicalExprAnd(@NotNull fplusParser.LogicalExprAndContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitLogicalExprAnd(@NotNull fplusParser.LogicalExprAndContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

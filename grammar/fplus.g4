@@ -152,6 +152,26 @@ listAssignment
         Identifier WS? '=' WS? list
     ;
 
+// if statement are possible in single lines and also in complete blocks
+ifStatement
+    :
+        ifSingleLine
+    |
+        ifBlock
+    ;
+
+ifSingleLine
+    :
+        WS? Prefix WS If WS? '(' WS? logicalExpr WS? ')' WS? contentLine
+    ;
+
+ifBlock
+    :
+        WS? Prefix WS If WS? '(' WS? logicalExpr WS? ')' WS? Then WS? Newline
+        contentBlock
+        WS? Prefix WS End WS If WS? Newline
+    ;
+
 // a content block is found inside a loop and contains everything 
 // and placeholders to be replaced. It is allowed to by empty
 contentBlock
@@ -162,6 +182,8 @@ contentBlock
             templateBlock
         |
             variableDefinition 
+        |
+            ifStatement
         |
             procedureBlock
         |
@@ -233,7 +255,22 @@ expr
         Identifier                                          # ExprVariable
     ;
 
+
+// logical expression for if statements
+logicalExpr
+    :
+        logicalExpr WS? And WS? logicalExpr                 #LogicalExprAnd
+    |
+        logicalExpr WS? Or WS? logicalExpr                  #LogicalExprOr
+    |
+        Not WS? logicalExpr                                 #LogicalExprNot
+    |
+        expr WS? op=('=='|'/='|'>'|'<') WS? expr            #LogicalExprCompare
+    ;
+
 // token definitions
+Equal           :   '==';
+NotEqual        :   '/=';
 Assign          :   '=';
 Comma           :   ',';
 Semicolon       :   ';';
@@ -276,6 +313,12 @@ Sequence        :   [Ss][Ee][Qq][Uu][Ee][Nn][Cc][Ee] ;
 Abstract        :   [Aa][Bb][Ss][Tt][Rr][Aa][Cc][Tt] ;
 Bind            :   [Bb][Ii][Nn][Dd] ;
 Generic         :   [Gg][Ee][Nn][Ee][Rr][Ii][Cc] ;
+If              :   [Ii][Ff] ;
+Then            :   [Tt][Hh][Ee][Nn] ;
+Else            :   [Ee][Ll][Ss][Ee] ;
+And             :   '.'[An][Nn][Dd]'.' ;
+Not             :   '.'[No][Oo][To]'.' ;
+Or              :   '.'[Oo][Rr]'.' ;    
 
 
 Identifier

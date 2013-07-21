@@ -53,6 +53,17 @@ public interface fplusListener extends ParseTreeListener {
 	void exitLineComment(@NotNull fplusParser.LineCommentContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#LogicalExprOr}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalExprOr(@NotNull fplusParser.LogicalExprOrContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#LogicalExprOr}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalExprOr(@NotNull fplusParser.LogicalExprOrContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#loopBlock}.
 	 * @param ctx the parse tree
 	 */
@@ -130,6 +141,17 @@ public interface fplusListener extends ParseTreeListener {
 	void exitExprArraySubscript(@NotNull fplusParser.ExprArraySubscriptContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#LogicalExprCompare}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalExprCompare(@NotNull fplusParser.LogicalExprCompareContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#LogicalExprCompare}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalExprCompare(@NotNull fplusParser.LogicalExprCompareContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#fortranInterfaceBlock}.
 	 * @param ctx the parse tree
 	 */
@@ -183,6 +205,17 @@ public interface fplusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitInterfaceLine(@NotNull fplusParser.InterfaceLineContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#ifBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfBlock(@NotNull fplusParser.IfBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#ifBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfBlock(@NotNull fplusParser.IfBlockContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link fplusParser#moduleBlock}.
@@ -251,6 +284,28 @@ public interface fplusListener extends ParseTreeListener {
 	void exitFortranFile(@NotNull fplusParser.FortranFileContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIfStatement(@NotNull fplusParser.IfStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#ifStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIfStatement(@NotNull fplusParser.IfStatementContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#LogicalExprNot}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalExprNot(@NotNull fplusParser.LogicalExprNotContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#LogicalExprNot}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalExprNot(@NotNull fplusParser.LogicalExprNotContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#listItem}.
 	 * @param ctx the parse tree
 	 */
@@ -273,15 +328,15 @@ public interface fplusListener extends ParseTreeListener {
 	void exitContentBlock(@NotNull fplusParser.ContentBlockContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link fplusParser#procedureBlock}.
+	 * Enter a parse tree produced by {@link fplusParser#ifSingleLine}.
 	 * @param ctx the parse tree
 	 */
-	void enterProcedureBlock(@NotNull fplusParser.ProcedureBlockContext ctx);
+	void enterIfSingleLine(@NotNull fplusParser.IfSingleLineContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link fplusParser#procedureBlock}.
+	 * Exit a parse tree produced by {@link fplusParser#ifSingleLine}.
 	 * @param ctx the parse tree
 	 */
-	void exitProcedureBlock(@NotNull fplusParser.ProcedureBlockContext ctx);
+	void exitIfSingleLine(@NotNull fplusParser.IfSingleLineContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link fplusParser#ExprParens}.
@@ -293,6 +348,28 @@ public interface fplusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExprParens(@NotNull fplusParser.ExprParensContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#procedureBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterProcedureBlock(@NotNull fplusParser.ProcedureBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#procedureBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitProcedureBlock(@NotNull fplusParser.ProcedureBlockContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#LogicalExprAnd}.
+	 * @param ctx the parse tree
+	 */
+	void enterLogicalExprAnd(@NotNull fplusParser.LogicalExprAndContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#LogicalExprAnd}.
+	 * @param ctx the parse tree
+	 */
+	void exitLogicalExprAnd(@NotNull fplusParser.LogicalExprAndContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link fplusParser#listAssignment}.
