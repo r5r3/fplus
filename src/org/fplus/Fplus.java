@@ -33,7 +33,18 @@ public class Fplus {
         // begin parsing at fortranFile rule
         ParseTree tree = parser.fortranFile();
         // walk the tree
+//        ParseTreeWalker walker = new ParseTreeWalker();
+//        walker.walk(new Translator(parser, tree), tree);
+        // create the container for all informations created during parsing
+        ParseTreeAnnotations info = new ParseTreeAnnotations(tree, parser);
+        // create a merger for all expansions 
+        ExpansionMerger merger = new ExpansionMerger(info);
+        // create the visitor used for the first pass
+        TreeVisitor visitor = new TreeVisitor(info, merger);
+        // use the visitor for the first pass
+        visitor.visit(tree);
+        // Walk the tree in the second pass to merge everthing
         ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(new Translator(parser, tree), tree);
+        walker.walk(merger, tree);
     }
 }

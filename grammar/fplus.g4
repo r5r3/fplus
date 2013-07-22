@@ -316,8 +316,8 @@ Generic         :   [Gg][Ee][Nn][Ee][Rr][Ii][Cc] ;
 If              :   [Ii][Ff] ;
 Then            :   [Tt][Hh][Ee][Nn] ;
 Else            :   [Ee][Ll][Ss][Ee] ;
-And             :   '.'[An][Nn][Dd]'.' ;
-Not             :   '.'[No][Oo][To]'.' ;
+And             :   '.'[Aa][Nn][Dd]'.' ;
+Not             :   '.'[Nn][Oo][Tt]'.' ;
 Or              :   '.'[Oo][Rr]'.' ;    
 
 

@@ -95,6 +95,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitFortranFile(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitFortranFile(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final FortranFileContext fortranFile() throws RecognitionException {
@@ -196,6 +201,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitProgramBlock(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitProgramBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -381,6 +391,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitModuleBlock(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitModuleBlock(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ModuleBlockContext moduleBlock() throws RecognitionException {
@@ -555,6 +570,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitTemplateBlock(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitTemplateBlock(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final TemplateBlockContext templateBlock() throws RecognitionException {
@@ -673,6 +693,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitLoopBlock(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitLoopBlock(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final LoopBlockContext loopBlock() throws RecognitionException {
@@ -750,6 +775,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitLoopBegin(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitLoopBegin(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final LoopBeginContext loopBegin() throws RecognitionException {
@@ -803,6 +833,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitProcedureBlock(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitProcedureBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -876,6 +911,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitFunctionBlock(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitFunctionBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1027,6 +1067,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitSubroutineBlock(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitSubroutineBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1188,6 +1233,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitTypeDefinitionBlock(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitTypeDefinitionBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1445,6 +1495,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitFortranInterfaceBlock(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitFortranInterfaceBlock(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final FortranInterfaceBlockContext fortranInterfaceBlock() throws RecognitionException {
@@ -1655,6 +1710,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitTypeAttributes(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitTypeAttributes(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final TypeAttributesContext typeAttributes() throws RecognitionException {
@@ -1764,6 +1824,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitGenericTypeBoundLine(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitGenericTypeBoundLine(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -1912,6 +1977,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitInterfaceLine(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitInterfaceLine(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final InterfaceLineContext interfaceLine() throws RecognitionException {
@@ -1981,6 +2051,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitList(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitList(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ListContext list() throws RecognitionException {
@@ -2036,6 +2111,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitListItem(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitListItem(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2123,6 +2203,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitListAssignment(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitListAssignment(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2232,6 +2317,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitIfStatement(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitIfStatement(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final IfStatementContext ifStatement() throws RecognitionException {
@@ -2290,6 +2380,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitIfSingleLine(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitIfSingleLine(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2396,6 +2491,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitIfBlock(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitIfBlock(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2565,6 +2665,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitContentBlock(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitContentBlock(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ContentBlockContext contentBlock() throws RecognitionException {
@@ -2707,6 +2812,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitContentLine(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitContentLine(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final ContentLineContext contentLine() throws RecognitionException {
@@ -2805,6 +2915,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitPlaceholder(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitPlaceholder(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 
 	public final PlaceholderContext placeholder() throws RecognitionException {
@@ -2868,6 +2983,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitVariableDefinition(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitVariableDefinition(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -2934,6 +3054,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitLineComment(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitLineComment(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3028,6 +3153,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitExprConstants(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitExprConstants(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class ExprParensContext extends ExprContext {
 		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
@@ -3045,6 +3175,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitExprParens(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitExprParens(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class ExprMulDivContext extends ExprContext {
@@ -3068,6 +3203,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitExprMulDiv(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitExprMulDiv(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class ExprAddSubContext extends ExprContext {
 		public Token op;
@@ -3090,6 +3230,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitExprAddSub(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitExprAddSub(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class ExprArraySubscriptContext extends ExprContext {
 		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
@@ -3109,6 +3254,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitExprArraySubscript(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitExprArraySubscript(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class ExprVariableContext extends ExprContext {
 		public TerminalNode Identifier() { return getToken(fplusParser.Identifier, 0); }
@@ -3120,6 +3270,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitExprVariable(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitExprVariable(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 
@@ -3345,6 +3500,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitLogicalExprNot(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitLogicalExprNot(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class LogicalExprOrContext extends LogicalExprContext {
 		public List<LogicalExprContext> logicalExpr() {
@@ -3366,6 +3526,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitLogicalExprOr(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitLogicalExprOr(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class LogicalExprCompareContext extends LogicalExprContext {
@@ -3389,6 +3554,11 @@ public class fplusParser extends Parser {
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitLogicalExprCompare(this);
 		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitLogicalExprCompare(this);
+			else return visitor.visitChildren(this);
+		}
 	}
 	public static class LogicalExprAndContext extends LogicalExprContext {
 		public List<LogicalExprContext> logicalExpr() {
@@ -3410,6 +3580,11 @@ public class fplusParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitLogicalExprAnd(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitLogicalExprAnd(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 

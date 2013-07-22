@@ -13,7 +13,7 @@ runtime: $(ANTLR4JAR)
 
 generated: fplus.g4 $(ANTLR4JAR)
 	mkdir -p generated
-	$(ANTLR4) -o generated -package org.fplus.parser fplus.g4
+	$(ANTLR4) -visitor -o generated -package org.fplus.parser fplus.g4
 	mkdir -p ../src/org/fplus/parser
 	cp generated/*.java generated/*.tokens ../src/org/fplus/parser/.
 	javac -cp $(ANTLR4JAR) generated/*.java
