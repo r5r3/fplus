@@ -208,6 +208,34 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
     }
 
     @Override
+    public Object visitIfBlock(fplusParser.IfBlockContext ctx) {
+        //get the value of the logical extression
+        Variable lexpr = visitLogicalExpr(ctx.logicalExpr());
+        if (lexpr.length() > 1) {
+            Logger.Error("single value expected in logical expression, found: "+lexpr.getElementsString(), ctx.start.getLine());
+        } else {
+            // the condition is true, uncomment the content line
+            if (lexpr.getValue(1).equals(Variable.TRUE)) {
+                // visit the content block
+                visitContentBlock(ctx.contentBlock(0));
+                info.setExpansion(ctx, info.getExpansion(ctx.contentBlock(0)));
+            } else {
+                // is there a second contentblock
+                if (ctx.contentBlock().size()>1) {
+                    // visit the second content block
+                    visitContentBlock(ctx.contentBlock(1));
+                    info.setExpansion(ctx, info.getExpansion(ctx.contentBlock(1)));                    
+                } else {
+                    // there is no else block
+                    String expansion = Helper.getLeadingWS(ctx) + info.LineCommentPrefix + ctx.If(0).getText() + "(" + info.getExpansion(ctx.logicalExpr()) + ") then ... "; 
+                    info.setExpansion(ctx, expansion);
+                }
+            }
+        }
+        return null;        
+    }
+    
+    @Override
     public Object visitIfSingleLine(fplusParser.IfSingleLineContext ctx) {
         //get the value of the logical extression
         Variable lexpr = visitLogicalExpr(ctx.logicalExpr());
@@ -215,7 +243,7 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
             Logger.Error("single value expected in logical expression, found: "+lexpr.getElementsString(), ctx.start.getLine());
         } else {
             // the condition is true, uncomment the content line
-            if (lexpr.getValue(1).equals("T")) {
+            if (lexpr.getValue(1).equals(Variable.TRUE)) {
                 // visit the content line to create its expansion
                 visitContentLine(ctx.contentLine());
                 info.setExpansion(ctx, Helper.getLeadingWS(ctx) + info.getExpansion(ctx.contentLine()));
@@ -327,9 +355,66 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
         Variable result = new Variable(".not."+var.name);
         for (int i=1;i<=var.length(); i++) {
             String value = var.getValue(i);
-            if (value.equals("T")) value = "F";
-            else value = "T";
+            if (value.equals(Variable.TRUE)) value = Variable.FALSE;
+            else value = Variable.TRUE;
             result.addValue(value);
+        }
+        return result;
+    }
+
+    @Override
+    public Object visitLogicalExprAnd(fplusParser.LogicalExprAndContext ctx) {
+        // a variable for the result
+        Variable result;
+        // find the first variable. 
+        Variable var1 = visitLogicalExpr(ctx.logicalExpr(0));
+        // check if any element is true, if not, stop the evaluation of this expression
+        boolean anyTrueInVar1 = false;
+        for (int i=1;i<=var1.length();i++) {
+            if (var1.getValue(i).equals(Variable.TRUE)) {
+                anyTrueInVar1 = true;
+                break;
+            }
+        }
+        if (!anyTrueInVar1) {
+            result = new Variable(var1.name+".and. (not evaluated)");
+            for (int i=1;i<=var1.length();i++) result.addValue(Variable.FALSE);
+            return result;
+        } 
+        // now we need the second variable
+        Variable var2 = visitLogicalExpr(ctx.logicalExpr(1));
+        // both variables have to have the same length
+        result = var1.logicalOperation(fplusParser.And, var2);
+        if (result == null) {
+            Logger.Error("evaluation of logical expressin failed", ctx.start.getLine());
+            return null;
+        }
+        // store the expansion as a text
+        if (result.length() == 1) {
+            info.setExpansion(ctx, result.getValue(1));
+        } else if (result.length() > 1) {
+            info.setExpansion(ctx, result.getElementsString());
+        }
+        return result;
+    }
+
+    @Override
+    public Object visitLogicalExprOr(fplusParser.LogicalExprOrContext ctx) {
+        // a variable for the result
+        Variable result;
+        // find the both variables 
+        Variable var1 = visitLogicalExpr(ctx.logicalExpr(0));
+        Variable var2 = visitLogicalExpr(ctx.logicalExpr(1));
+        result = var1.logicalOperation(fplusParser.Or, var2);
+        if (result == null) {
+            Logger.Error("evaluation of logical expressin failed", ctx.start.getLine());
+            return null;
+        }
+        // store the expansion as a text
+        if (result.length() == 1) {
+            info.setExpansion(ctx, result.getValue(1));
+        } else if (result.length() > 1) {
+            info.setExpansion(ctx, result.getElementsString());
         }
         return result;
     }

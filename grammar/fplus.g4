@@ -169,6 +169,10 @@ ifBlock
     :
         WS? Prefix WS If WS? '(' WS? logicalExpr WS? ')' WS? Then WS? Newline
         contentBlock
+        (
+            WS? Prefix WS Else WS? Newline
+            contentBlock
+        )?
         WS? Prefix WS End WS If WS? Newline
     ;
 

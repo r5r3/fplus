@@ -32,9 +32,8 @@ public class Fplus {
         fplusParser parser = new fplusParser(tokens);
         // begin parsing at fortranFile rule
         ParseTree tree = parser.fortranFile();
+
         // walk the tree
-//        ParseTreeWalker walker = new ParseTreeWalker();
-//        walker.walk(new Translator(parser, tree), tree);
         // create the container for all informations created during parsing
         ParseTreeAnnotations info = new ParseTreeAnnotations(tree, parser);
         // create a merger for all expansions 
