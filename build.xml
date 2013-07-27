@@ -86,6 +86,13 @@
         </copy>
         <!-- don't add the antlr lib to the classpath, the classes are all embedded -->
         <property name="jar.classpath" value=""/>     
+        
+        <!-- copy jcommander class to the build path -->
+        <unzip src="lib/jcommander-1.30.jar" dest="build/classes">
+            <patternset>
+                <include name="com/beust/**/*.class"/>
+            </patternset>
+        </unzip>
     </target>
     
     <!-- clean up the grammar folder -->

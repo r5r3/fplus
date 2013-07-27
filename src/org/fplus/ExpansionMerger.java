@@ -17,6 +17,9 @@ public class ExpansionMerger extends fplusBaseListener {
     
     // all informations created by the visitor are stored here
     ParseTreeAnnotations info;
+    
+    // the result of merging everything
+    private StringBuilder result = null;
 
     public ExpansionMerger(ParseTreeAnnotations info) {
         this.info = info;
@@ -49,9 +52,15 @@ public class ExpansionMerger extends fplusBaseListener {
         }
         
         // store the final result if this head node
-        String translation = info.getExpansion(ctx);
-        System.out.println(String.format("%s This file was automatically created by fplus on %s", info.LineCommentPrefix, new GregorianCalendar().getTime().toString()));
-        System.out.println(translation);
+        result = new StringBuilder(String.format("%s This file was automatically created by fplus on %s\n", info.LineCommentPrefix, new GregorianCalendar().getTime().toString()));
+        result.append(info.getExpansion(ctx));
+    }
+    
+    /**
+     *  Returns the result of merging all expansion in this tree
+     */
+    public String getResult() {
+        return result.toString();
     }
     
     /**
