@@ -2333,14 +2333,14 @@ public class fplusParser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(565); ifSingleLine();
+				setState(565); ifBlock();
 				}
 				break;
 
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(566); ifBlock();
+				setState(566); ifSingleLine();
 				}
 				break;
 			}
@@ -4043,7 +4043,7 @@ public class fplusParser extends Parser {
 		"\u022e\u022d\3\2\2\2\u022e\u022f\3\2\2\2\u022f\u0230\3\2\2\2\u0230\u0232"+
 		"\7\5\2\2\u0231\u0233\7\67\2\2\u0232\u0231\3\2\2\2\u0232\u0233\3\2\2\2"+
 		"\u0233\u0234\3\2\2\2\u0234\u0236\5\36\20\2\u0235\u021b\3\2\2\2\u0235\u022c"+
-		"\3\2\2\2\u0236#\3\2\2\2\u0237\u023a\5&\24\2\u0238\u023a\5(\25\2\u0239"+
+		"\3\2\2\2\u0236#\3\2\2\2\u0237\u023a\5(\25\2\u0238\u023a\5&\24\2\u0239"+
 		"\u0237\3\2\2\2\u0239\u0238\3\2\2\2\u023a%\3\2\2\2\u023b\u023d\7\67\2\2"+
 		"\u023c\u023b\3\2\2\2\u023c\u023d\3\2\2\2\u023d\u023e\3\2\2\2\u023e\u023f"+
 		"\7\27\2\2\u023f\u0240\7\67\2\2\u0240\u0242\7+\2\2\u0241\u0243\7\67\2\2"+

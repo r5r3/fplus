@@ -155,9 +155,9 @@ listAssignment
 // if statement are possible in single lines and also in complete blocks
 ifStatement
     :
-        ifSingleLine
-    |
         ifBlock
+    |
+        ifSingleLine
     ;
 
 ifSingleLine

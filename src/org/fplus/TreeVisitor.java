@@ -227,7 +227,7 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
                     info.setExpansion(ctx, info.getExpansion(ctx.contentBlock(1)));                    
                 } else {
                     // there is no else block
-                    String expansion = Helper.getLeadingWS(ctx) + info.LineCommentPrefix + ctx.If(0).getText() + "(" + info.getExpansion(ctx.logicalExpr()) + ") then ... "; 
+                    String expansion = Helper.getLeadingWS(ctx) + info.LineCommentPrefix + ctx.If(0).getText() + "(" + info.getExpansion(ctx.logicalExpr()) + ") then ... \n"; 
                     info.setExpansion(ctx, expansion);
                 }
             }
