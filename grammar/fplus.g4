@@ -94,7 +94,7 @@ typeDefinitionBlock
 // a fortran interface block
 fortranInterfaceBlock
     :
-        WS? Interface WS? Identifier? WS? Newline
+        WS? Interface WS? Identifier? WS? (WS? '(' WS? ('+' | '-' | '*' | '/' | '=') WS?')' WS?)? Newline
         (
             WS? (Module)? WS? Procedure WS Identifier (WS? ',' WS? Identifier)* WS? Newline
         |
