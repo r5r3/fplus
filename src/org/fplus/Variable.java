@@ -123,19 +123,19 @@ public class Variable {
         // perform the operation itself
         switch (operation) {
             case fplusParser.Equal:
-                if (i1 != null && i2 != null) result = i1 == i2 ? Variable.TRUE : Variable.FALSE;
+                if (i1 != null && i2 != null) result = i1.intValue() == i2.intValue() ? Variable.TRUE : Variable.FALSE;
                     else result = str1.equals(str2) ? Variable.TRUE : Variable.FALSE;
                 break;
             case fplusParser.NotEqual:
-                if (i1 != null && i2 != null) result = i1 != i2 ? Variable.TRUE : Variable.FALSE;
+                if (i1 != null && i2 != null) result = i1.intValue() != i2.intValue() ? Variable.TRUE : Variable.FALSE;
                     else result = !str1.equals(str2) ? Variable.TRUE : Variable.FALSE;
                 break;
             case fplusParser.Larger:
-                if (i1 != null && i2 != null) result = i1 > i2 ? Variable.TRUE : Variable.FALSE;
+                if (i1 != null && i2 != null) result = i1.intValue() > i2.intValue() ? Variable.TRUE : Variable.FALSE;
                     else result = str1.compareTo(str2) > 0 ? Variable.TRUE : Variable.FALSE;
                 break;
             case fplusParser.Smaller:
-                if (i1 != null && i2 != null) result = i1 < i2 ? Variable.TRUE : Variable.FALSE;
+                if (i1 != null && i2 != null) result = i1.intValue() < i2.intValue() ? Variable.TRUE : Variable.FALSE;
                     else result = str1.compareTo(str2) < 0 ? Variable.TRUE : Variable.FALSE;
                 break;
             case fplusParser.And:
