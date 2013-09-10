@@ -463,13 +463,13 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitProcedureBlock(fplusParser.ProcedureBlockContext ctx) {
-        // are we in a template?
-        if (proceduresInCurrentTemplate == null) return null;
-        
+    public Object visitProcedureBlock(fplusParser.ProcedureBlockContext ctx) {        
         // visit all children of this block
         visitChildren(ctx);
         
+        // are we in a template?
+        if (proceduresInCurrentTemplate == null) return null;
+
         // get the identifier
         List<TerminalNode> id = null;
         ParserRuleContext subroutineOrFunctionBlock = null;
