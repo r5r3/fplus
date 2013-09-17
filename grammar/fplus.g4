@@ -38,7 +38,7 @@ moduleBlock
 // a generic interface or a generic type bound procedure
 templateBlock
     :
-        WS? Prefix WS Template WS? Identifier? Newline
+        WS? Prefix WS Template WS? Identifier? WS? OperatorOverload? WS? Newline
         (contentBlock)?
         WS? Prefix WS End WS Template WS? Identifier? Newline 
     ;
@@ -94,7 +94,7 @@ typeDefinitionBlock
 // a fortran interface block
 fortranInterfaceBlock
     :
-        WS? Interface WS? Identifier? WS? (WS? '(' WS? ('+' | '-' | '*' | '/' | '=') WS?')' WS?)? Newline
+        WS? Interface WS? Identifier? WS? OperatorOverload? WS? Newline
         (
             WS? (Module)? WS? Procedure WS Identifier (WS? ',' WS? Identifier)* WS? Newline
         |
@@ -127,7 +127,7 @@ genericTypeBoundLine
 // the interface definition for templates
 interfaceLine
     :
-        WS? Prefix WS Interface WS Template WS Identifier WS? Newline
+        WS? Prefix WS Interface WS Template WS Identifier WS? OperatorOverload? WS? Newline
     ;
 
 // used to initialize arrays of replacements
@@ -362,6 +362,11 @@ StringLiteral
 AssignPointer
     :
         '=' '>'
+    ;
+
+OperatorOverload
+    :
+        '(' WS? ('+' | '-' | '*' | '/' | '=') WS?')'
     ;
 
 // New lines are not skipped

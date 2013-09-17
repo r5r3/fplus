@@ -7,7 +7,6 @@ import java.util.List;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.fplus.parser.fplusBaseVisitor;
@@ -263,6 +262,7 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
     @Override
     public Object visitInterfaceLine(fplusParser.InterfaceLineContext ctx) {
         String name = ctx.Identifier().getSymbol().getText();
+        if (ctx.OperatorOverload() != null) name += " " + ctx.OperatorOverload().getText();
         info.interfaceLines.put(name, ctx);
         return null;
     } 
@@ -532,6 +532,7 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
         
         // get the interface block or generic line context
         String name = ctx.Identifier(0).getSymbol().getText();
+        if (ctx.OperatorOverload() != null) name += " " + ctx.OperatorOverload().getText();
         fplusParser.InterfaceLineContext ilc = info.interfaceLines.get(name);
         fplusParser.GenericTypeBoundLineContext glc = info.genericLines.get(name);
         // only one of the alternatives is allowed
