@@ -458,7 +458,8 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
     @Override
     public Object visitPlaceholder(fplusParser.PlaceholderContext ctx) {
         visitChildren(ctx);
-        info.setExpansion(ctx, info.getExpansion(ctx.expr()));
+        if (ctx.expr() != null) info.setExpansion(ctx, info.getExpansion(ctx.expr()));
+        if (ctx.logicalExpr() != null) info.setExpansion(ctx, info.getExpansion(ctx.logicalExpr()));
         return null;
     }
 

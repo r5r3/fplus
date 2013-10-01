@@ -228,7 +228,7 @@ contentLine
 // a placeholder used in content blocks
 placeholder
     :
-        '$' '{' WS? expr WS? '}'
+        '$' '{' WS? (expr|logicalExpr) WS? '}'
     ;
 
 // variable definition, such a variable can be used everywhere in the same scope unit
