@@ -76,7 +76,7 @@ functionBlock
 // a subroutine block, no return type
 subroutineBlock
     :
-        WS? Recursive? WS? Subroutine WS Identifier (~Newline)* Newline
+        WS? (Recursive | Elemental)? WS? Subroutine WS Identifier (~Newline)* Newline
         (contentBlock)?
         WS? End WS Subroutine WS? Identifier? WS? Newline
     ;
@@ -309,6 +309,7 @@ Function        :   [Ff][Uu][Nn][Cc][Tt][Ii][Oo][Nn] ;
 Subroutine      :   [Ss][Uu][Bb][Rr][Oo][Uu][Tt][Ii][Nn][Ee] ;
 Procedure       :   [Pp][Rr][Oo][Cc][Ee][Dd][Uu][Rr][Ee] ;
 Recursive       :   [Rr][Ee][Cc][Uu][Rr][Ss][Ii][Vv][Ee] ;
+Elemental       :   [Ee][Ll][Ee][Mm][Ee][Nn][Tt][Aa][Ll] ;
 Type            :   [Tt][Yy][Pp][Ee] ;
 Extends         :   [Ee][Xx][Tt][Ee][Nn][Dd][Ss] ; 
 Private         :   [Pp][Rr][Ii][Vv][Aa][Tt][Ee] ;
