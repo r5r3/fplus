@@ -10,6 +10,7 @@ runtime: $(ANTLR4JAR)
 	unzip -d runtime $(ANTLR4JAR) "org/antlr/runtime/*"
 	unzip -d runtime $(ANTLR4JAR) "org/antlr/v4/runtime/*"
 	unzip -d runtime $(ANTLR4JAR) "org/stringtemplate/*"
+	unzip -d runtime $(ANTLR4JAR) "st4hidden/*"
 
 generated: fplus.g4 $(ANTLR4JAR)
 	mkdir -p generated
