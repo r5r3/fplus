@@ -1,4 +1,4 @@
-// Generated from fplus.g4 by ANTLR 4.1
+// Generated from fplus.g4 by ANTLR 4.5
 package org.fplus.parser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -14,281 +14,247 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 public class fplusBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements fplusVisitor<T> {
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExprConstants(@NotNull fplusParser.ExprConstantsContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitFortranFile(fplusParser.FortranFileContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeDefinitionBlock(@NotNull fplusParser.TypeDefinitionBlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitProgramBlock(fplusParser.ProgramBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExprAddSub(@NotNull fplusParser.ExprAddSubContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitModuleBlock(fplusParser.ModuleBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLineComment(@NotNull fplusParser.LineCommentContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitTemplateBlock(fplusParser.TemplateBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicalExprOr(@NotNull fplusParser.LogicalExprOrContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLoopBlock(fplusParser.LoopBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLoopBlock(@NotNull fplusParser.LoopBlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLoopBegin(fplusParser.LoopBeginContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitGenericTypeBoundLine(@NotNull fplusParser.GenericTypeBoundLineContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitProcedureBlock(fplusParser.ProcedureBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFunctionBlock(@NotNull fplusParser.FunctionBlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitFunctionBlock(fplusParser.FunctionBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLoopBegin(@NotNull fplusParser.LoopBeginContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitSubroutineBlock(fplusParser.SubroutineBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTypeAttributes(@NotNull fplusParser.TypeAttributesContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitTypeDefinitionBlock(fplusParser.TypeDefinitionBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSubroutineBlock(@NotNull fplusParser.SubroutineBlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitFortranInterfaceBlock(fplusParser.FortranInterfaceBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExprArraySubscript(@NotNull fplusParser.ExprArraySubscriptContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitTypeAttributes(fplusParser.TypeAttributesContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicalExprCompare(@NotNull fplusParser.LogicalExprCompareContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitGenericTypeBoundLine(fplusParser.GenericTypeBoundLineContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFortranInterfaceBlock(@NotNull fplusParser.FortranInterfaceBlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitInterfaceLine(fplusParser.InterfaceLineContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProgramBlock(@NotNull fplusParser.ProgramBlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitList(fplusParser.ListContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExprVariable(@NotNull fplusParser.ExprVariableContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitListItem(fplusParser.ListItemContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitVariableDefinition(@NotNull fplusParser.VariableDefinitionContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitListAssignment(fplusParser.ListAssignmentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitInterfaceLine(@NotNull fplusParser.InterfaceLineContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitIfStatement(fplusParser.IfStatementContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIfBlock(@NotNull fplusParser.IfBlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitIfSingleLine(fplusParser.IfSingleLineContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitModuleBlock(@NotNull fplusParser.ModuleBlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitIfBlock(fplusParser.IfBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExprMulDiv(@NotNull fplusParser.ExprMulDivContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitContentBlock(fplusParser.ContentBlockContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitPlaceholder(@NotNull fplusParser.PlaceholderContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitContentLine(fplusParser.ContentLineContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitContentLine(@NotNull fplusParser.ContentLineContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitPlaceholder(fplusParser.PlaceholderContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitList(@NotNull fplusParser.ListContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitVariableDefinition(fplusParser.VariableDefinitionContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitFortranFile(@NotNull fplusParser.FortranFileContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLineComment(fplusParser.LineCommentContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIfStatement(@NotNull fplusParser.IfStatementContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitExprAddSub(fplusParser.ExprAddSubContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicalExprNot(@NotNull fplusParser.LogicalExprNotContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitExprMulDiv(fplusParser.ExprMulDivContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListItem(@NotNull fplusParser.ListItemContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitExprConstants(fplusParser.ExprConstantsContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitContentBlock(@NotNull fplusParser.ContentBlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitExprParens(fplusParser.ExprParensContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitIfSingleLine(@NotNull fplusParser.IfSingleLineContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitExprArraySubscript(fplusParser.ExprArraySubscriptContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitExprParens(@NotNull fplusParser.ExprParensContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitExprVariable(fplusParser.ExprVariableContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitProcedureBlock(@NotNull fplusParser.ProcedureBlockContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLogicalExprNot(fplusParser.LogicalExprNotContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitLogicalExprAnd(@NotNull fplusParser.LogicalExprAndContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLogicalExprOr(fplusParser.LogicalExprOrContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitListAssignment(@NotNull fplusParser.ListAssignmentContext ctx) { return visitChildren(ctx); }
-
+	@Override public T visitLogicalExprAnd(fplusParser.LogicalExprAndContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitTemplateBlock(@NotNull fplusParser.TemplateBlockContext ctx) { return visitChildren(ctx); }
+	@Override public T visitLogicalExprCompare(fplusParser.LogicalExprCompareContext ctx) { return visitChildren(ctx); }
 }

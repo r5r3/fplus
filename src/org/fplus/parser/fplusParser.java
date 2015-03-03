@@ -1,4 +1,4 @@
-// Generated from fplus.g4 by ANTLR 4.1
+// Generated from fplus.g4 by ANTLR 4.5
 package org.fplus.parser;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class fplusParser extends Parser {
+	static { RuntimeMetaData.checkVersion("4.5", RuntimeMetaData.VERSION); }
+
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
@@ -24,16 +26,6 @@ public class fplusParser extends Parser {
 		Bind=40, Generic=41, If=42, Then=43, Else=44, And=45, Not=46, Or=47, Identifier=48, 
 		IntegerConstant=49, FloatConstant=50, StringLiteral=51, AssignPointer=52, 
 		OperatorOverload=53, Newline=54, WS=55, Noise=56;
-	public static final String[] tokenNames = {
-		"<INVALID>", "'=='", "'/='", "'='", "','", "';'", "':'", "'{'", "'}'", 
-		"'$'", "'('", "')'", "'['", "']'", "'<'", "'>'", "'!'", "'+'", "'-'", 
-		"'*'", "'/'", "Prefix", "Template", "Interface", "End", "Do", "Program", 
-		"Module", "Contains", "Function", "Subroutine", "Procedure", "Recursive", 
-		"Elemental", "Type", "Extends", "Private", "Public", "Sequence", "Abstract", 
-		"Bind", "Generic", "If", "Then", "Else", "And", "Not", "Or", "Identifier", 
-		"IntegerConstant", "FloatConstant", "StringLiteral", "AssignPointer", 
-		"OperatorOverload", "Newline", "WS", "Noise"
-	};
 	public static final int
 		RULE_fortranFile = 0, RULE_programBlock = 1, RULE_moduleBlock = 2, RULE_templateBlock = 3, 
 		RULE_loopBlock = 4, RULE_loopBegin = 5, RULE_procedureBlock = 6, RULE_functionBlock = 7, 
@@ -52,14 +44,63 @@ public class fplusParser extends Parser {
 		"expr", "logicalExpr"
 	};
 
+	private static final String[] _LITERAL_NAMES = {
+		null, "'=='", "'/='", "'='", "','", "';'", "':'", "'{'", "'}'", "'$'", 
+		"'('", "')'", "'['", "']'", "'<'", "'>'", "'!'", "'+'", "'-'", "'*'", 
+		"'/'"
+	};
+	private static final String[] _SYMBOLIC_NAMES = {
+		null, "Equal", "NotEqual", "Assign", "Comma", "Semicolon", "Colon", "LeftBrace", 
+		"RightBrace", "Dollar", "LeftParen", "RightParen", "LeftBracket", "RightBracket", 
+		"Smaller", "Larger", "Exclamation", "Plus", "Minus", "Star", "Slash", 
+		"Prefix", "Template", "Interface", "End", "Do", "Program", "Module", "Contains", 
+		"Function", "Subroutine", "Procedure", "Recursive", "Elemental", "Type", 
+		"Extends", "Private", "Public", "Sequence", "Abstract", "Bind", "Generic", 
+		"If", "Then", "Else", "And", "Not", "Or", "Identifier", "IntegerConstant", 
+		"FloatConstant", "StringLiteral", "AssignPointer", "OperatorOverload", 
+		"Newline", "WS", "Noise"
+	};
+	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
+
+	/**
+	 * @deprecated Use {@link #VOCABULARY} instead.
+	 */
+	@Deprecated
+	public static final String[] tokenNames;
+	static {
+		tokenNames = new String[_SYMBOLIC_NAMES.length];
+		for (int i = 0; i < tokenNames.length; i++) {
+			tokenNames[i] = VOCABULARY.getLiteralName(i);
+			if (tokenNames[i] == null) {
+				tokenNames[i] = VOCABULARY.getSymbolicName(i);
+			}
+
+			if (tokenNames[i] == null) {
+				tokenNames[i] = "<INVALID>";
+			}
+		}
+	}
+
+	@Override
+	@Deprecated
+	public String[] getTokenNames() {
+		return tokenNames;
+	}
+
+	@Override
+
+	public Vocabulary getVocabulary() {
+		return VOCABULARY;
+	}
+
 	@Override
 	public String getGrammarFileName() { return "fplus.g4"; }
 
 	@Override
-	public String[] getTokenNames() { return tokenNames; }
+	public String[] getRuleNames() { return ruleNames; }
 
 	@Override
-	public String[] getRuleNames() { return ruleNames; }
+	public String getSerializedATN() { return _serializedATN; }
 
 	@Override
 	public ATN getATN() { return _ATN; }
@@ -69,11 +110,11 @@ public class fplusParser extends Parser {
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
 	public static class FortranFileContext extends ParserRuleContext {
+		public List<ModuleBlockContext> moduleBlock() {
+			return getRuleContexts(ModuleBlockContext.class);
+		}
 		public ModuleBlockContext moduleBlock(int i) {
 			return getRuleContext(ModuleBlockContext.class,i);
-		}
-		public ProgramBlockContext programBlock() {
-			return getRuleContext(ProgramBlockContext.class,0);
 		}
 		public List<ContentBlockContext> contentBlock() {
 			return getRuleContexts(ContentBlockContext.class);
@@ -81,8 +122,8 @@ public class fplusParser extends Parser {
 		public ContentBlockContext contentBlock(int i) {
 			return getRuleContext(ContentBlockContext.class,i);
 		}
-		public List<ModuleBlockContext> moduleBlock() {
-			return getRuleContexts(ModuleBlockContext.class);
+		public ProgramBlockContext programBlock() {
+			return getRuleContext(ProgramBlockContext.class,0);
 		}
 		public FortranFileContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -114,20 +155,21 @@ public class fplusParser extends Parser {
 			setState(58);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,1,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					setState(56);
 					switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
 					case 1:
 						{
-						setState(54); moduleBlock();
+						setState(54);
+						moduleBlock();
 						}
 						break;
-
 					case 2:
 						{
-						setState(55); contentBlock();
+						setState(55);
+						contentBlock();
 						}
 						break;
 					}
@@ -141,7 +183,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
 			case 1:
 				{
-				setState(61); programBlock();
+				setState(61);
+				programBlock();
 				}
 				break;
 			}
@@ -149,7 +192,8 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Equal) | (1L << NotEqual) | (1L << Assign) | (1L << Comma) | (1L << Semicolon) | (1L << Colon) | (1L << LeftBrace) | (1L << RightBrace) | (1L << Dollar) | (1L << LeftParen) | (1L << RightParen) | (1L << LeftBracket) | (1L << RightBracket) | (1L << Smaller) | (1L << Larger) | (1L << Exclamation) | (1L << Plus) | (1L << Minus) | (1L << Star) | (1L << Slash) | (1L << Prefix) | (1L << Template) | (1L << Interface) | (1L << End) | (1L << Do) | (1L << Program) | (1L << Module) | (1L << Contains) | (1L << Function) | (1L << Subroutine) | (1L << Procedure) | (1L << Recursive) | (1L << Elemental) | (1L << Type) | (1L << Extends) | (1L << Private) | (1L << Public) | (1L << Sequence) | (1L << Abstract) | (1L << Bind) | (1L << Generic) | (1L << If) | (1L << Then) | (1L << Else) | (1L << And) | (1L << Not) | (1L << Or) | (1L << Identifier) | (1L << IntegerConstant) | (1L << FloatConstant) | (1L << StringLiteral) | (1L << AssignPointer) | (1L << OperatorOverload) | (1L << Newline) | (1L << WS) | (1L << Noise))) != 0)) {
 				{
-				setState(64); contentBlock();
+				setState(64);
+				contentBlock();
 				}
 			}
 
@@ -167,30 +211,30 @@ public class fplusParser extends Parser {
 	}
 
 	public static class ProgramBlockContext extends ParserRuleContext {
-		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public List<TerminalNode> Program() { return getTokens(fplusParser.Program); }
-		public TerminalNode Newline(int i) {
-			return getToken(fplusParser.Newline, i);
+		public TerminalNode Program(int i) {
+			return getToken(fplusParser.Program, i);
 		}
-		public TerminalNode Contains() { return getToken(fplusParser.Contains, 0); }
-		public TerminalNode End() { return getToken(fplusParser.End, 0); }
-		public TerminalNode Identifier(int i) {
-			return getToken(fplusParser.Identifier, i);
-		}
-		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
-		public List<ContentBlockContext> contentBlock() {
-			return getRuleContexts(ContentBlockContext.class);
-		}
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
 		}
-		public TerminalNode Program(int i) {
-			return getToken(fplusParser.Program, i);
+		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
+		public TerminalNode Identifier(int i) {
+			return getToken(fplusParser.Identifier, i);
+		}
+		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
+		public TerminalNode Newline(int i) {
+			return getToken(fplusParser.Newline, i);
+		}
+		public TerminalNode End() { return getToken(fplusParser.End, 0); }
+		public List<ContentBlockContext> contentBlock() {
+			return getRuleContexts(ContentBlockContext.class);
 		}
 		public ContentBlockContext contentBlock(int i) {
 			return getRuleContext(ContentBlockContext.class,i);
 		}
+		public TerminalNode Contains() { return getToken(fplusParser.Contains, 0); }
 		public ProgramBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -222,30 +266,37 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(67); match(WS);
+				setState(67);
+				match(WS);
 				}
 			}
 
-			setState(70); match(Program);
-			setState(71); match(WS);
-			setState(72); match(Identifier);
+			setState(70);
+			match(Program);
+			setState(71);
+			match(WS);
+			setState(72);
+			match(Identifier);
 			setState(74);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(73); match(WS);
+				setState(73);
+				match(WS);
 				}
 			}
 
-			setState(76); match(Newline);
+			setState(76);
+			match(Newline);
 			setState(80);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(77); contentBlock();
+					setState(77);
+					contentBlock();
 					}
 					} 
 				}
@@ -261,31 +312,36 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(83); match(WS);
+					setState(83);
+					match(WS);
 					}
 				}
 
-				setState(86); match(Contains);
+				setState(86);
+				match(Contains);
 				setState(88);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(87); match(WS);
+					setState(87);
+					match(WS);
 					}
 				}
 
-				setState(90); match(Newline);
+				setState(90);
+				match(Newline);
 				}
 				break;
 			}
 			setState(96);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,10,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(93); contentBlock();
+					setState(93);
+					contentBlock();
 					}
 					} 
 				}
@@ -297,18 +353,23 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(99); match(WS);
+				setState(99);
+				match(WS);
 				}
 			}
 
-			setState(102); match(End);
-			setState(103); match(WS);
-			setState(104); match(Program);
+			setState(102);
+			match(End);
+			setState(103);
+			match(WS);
+			setState(104);
+			match(Program);
 			setState(106);
 			switch ( getInterpreter().adaptivePredict(_input,12,_ctx) ) {
 			case 1:
 				{
-				setState(105); match(WS);
+				setState(105);
+				match(WS);
 				}
 				break;
 			}
@@ -316,7 +377,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,13,_ctx) ) {
 			case 1:
 				{
-				setState(108); match(Identifier);
+				setState(108);
+				match(Identifier);
 				}
 				break;
 			}
@@ -324,7 +386,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 			case 1:
 				{
-				setState(111); match(WS);
+				setState(111);
+				match(WS);
 				}
 				break;
 			}
@@ -332,7 +395,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,15,_ctx) ) {
 			case 1:
 				{
-				setState(114); match(Newline);
+				setState(114);
+				match(Newline);
 				}
 				break;
 			}
@@ -350,18 +414,28 @@ public class fplusParser extends Parser {
 	}
 
 	public static class ModuleBlockContext extends ParserRuleContext {
+		public List<TerminalNode> Module() { return getTokens(fplusParser.Module); }
+		public TerminalNode Module(int i) {
+			return getToken(fplusParser.Module, i);
+		}
 		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public TerminalNode Contains() { return getToken(fplusParser.Contains, 0); }
-		public List<InterfaceLineContext> interfaceLine() {
-			return getRuleContexts(InterfaceLineContext.class);
+		public TerminalNode WS(int i) {
+			return getToken(fplusParser.WS, i);
 		}
 		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
 		public TerminalNode Identifier(int i) {
 			return getToken(fplusParser.Identifier, i);
 		}
-		public List<TerminalNode> Module() { return getTokens(fplusParser.Module); }
-		public TerminalNode WS(int i) {
-			return getToken(fplusParser.WS, i);
+		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
+		public TerminalNode Newline(int i) {
+			return getToken(fplusParser.Newline, i);
+		}
+		public TerminalNode End() { return getToken(fplusParser.End, 0); }
+		public List<InterfaceLineContext> interfaceLine() {
+			return getRuleContexts(InterfaceLineContext.class);
+		}
+		public InterfaceLineContext interfaceLine(int i) {
+			return getRuleContext(InterfaceLineContext.class,i);
 		}
 		public List<ContentBlockContext> contentBlock() {
 			return getRuleContexts(ContentBlockContext.class);
@@ -369,17 +443,7 @@ public class fplusParser extends Parser {
 		public ContentBlockContext contentBlock(int i) {
 			return getRuleContext(ContentBlockContext.class,i);
 		}
-		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
-		public TerminalNode Module(int i) {
-			return getToken(fplusParser.Module, i);
-		}
-		public TerminalNode Newline(int i) {
-			return getToken(fplusParser.Newline, i);
-		}
-		public InterfaceLineContext interfaceLine(int i) {
-			return getRuleContext(InterfaceLineContext.class,i);
-		}
-		public TerminalNode End() { return getToken(fplusParser.End, 0); }
+		public TerminalNode Contains() { return getToken(fplusParser.Contains, 0); }
 		public ModuleBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -411,39 +475,46 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(117); match(WS);
+				setState(117);
+				match(WS);
 				}
 			}
 
-			setState(120); match(Module);
-			setState(121); match(WS);
-			setState(122); match(Identifier);
+			setState(120);
+			match(Module);
+			setState(121);
+			match(WS);
+			setState(122);
+			match(Identifier);
 			setState(124);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(123); match(WS);
+				setState(123);
+				match(WS);
 				}
 			}
 
-			setState(126); match(Newline);
+			setState(126);
+			match(Newline);
 			setState(131);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,19,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					setState(129);
 					switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
 					case 1:
 						{
-						setState(127); interfaceLine();
+						setState(127);
+						interfaceLine();
 						}
 						break;
-
 					case 2:
 						{
-						setState(128); contentBlock();
+						setState(128);
+						contentBlock();
 						}
 						break;
 					}
@@ -461,20 +532,24 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(134); match(WS);
+					setState(134);
+					match(WS);
 					}
 				}
 
-				setState(137); match(Contains);
+				setState(137);
+				match(Contains);
 				setState(139);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(138); match(WS);
+					setState(138);
+					match(WS);
 					}
 				}
 
-				setState(141); match(Newline);
+				setState(141);
+				match(Newline);
 				}
 				break;
 			}
@@ -482,7 +557,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,23,_ctx) ) {
 			case 1:
 				{
-				setState(144); contentBlock();
+				setState(144);
+				contentBlock();
 				}
 				break;
 			}
@@ -490,18 +566,23 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(147); match(WS);
+				setState(147);
+				match(WS);
 				}
 			}
 
-			setState(150); match(End);
-			setState(151); match(WS);
-			setState(152); match(Module);
+			setState(150);
+			match(End);
+			setState(151);
+			match(WS);
+			setState(152);
+			match(Module);
 			setState(154);
 			switch ( getInterpreter().adaptivePredict(_input,25,_ctx) ) {
 			case 1:
 				{
-				setState(153); match(WS);
+				setState(153);
+				match(WS);
 				}
 				break;
 			}
@@ -509,7 +590,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,26,_ctx) ) {
 			case 1:
 				{
-				setState(156); match(Identifier);
+				setState(156);
+				match(Identifier);
 				}
 				break;
 			}
@@ -517,7 +599,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,27,_ctx) ) {
 			case 1:
 				{
-				setState(159); match(Newline);
+				setState(159);
+				match(Newline);
 				}
 				break;
 			}
@@ -535,30 +618,30 @@ public class fplusParser extends Parser {
 	}
 
 	public static class TemplateBlockContext extends ParserRuleContext {
-		public TerminalNode Template(int i) {
-			return getToken(fplusParser.Template, i);
+		public List<TerminalNode> Prefix() { return getTokens(fplusParser.Prefix); }
+		public TerminalNode Prefix(int i) {
+			return getToken(fplusParser.Prefix, i);
 		}
 		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public List<TerminalNode> Template() { return getTokens(fplusParser.Template); }
-		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
-		public TerminalNode Identifier(int i) {
-			return getToken(fplusParser.Identifier, i);
-		}
-		public ContentBlockContext contentBlock() {
-			return getRuleContext(ContentBlockContext.class,0);
-		}
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
 		}
+		public List<TerminalNode> Template() { return getTokens(fplusParser.Template); }
+		public TerminalNode Template(int i) {
+			return getToken(fplusParser.Template, i);
+		}
 		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
-		public TerminalNode OperatorOverload() { return getToken(fplusParser.OperatorOverload, 0); }
 		public TerminalNode Newline(int i) {
 			return getToken(fplusParser.Newline, i);
 		}
 		public TerminalNode End() { return getToken(fplusParser.End, 0); }
-		public List<TerminalNode> Prefix() { return getTokens(fplusParser.Prefix); }
-		public TerminalNode Prefix(int i) {
-			return getToken(fplusParser.Prefix, i);
+		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
+		public TerminalNode Identifier(int i) {
+			return getToken(fplusParser.Identifier, i);
+		}
+		public TerminalNode OperatorOverload() { return getToken(fplusParser.OperatorOverload, 0); }
+		public ContentBlockContext contentBlock() {
+			return getRuleContext(ContentBlockContext.class,0);
 		}
 		public TemplateBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -590,18 +673,23 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(162); match(WS);
+				setState(162);
+				match(WS);
 				}
 			}
 
-			setState(165); match(Prefix);
-			setState(166); match(WS);
-			setState(167); match(Template);
+			setState(165);
+			match(Prefix);
+			setState(166);
+			match(WS);
+			setState(167);
+			match(Template);
 			setState(169);
 			switch ( getInterpreter().adaptivePredict(_input,29,_ctx) ) {
 			case 1:
 				{
-				setState(168); match(WS);
+				setState(168);
+				match(WS);
 				}
 				break;
 			}
@@ -609,7 +697,8 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==Identifier) {
 				{
-				setState(171); match(Identifier);
+				setState(171);
+				match(Identifier);
 				}
 			}
 
@@ -617,7 +706,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,31,_ctx) ) {
 			case 1:
 				{
-				setState(174); match(WS);
+				setState(174);
+				match(WS);
 				}
 				break;
 			}
@@ -625,7 +715,8 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==OperatorOverload) {
 				{
-				setState(177); match(OperatorOverload);
+				setState(177);
+				match(OperatorOverload);
 				}
 			}
 
@@ -633,16 +724,19 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(180); match(WS);
+				setState(180);
+				match(WS);
 				}
 			}
 
-			setState(183); match(Newline);
+			setState(183);
+			match(Newline);
 			setState(185);
 			switch ( getInterpreter().adaptivePredict(_input,34,_ctx) ) {
 			case 1:
 				{
-				setState(184); contentBlock();
+				setState(184);
+				contentBlock();
 				}
 				break;
 			}
@@ -650,20 +744,27 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(187); match(WS);
+				setState(187);
+				match(WS);
 				}
 			}
 
-			setState(190); match(Prefix);
-			setState(191); match(WS);
-			setState(192); match(End);
-			setState(193); match(WS);
-			setState(194); match(Template);
+			setState(190);
+			match(Prefix);
+			setState(191);
+			match(WS);
+			setState(192);
+			match(End);
+			setState(193);
+			match(WS);
+			setState(194);
+			match(Template);
 			setState(196);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(195); match(WS);
+				setState(195);
+				match(WS);
 				}
 			}
 
@@ -671,11 +772,13 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==Identifier) {
 				{
-				setState(198); match(Identifier);
+				setState(198);
+				match(Identifier);
 				}
 			}
 
-			setState(201); match(Newline);
+			setState(201);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -690,23 +793,23 @@ public class fplusParser extends Parser {
 	}
 
 	public static class LoopBlockContext extends ParserRuleContext {
-		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public LoopBeginContext loopBegin() {
 			return getRuleContext(LoopBeginContext.class,0);
 		}
-		public TerminalNode Do() { return getToken(fplusParser.Do, 0); }
+		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
 		public TerminalNode Newline(int i) {
 			return getToken(fplusParser.Newline, i);
-		}
-		public TerminalNode End() { return getToken(fplusParser.End, 0); }
-		public TerminalNode Prefix() { return getToken(fplusParser.Prefix, 0); }
-		public TerminalNode WS(int i) {
-			return getToken(fplusParser.WS, i);
 		}
 		public ContentBlockContext contentBlock() {
 			return getRuleContext(ContentBlockContext.class,0);
 		}
+		public TerminalNode Prefix() { return getToken(fplusParser.Prefix, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
+		public TerminalNode WS(int i) {
+			return getToken(fplusParser.WS, i);
+		}
+		public TerminalNode End() { return getToken(fplusParser.End, 0); }
+		public TerminalNode Do() { return getToken(fplusParser.Do, 0); }
 		public LoopBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -733,39 +836,51 @@ public class fplusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(203); loopBegin();
+			setState(203);
+			loopBegin();
 			setState(205);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(204); match(WS);
+				setState(204);
+				match(WS);
 				}
 			}
 
-			setState(207); match(Newline);
-			setState(208); contentBlock();
+			setState(207);
+			match(Newline);
+			setState(208);
+			contentBlock();
 			setState(210);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(209); match(WS);
+				setState(209);
+				match(WS);
 				}
 			}
 
-			setState(212); match(Prefix);
-			setState(213); match(WS);
-			setState(214); match(End);
-			setState(215); match(WS);
-			setState(216); match(Do);
+			setState(212);
+			match(Prefix);
+			setState(213);
+			match(WS);
+			setState(214);
+			match(End);
+			setState(215);
+			match(WS);
+			setState(216);
+			match(Do);
 			setState(218);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(217); match(WS);
+				setState(217);
+				match(WS);
 				}
 			}
 
-			setState(220); match(Newline);
+			setState(220);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -780,14 +895,14 @@ public class fplusParser extends Parser {
 	}
 
 	public static class LoopBeginContext extends ParserRuleContext {
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public ListAssignmentContext listAssignment() {
-			return getRuleContext(ListAssignmentContext.class,0);
-		}
-		public TerminalNode Do() { return getToken(fplusParser.Do, 0); }
 		public TerminalNode Prefix() { return getToken(fplusParser.Prefix, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
+		}
+		public TerminalNode Do() { return getToken(fplusParser.Do, 0); }
+		public ListAssignmentContext listAssignment() {
+			return getRuleContext(ListAssignmentContext.class,0);
 		}
 		public LoopBeginContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -819,15 +934,21 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(222); match(WS);
+				setState(222);
+				match(WS);
 				}
 			}
 
-			setState(225); match(Prefix);
-			setState(226); match(WS);
-			setState(227); match(Do);
-			setState(228); match(WS);
-			setState(229); listAssignment();
+			setState(225);
+			match(Prefix);
+			setState(226);
+			match(WS);
+			setState(227);
+			match(Do);
+			setState(228);
+			match(WS);
+			setState(229);
+			listAssignment();
 			}
 		}
 		catch (RecognitionException re) {
@@ -842,11 +963,11 @@ public class fplusParser extends Parser {
 	}
 
 	public static class ProcedureBlockContext extends ParserRuleContext {
-		public SubroutineBlockContext subroutineBlock() {
-			return getRuleContext(SubroutineBlockContext.class,0);
-		}
 		public FunctionBlockContext functionBlock() {
 			return getRuleContext(FunctionBlockContext.class,0);
+		}
+		public SubroutineBlockContext subroutineBlock() {
+			return getRuleContext(SubroutineBlockContext.class,0);
 		}
 		public ProcedureBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -876,14 +997,15 @@ public class fplusParser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(231); functionBlock();
+				setState(231);
+				functionBlock();
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(232); subroutineBlock();
+				setState(232);
+				subroutineBlock();
 				}
 				break;
 			}
@@ -900,31 +1022,31 @@ public class fplusParser extends Parser {
 	}
 
 	public static class FunctionBlockContext extends ParserRuleContext {
-		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public TerminalNode Newline(int i) {
-			return getToken(fplusParser.Newline, i);
-		}
 		public List<TerminalNode> Function() { return getTokens(fplusParser.Function); }
-		public TerminalNode End() { return getToken(fplusParser.End, 0); }
+		public TerminalNode Function(int i) {
+			return getToken(fplusParser.Function, i);
+		}
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
+		public TerminalNode WS(int i) {
+			return getToken(fplusParser.WS, i);
+		}
+		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
 		public TerminalNode Identifier(int i) {
 			return getToken(fplusParser.Identifier, i);
 		}
-		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
-		public ContentBlockContext contentBlock() {
-			return getRuleContext(ContentBlockContext.class,0);
+		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
+		public TerminalNode Newline(int i) {
+			return getToken(fplusParser.Newline, i);
+		}
+		public TerminalNode End() { return getToken(fplusParser.End, 0); }
+		public List<PlaceholderContext> placeholder() {
+			return getRuleContexts(PlaceholderContext.class);
 		}
 		public PlaceholderContext placeholder(int i) {
 			return getRuleContext(PlaceholderContext.class,i);
 		}
-		public List<PlaceholderContext> placeholder() {
-			return getRuleContexts(PlaceholderContext.class);
-		}
-		public TerminalNode WS(int i) {
-			return getToken(fplusParser.WS, i);
-		}
-		public TerminalNode Function(int i) {
-			return getToken(fplusParser.Function, i);
+		public ContentBlockContext contentBlock() {
+			return getRuleContext(ContentBlockContext.class,0);
 		}
 		public FunctionBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -961,18 +1083,19 @@ public class fplusParser extends Parser {
 				switch ( getInterpreter().adaptivePredict(_input,43,_ctx) ) {
 				case 1:
 					{
-					setState(235); placeholder();
+					setState(235);
+					placeholder();
 					}
 					break;
-
 				case 2:
 					{
 					setState(236);
 					_la = _input.LA(1);
 					if ( _la <= 0 || (_la==Function || _la==Newline) ) {
 					_errHandler.recoverInline(this);
+					} else {
+						consume();
 					}
-					consume();
 					}
 					break;
 				}
@@ -981,9 +1104,12 @@ public class fplusParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(242); match(Function);
-			setState(243); match(WS);
-			setState(244); match(Identifier);
+			setState(242);
+			match(Function);
+			setState(243);
+			match(WS);
+			setState(244);
+			match(Identifier);
 			setState(248);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -994,20 +1120,23 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if ( _la <= 0 || (_la==Newline) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
 				}
 				}
 				setState(250);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(251); match(Newline);
+			setState(251);
+			match(Newline);
 			setState(253);
 			switch ( getInterpreter().adaptivePredict(_input,46,_ctx) ) {
 			case 1:
 				{
-				setState(252); contentBlock();
+				setState(252);
+				contentBlock();
 				}
 				break;
 			}
@@ -1015,18 +1144,23 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(255); match(WS);
+				setState(255);
+				match(WS);
 				}
 			}
 
-			setState(258); match(End);
-			setState(259); match(WS);
-			setState(260); match(Function);
+			setState(258);
+			match(End);
+			setState(259);
+			match(WS);
+			setState(260);
+			match(Function);
 			setState(262);
 			switch ( getInterpreter().adaptivePredict(_input,48,_ctx) ) {
 			case 1:
 				{
-				setState(261); match(WS);
+				setState(261);
+				match(WS);
 				}
 				break;
 			}
@@ -1034,7 +1168,8 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==Identifier) {
 				{
-				setState(264); match(Identifier);
+				setState(264);
+				match(Identifier);
 				}
 			}
 
@@ -1042,11 +1177,13 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(267); match(WS);
+				setState(267);
+				match(WS);
 				}
 			}
 
-			setState(270); match(Newline);
+			setState(270);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1061,28 +1198,28 @@ public class fplusParser extends Parser {
 	}
 
 	public static class SubroutineBlockContext extends ParserRuleContext {
-		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
 		public List<TerminalNode> Subroutine() { return getTokens(fplusParser.Subroutine); }
+		public TerminalNode Subroutine(int i) {
+			return getToken(fplusParser.Subroutine, i);
+		}
 		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public TerminalNode Elemental() { return getToken(fplusParser.Elemental, 0); }
-		public TerminalNode Recursive() { return getToken(fplusParser.Recursive, 0); }
+		public TerminalNode WS(int i) {
+			return getToken(fplusParser.WS, i);
+		}
+		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
+		public TerminalNode Identifier(int i) {
+			return getToken(fplusParser.Identifier, i);
+		}
+		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
 		public TerminalNode Newline(int i) {
 			return getToken(fplusParser.Newline, i);
 		}
 		public TerminalNode End() { return getToken(fplusParser.End, 0); }
-		public TerminalNode Identifier(int i) {
-			return getToken(fplusParser.Identifier, i);
-		}
-		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
 		public ContentBlockContext contentBlock() {
 			return getRuleContext(ContentBlockContext.class,0);
 		}
-		public TerminalNode WS(int i) {
-			return getToken(fplusParser.WS, i);
-		}
-		public TerminalNode Subroutine(int i) {
-			return getToken(fplusParser.Subroutine, i);
-		}
+		public TerminalNode Recursive() { return getToken(fplusParser.Recursive, 0); }
+		public TerminalNode Elemental() { return getToken(fplusParser.Elemental, 0); }
 		public SubroutineBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1113,7 +1250,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,51,_ctx) ) {
 			case 1:
 				{
-				setState(272); match(WS);
+				setState(272);
+				match(WS);
 				}
 				break;
 			}
@@ -1125,8 +1263,9 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==Recursive || _la==Elemental) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
 				}
 			}
 
@@ -1134,13 +1273,17 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(278); match(WS);
+				setState(278);
+				match(WS);
 				}
 			}
 
-			setState(281); match(Subroutine);
-			setState(282); match(WS);
-			setState(283); match(Identifier);
+			setState(281);
+			match(Subroutine);
+			setState(282);
+			match(WS);
+			setState(283);
+			match(Identifier);
 			setState(287);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -1151,20 +1294,23 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if ( _la <= 0 || (_la==Newline) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
 				}
 				}
 				setState(289);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(290); match(Newline);
+			setState(290);
+			match(Newline);
 			setState(292);
 			switch ( getInterpreter().adaptivePredict(_input,55,_ctx) ) {
 			case 1:
 				{
-				setState(291); contentBlock();
+				setState(291);
+				contentBlock();
 				}
 				break;
 			}
@@ -1172,18 +1318,23 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(294); match(WS);
+				setState(294);
+				match(WS);
 				}
 			}
 
-			setState(297); match(End);
-			setState(298); match(WS);
-			setState(299); match(Subroutine);
+			setState(297);
+			match(End);
+			setState(298);
+			match(WS);
+			setState(299);
+			match(Subroutine);
 			setState(301);
 			switch ( getInterpreter().adaptivePredict(_input,57,_ctx) ) {
 			case 1:
 				{
-				setState(300); match(WS);
+				setState(300);
+				match(WS);
 				}
 				break;
 			}
@@ -1191,7 +1342,8 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==Identifier) {
 				{
-				setState(303); match(Identifier);
+				setState(303);
+				match(Identifier);
 				}
 			}
 
@@ -1199,11 +1351,13 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(306); match(WS);
+				setState(306);
+				match(WS);
 				}
 			}
 
-			setState(309); match(Newline);
+			setState(309);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1218,14 +1372,28 @@ public class fplusParser extends Parser {
 	}
 
 	public static class TypeDefinitionBlockContext extends ParserRuleContext {
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public TerminalNode Contains() { return getToken(fplusParser.Contains, 0); }
+		public List<TerminalNode> Type() { return getTokens(fplusParser.Type); }
+		public TerminalNode Type(int i) {
+			return getToken(fplusParser.Type, i);
+		}
 		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
 		public TerminalNode Identifier(int i) {
 			return getToken(fplusParser.Identifier, i);
 		}
+		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
+		public TerminalNode Newline(int i) {
+			return getToken(fplusParser.Newline, i);
+		}
+		public TerminalNode End() { return getToken(fplusParser.End, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
+		}
+		public List<TypeAttributesContext> typeAttributes() {
+			return getRuleContexts(TypeAttributesContext.class);
+		}
+		public TypeAttributesContext typeAttributes(int i) {
+			return getRuleContext(TypeAttributesContext.class,i);
 		}
 		public List<ContentBlockContext> contentBlock() {
 			return getRuleContexts(ContentBlockContext.class);
@@ -1233,23 +1401,9 @@ public class fplusParser extends Parser {
 		public ContentBlockContext contentBlock(int i) {
 			return getRuleContext(ContentBlockContext.class,i);
 		}
+		public TerminalNode Contains() { return getToken(fplusParser.Contains, 0); }
 		public List<GenericTypeBoundLineContext> genericTypeBoundLine() {
 			return getRuleContexts(GenericTypeBoundLineContext.class);
-		}
-		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
-		public TerminalNode Type(int i) {
-			return getToken(fplusParser.Type, i);
-		}
-		public List<TypeAttributesContext> typeAttributes() {
-			return getRuleContexts(TypeAttributesContext.class);
-		}
-		public TerminalNode Newline(int i) {
-			return getToken(fplusParser.Newline, i);
-		}
-		public TerminalNode End() { return getToken(fplusParser.End, 0); }
-		public List<TerminalNode> Type() { return getTokens(fplusParser.Type); }
-		public TypeAttributesContext typeAttributes(int i) {
-			return getRuleContext(TypeAttributesContext.class,i);
 		}
 		public GenericTypeBoundLineContext genericTypeBoundLine(int i) {
 			return getRuleContext(GenericTypeBoundLineContext.class,i);
@@ -1285,23 +1439,26 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(311); match(WS);
+				setState(311);
+				match(WS);
 				}
 			}
 
-			setState(314); match(Type);
+			setState(314);
+			match(Type);
 			setState(316);
 			switch ( getInterpreter().adaptivePredict(_input,61,_ctx) ) {
 			case 1:
 				{
-				setState(315); match(WS);
+				setState(315);
+				match(WS);
 				}
 				break;
 			}
 			setState(328);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,64,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -1309,20 +1466,24 @@ public class fplusParser extends Parser {
 					_la = _input.LA(1);
 					if (_la==WS) {
 						{
-						setState(318); match(WS);
+						setState(318);
+						match(WS);
 						}
 					}
 
-					setState(321); match(Comma);
+					setState(321);
+					match(Comma);
 					setState(323);
 					_la = _input.LA(1);
 					if (_la==WS) {
 						{
-						setState(322); match(WS);
+						setState(322);
+						match(WS);
 						}
 					}
 
-					setState(325); typeAttributes();
+					setState(325);
+					typeAttributes();
 					}
 					} 
 				}
@@ -1334,7 +1495,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,65,_ctx) ) {
 			case 1:
 				{
-				setState(331); match(WS);
+				setState(331);
+				match(WS);
 				}
 				break;
 			}
@@ -1342,8 +1504,10 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==Colon) {
 				{
-				setState(334); match(Colon);
-				setState(335); match(Colon);
+				setState(334);
+				match(Colon);
+				setState(335);
+				match(Colon);
 				}
 			}
 
@@ -1351,11 +1515,13 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(338); match(WS);
+				setState(338);
+				match(WS);
 				}
 			}
 
-			setState(341); match(Identifier);
+			setState(341);
+			match(Identifier);
 			setState(345);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -1366,20 +1532,23 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if ( _la <= 0 || (_la==Newline) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
 				}
 				}
 				setState(347);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(348); match(Newline);
+			setState(348);
+			match(Newline);
 			setState(350);
 			switch ( getInterpreter().adaptivePredict(_input,69,_ctx) ) {
 			case 1:
 				{
-				setState(349); contentBlock();
+				setState(349);
+				contentBlock();
 				}
 				break;
 			}
@@ -1391,40 +1560,45 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(352); match(WS);
+					setState(352);
+					match(WS);
 					}
 				}
 
-				setState(355); match(Contains);
+				setState(355);
+				match(Contains);
 				setState(357);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(356); match(WS);
+					setState(356);
+					match(WS);
 					}
 				}
 
-				setState(359); match(Newline);
+				setState(359);
+				match(Newline);
 				}
 				break;
 			}
 			setState(366);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,74,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					setState(364);
 					switch ( getInterpreter().adaptivePredict(_input,73,_ctx) ) {
 					case 1:
 						{
-						setState(362); contentBlock();
+						setState(362);
+						contentBlock();
 						}
 						break;
-
 					case 2:
 						{
-						setState(363); genericTypeBoundLine();
+						setState(363);
+						genericTypeBoundLine();
 						}
 						break;
 					}
@@ -1438,18 +1612,23 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(369); match(WS);
+				setState(369);
+				match(WS);
 				}
 			}
 
-			setState(372); match(End);
-			setState(373); match(WS);
-			setState(374); match(Type);
+			setState(372);
+			match(End);
+			setState(373);
+			match(WS);
+			setState(374);
+			match(Type);
 			setState(376);
 			switch ( getInterpreter().adaptivePredict(_input,76,_ctx) ) {
 			case 1:
 				{
-				setState(375); match(WS);
+				setState(375);
+				match(WS);
 				}
 				break;
 			}
@@ -1457,7 +1636,8 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==Identifier) {
 				{
-				setState(378); match(Identifier);
+				setState(378);
+				match(Identifier);
 				}
 			}
 
@@ -1465,11 +1645,13 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(381); match(WS);
+				setState(381);
+				match(WS);
 				}
 			}
 
-			setState(384); match(Newline);
+			setState(384);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1484,38 +1666,38 @@ public class fplusParser extends Parser {
 	}
 
 	public static class FortranInterfaceBlockContext extends ParserRuleContext {
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
-		public TerminalNode Identifier(int i) {
-			return getToken(fplusParser.Identifier, i);
-		}
-		public List<TerminalNode> Module() { return getTokens(fplusParser.Module); }
 		public List<TerminalNode> Interface() { return getTokens(fplusParser.Interface); }
-		public ProcedureBlockContext procedureBlock(int i) {
-			return getRuleContext(ProcedureBlockContext.class,i);
-		}
-		public TerminalNode WS(int i) {
-			return getToken(fplusParser.WS, i);
-		}
-		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
-		public TerminalNode OperatorOverload() { return getToken(fplusParser.OperatorOverload, 0); }
-		public TerminalNode Module(int i) {
-			return getToken(fplusParser.Module, i);
-		}
-		public TerminalNode Procedure(int i) {
-			return getToken(fplusParser.Procedure, i);
-		}
 		public TerminalNode Interface(int i) {
 			return getToken(fplusParser.Interface, i);
 		}
+		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
 		public TerminalNode Newline(int i) {
 			return getToken(fplusParser.Newline, i);
 		}
 		public TerminalNode End() { return getToken(fplusParser.End, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
+		public TerminalNode WS(int i) {
+			return getToken(fplusParser.WS, i);
+		}
+		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
+		public TerminalNode Identifier(int i) {
+			return getToken(fplusParser.Identifier, i);
+		}
+		public TerminalNode OperatorOverload() { return getToken(fplusParser.OperatorOverload, 0); }
+		public List<TerminalNode> Procedure() { return getTokens(fplusParser.Procedure); }
+		public TerminalNode Procedure(int i) {
+			return getToken(fplusParser.Procedure, i);
+		}
 		public List<ProcedureBlockContext> procedureBlock() {
 			return getRuleContexts(ProcedureBlockContext.class);
 		}
-		public List<TerminalNode> Procedure() { return getTokens(fplusParser.Procedure); }
+		public ProcedureBlockContext procedureBlock(int i) {
+			return getRuleContext(ProcedureBlockContext.class,i);
+		}
+		public List<TerminalNode> Module() { return getTokens(fplusParser.Module); }
+		public TerminalNode Module(int i) {
+			return getToken(fplusParser.Module, i);
+		}
 		public FortranInterfaceBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1547,16 +1729,19 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(386); match(WS);
+				setState(386);
+				match(WS);
 				}
 			}
 
-			setState(389); match(Interface);
+			setState(389);
+			match(Interface);
 			setState(391);
 			switch ( getInterpreter().adaptivePredict(_input,80,_ctx) ) {
 			case 1:
 				{
-				setState(390); match(WS);
+				setState(390);
+				match(WS);
 				}
 				break;
 			}
@@ -1564,7 +1749,8 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==Identifier) {
 				{
-				setState(393); match(Identifier);
+				setState(393);
+				match(Identifier);
 				}
 			}
 
@@ -1572,7 +1758,8 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,82,_ctx) ) {
 			case 1:
 				{
-				setState(396); match(WS);
+				setState(396);
+				match(WS);
 				}
 				break;
 			}
@@ -1580,7 +1767,8 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==OperatorOverload) {
 				{
-				setState(399); match(OperatorOverload);
+				setState(399);
+				match(OperatorOverload);
 				}
 			}
 
@@ -1588,15 +1776,17 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(402); match(WS);
+				setState(402);
+				match(WS);
 				}
 			}
 
-			setState(405); match(Newline);
+			setState(405);
+			match(Newline);
 			setState(438);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,93,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					setState(436);
@@ -1607,7 +1797,8 @@ public class fplusParser extends Parser {
 						switch ( getInterpreter().adaptivePredict(_input,85,_ctx) ) {
 						case 1:
 							{
-							setState(406); match(WS);
+							setState(406);
+							match(WS);
 							}
 							break;
 						}
@@ -1615,7 +1806,8 @@ public class fplusParser extends Parser {
 						_la = _input.LA(1);
 						if (_la==Module) {
 							{
-							setState(409); match(Module);
+							setState(409);
+							match(Module);
 							}
 						}
 
@@ -1623,17 +1815,21 @@ public class fplusParser extends Parser {
 						_la = _input.LA(1);
 						if (_la==WS) {
 							{
-							setState(412); match(WS);
+							setState(412);
+							match(WS);
 							}
 						}
 
-						setState(415); match(Procedure);
-						setState(416); match(WS);
-						setState(417); match(Identifier);
+						setState(415);
+						match(Procedure);
+						setState(416);
+						match(WS);
+						setState(417);
+						match(Identifier);
 						setState(428);
 						_errHandler.sync(this);
 						_alt = getInterpreter().adaptivePredict(_input,90,_ctx);
-						while ( _alt!=2 && _alt!=-1 ) {
+						while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 							if ( _alt==1 ) {
 								{
 								{
@@ -1641,20 +1837,24 @@ public class fplusParser extends Parser {
 								_la = _input.LA(1);
 								if (_la==WS) {
 									{
-									setState(418); match(WS);
+									setState(418);
+									match(WS);
 									}
 								}
 
-								setState(421); match(Comma);
+								setState(421);
+								match(Comma);
 								setState(423);
 								_la = _input.LA(1);
 								if (_la==WS) {
 									{
-									setState(422); match(WS);
+									setState(422);
+									match(WS);
 									}
 								}
 
-								setState(425); match(Identifier);
+								setState(425);
+								match(Identifier);
 								}
 								} 
 							}
@@ -1666,17 +1866,19 @@ public class fplusParser extends Parser {
 						_la = _input.LA(1);
 						if (_la==WS) {
 							{
-							setState(431); match(WS);
+							setState(431);
+							match(WS);
 							}
 						}
 
-						setState(434); match(Newline);
+						setState(434);
+						match(Newline);
 						}
 						break;
-
 					case 2:
 						{
-						setState(435); procedureBlock();
+						setState(435);
+						procedureBlock();
 						}
 						break;
 					}
@@ -1690,18 +1892,23 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(441); match(WS);
+				setState(441);
+				match(WS);
 				}
 			}
 
-			setState(444); match(End);
-			setState(445); match(WS);
-			setState(446); match(Interface);
+			setState(444);
+			match(End);
+			setState(445);
+			match(WS);
+			setState(446);
+			match(Interface);
 			setState(448);
 			switch ( getInterpreter().adaptivePredict(_input,95,_ctx) ) {
 			case 1:
 				{
-				setState(447); match(WS);
+				setState(447);
+				match(WS);
 				}
 				break;
 			}
@@ -1709,7 +1916,8 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==Identifier) {
 				{
-				setState(450); match(Identifier);
+				setState(450);
+				match(Identifier);
 				}
 			}
 
@@ -1717,11 +1925,13 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(453); match(WS);
+				setState(453);
+				match(WS);
 				}
 			}
 
-			setState(456); match(Newline);
+			setState(456);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1736,17 +1946,17 @@ public class fplusParser extends Parser {
 	}
 
 	public static class TypeAttributesContext extends ParserRuleContext {
-		public TerminalNode Extends() { return getToken(fplusParser.Extends, 0); }
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public TerminalNode Public() { return getToken(fplusParser.Public, 0); }
-		public TerminalNode Identifier() { return getToken(fplusParser.Identifier, 0); }
-		public TerminalNode Sequence() { return getToken(fplusParser.Sequence, 0); }
 		public TerminalNode Private() { return getToken(fplusParser.Private, 0); }
+		public TerminalNode Public() { return getToken(fplusParser.Public, 0); }
+		public TerminalNode Sequence() { return getToken(fplusParser.Sequence, 0); }
 		public TerminalNode Abstract() { return getToken(fplusParser.Abstract, 0); }
+		public TerminalNode Identifier() { return getToken(fplusParser.Identifier, 0); }
+		public TerminalNode Extends() { return getToken(fplusParser.Extends, 0); }
+		public TerminalNode Bind() { return getToken(fplusParser.Bind, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
 		}
-		public TerminalNode Bind() { return getToken(fplusParser.Bind, 0); }
 		public TypeAttributesContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -1783,8 +1993,9 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Private) | (1L << Public) | (1L << Sequence) | (1L << Abstract))) != 0)) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
 				}
 				break;
 			case Extends:
@@ -1795,35 +2006,42 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if ( !(_la==Extends || _la==Bind) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
 				setState(461);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(460); match(WS);
+					setState(460);
+					match(WS);
 					}
 				}
 
-				setState(463); match(LeftParen);
+				setState(463);
+				match(LeftParen);
 				setState(465);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(464); match(WS);
+					setState(464);
+					match(WS);
 					}
 				}
 
-				setState(467); match(Identifier);
+				setState(467);
+				match(Identifier);
 				setState(469);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(468); match(WS);
+					setState(468);
+					match(WS);
 					}
 				}
 
-				setState(471); match(RightParen);
+				setState(471);
+				match(RightParen);
 				}
 				break;
 			default:
@@ -1842,25 +2060,25 @@ public class fplusParser extends Parser {
 	}
 
 	public static class GenericTypeBoundLineContext extends ParserRuleContext {
-		public TerminalNode Newline() { return getToken(fplusParser.Newline, 0); }
-		public List<TerminalNode> Public() { return getTokens(fplusParser.Public); }
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public TerminalNode Public(int i) {
-			return getToken(fplusParser.Public, i);
-		}
-		public TerminalNode Generic() { return getToken(fplusParser.Generic, 0); }
 		public TerminalNode Prefix() { return getToken(fplusParser.Prefix, 0); }
-		public TerminalNode Identifier(int i) {
-			return getToken(fplusParser.Identifier, i);
-		}
-		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
-		public List<TerminalNode> Private() { return getTokens(fplusParser.Private); }
-		public TerminalNode AssignPointer() { return getToken(fplusParser.AssignPointer, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
 		}
+		public TerminalNode Generic() { return getToken(fplusParser.Generic, 0); }
+		public List<TerminalNode> Identifier() { return getTokens(fplusParser.Identifier); }
+		public TerminalNode Identifier(int i) {
+			return getToken(fplusParser.Identifier, i);
+		}
+		public TerminalNode AssignPointer() { return getToken(fplusParser.AssignPointer, 0); }
+		public TerminalNode Newline() { return getToken(fplusParser.Newline, 0); }
+		public List<TerminalNode> Private() { return getTokens(fplusParser.Private); }
 		public TerminalNode Private(int i) {
 			return getToken(fplusParser.Private, i);
+		}
+		public List<TerminalNode> Public() { return getTokens(fplusParser.Public); }
+		public TerminalNode Public(int i) {
+			return getToken(fplusParser.Public, i);
 		}
 		public GenericTypeBoundLineContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -1893,25 +2111,30 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(474); match(WS);
+				setState(474);
+				match(WS);
 				}
 			}
 
-			setState(477); match(Prefix);
-			setState(478); match(WS);
-			setState(479); match(Generic);
+			setState(477);
+			match(Prefix);
+			setState(478);
+			match(WS);
+			setState(479);
+			match(Generic);
 			setState(481);
 			switch ( getInterpreter().adaptivePredict(_input,103,_ctx) ) {
 			case 1:
 				{
-				setState(480); match(WS);
+				setState(480);
+				match(WS);
 				}
 				break;
 			}
 			setState(493);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,106,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
@@ -1919,16 +2142,19 @@ public class fplusParser extends Parser {
 					_la = _input.LA(1);
 					if (_la==WS) {
 						{
-						setState(483); match(WS);
+						setState(483);
+						match(WS);
 						}
 					}
 
-					setState(486); match(Comma);
+					setState(486);
+					match(Comma);
 					setState(488);
 					_la = _input.LA(1);
 					if (_la==WS) {
 						{
-						setState(487); match(WS);
+						setState(487);
+						match(WS);
 						}
 					}
 
@@ -1936,8 +2162,9 @@ public class fplusParser extends Parser {
 					_la = _input.LA(1);
 					if ( !(_la==Private || _la==Public) ) {
 					_errHandler.recoverInline(this);
+					} else {
+						consume();
 					}
-					consume();
 					}
 					} 
 				}
@@ -1949,48 +2176,59 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(496); match(WS);
+				setState(496);
+				match(WS);
 				}
 			}
 
-			setState(499); match(Colon);
-			setState(500); match(Colon);
+			setState(499);
+			match(Colon);
+			setState(500);
+			match(Colon);
 			setState(502);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(501); match(WS);
+				setState(501);
+				match(WS);
 				}
 			}
 
-			setState(504); match(Identifier);
+			setState(504);
+			match(Identifier);
 			setState(506);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(505); match(WS);
+				setState(505);
+				match(WS);
 				}
 			}
 
-			setState(508); match(AssignPointer);
+			setState(508);
+			match(AssignPointer);
 			setState(510);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(509); match(WS);
+				setState(509);
+				match(WS);
 				}
 			}
 
-			setState(512); match(Identifier);
+			setState(512);
+			match(Identifier);
 			setState(514);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(513); match(WS);
+				setState(513);
+				match(WS);
 				}
 			}
 
-			setState(516); match(Newline);
+			setState(516);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2005,16 +2243,16 @@ public class fplusParser extends Parser {
 	}
 
 	public static class InterfaceLineContext extends ParserRuleContext {
-		public TerminalNode Newline() { return getToken(fplusParser.Newline, 0); }
-		public TerminalNode OperatorOverload() { return getToken(fplusParser.OperatorOverload, 0); }
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public TerminalNode Template() { return getToken(fplusParser.Template, 0); }
 		public TerminalNode Prefix() { return getToken(fplusParser.Prefix, 0); }
-		public TerminalNode Identifier() { return getToken(fplusParser.Identifier, 0); }
-		public TerminalNode Interface() { return getToken(fplusParser.Interface, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
 		}
+		public TerminalNode Interface() { return getToken(fplusParser.Interface, 0); }
+		public TerminalNode Template() { return getToken(fplusParser.Template, 0); }
+		public TerminalNode Identifier() { return getToken(fplusParser.Identifier, 0); }
+		public TerminalNode Newline() { return getToken(fplusParser.Newline, 0); }
+		public TerminalNode OperatorOverload() { return getToken(fplusParser.OperatorOverload, 0); }
 		public InterfaceLineContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2045,22 +2283,31 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(518); match(WS);
+				setState(518);
+				match(WS);
 				}
 			}
 
-			setState(521); match(Prefix);
-			setState(522); match(WS);
-			setState(523); match(Interface);
-			setState(524); match(WS);
-			setState(525); match(Template);
-			setState(526); match(WS);
-			setState(527); match(Identifier);
+			setState(521);
+			match(Prefix);
+			setState(522);
+			match(WS);
+			setState(523);
+			match(Interface);
+			setState(524);
+			match(WS);
+			setState(525);
+			match(Template);
+			setState(526);
+			match(WS);
+			setState(527);
+			match(Identifier);
 			setState(529);
 			switch ( getInterpreter().adaptivePredict(_input,113,_ctx) ) {
 			case 1:
 				{
-				setState(528); match(WS);
+				setState(528);
+				match(WS);
 				}
 				break;
 			}
@@ -2068,7 +2315,8 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==OperatorOverload) {
 				{
-				setState(531); match(OperatorOverload);
+				setState(531);
+				match(OperatorOverload);
 				}
 			}
 
@@ -2076,11 +2324,13 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(534); match(WS);
+				setState(534);
+				match(WS);
 				}
 			}
 
-			setState(537); match(Newline);
+			setState(537);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2095,15 +2345,15 @@ public class fplusParser extends Parser {
 	}
 
 	public static class ListContext extends ParserRuleContext {
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public List<ListItemContext> listItem() {
 			return getRuleContexts(ListItemContext.class);
 		}
-		public TerminalNode WS(int i) {
-			return getToken(fplusParser.WS, i);
-		}
 		public ListItemContext listItem(int i) {
 			return getRuleContext(ListItemContext.class,i);
+		}
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
+		public TerminalNode WS(int i) {
+			return getToken(fplusParser.WS, i);
 		}
 		public ListContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2131,16 +2381,19 @@ public class fplusParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(539); listItem();
+			setState(539);
+			listItem();
 			setState(544);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,116,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					{
 					{
-					setState(540); match(WS);
-					setState(541); listItem();
+					setState(540);
+					match(WS);
+					setState(541);
+					listItem();
 					}
 					} 
 				}
@@ -2196,11 +2449,12 @@ public class fplusParser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(547); match(LeftBrace);
+				setState(547);
+				match(LeftBrace);
 				setState(551);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,117,_ctx);
-				while ( _alt!=1 && _alt!=-1 ) {
+				while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 					if ( _alt==1+1 ) {
 						{
 						{
@@ -2208,8 +2462,9 @@ public class fplusParser extends Parser {
 						_la = _input.LA(1);
 						if ( _la <= 0 || (_la==Newline) ) {
 						_errHandler.recoverInline(this);
+						} else {
+							consume();
 						}
-						consume();
 						}
 						} 
 					}
@@ -2217,10 +2472,10 @@ public class fplusParser extends Parser {
 					_errHandler.sync(this);
 					_alt = getInterpreter().adaptivePredict(_input,117,_ctx);
 				}
-				setState(554); match(RightBrace);
+				setState(554);
+				match(RightBrace);
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
@@ -2228,8 +2483,9 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if ( _la <= 0 || (_la==Newline) ) {
 				_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
 				}
 				break;
 			}
@@ -2246,17 +2502,17 @@ public class fplusParser extends Parser {
 	}
 
 	public static class ListAssignmentContext extends ParserRuleContext {
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public ListContext list() {
-			return getRuleContext(ListContext.class,0);
-		}
-		public List<TerminalNode> IntegerConstant() { return getTokens(fplusParser.IntegerConstant); }
 		public TerminalNode Identifier() { return getToken(fplusParser.Identifier, 0); }
+		public List<TerminalNode> IntegerConstant() { return getTokens(fplusParser.IntegerConstant); }
 		public TerminalNode IntegerConstant(int i) {
 			return getToken(fplusParser.IntegerConstant, i);
 		}
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
+		}
+		public ListContext list() {
+			return getRuleContext(ListContext.class,0);
 		}
 		public ListAssignmentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2287,68 +2543,81 @@ public class fplusParser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(558); match(Identifier);
+				setState(558);
+				match(Identifier);
 				setState(560);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(559); match(WS);
+					setState(559);
+					match(WS);
 					}
 				}
 
-				setState(562); match(Assign);
+				setState(562);
+				match(Assign);
 				setState(564);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(563); match(WS);
+					setState(563);
+					match(WS);
 					}
 				}
 
-				setState(566); match(IntegerConstant);
+				setState(566);
+				match(IntegerConstant);
 				setState(568);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(567); match(WS);
+					setState(567);
+					match(WS);
 					}
 				}
 
-				setState(570); match(Comma);
+				setState(570);
+				match(Comma);
 				setState(572);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(571); match(WS);
+					setState(571);
+					match(WS);
 					}
 				}
 
-				setState(574); match(IntegerConstant);
+				setState(574);
+				match(IntegerConstant);
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(575); match(Identifier);
+				setState(575);
+				match(Identifier);
 				setState(577);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(576); match(WS);
+					setState(576);
+					match(WS);
 					}
 				}
 
-				setState(579); match(Assign);
+				setState(579);
+				match(Assign);
 				setState(581);
 				switch ( getInterpreter().adaptivePredict(_input,124,_ctx) ) {
 				case 1:
 					{
-					setState(580); match(WS);
+					setState(580);
+					match(WS);
 					}
 					break;
 				}
-				setState(583); list();
+				setState(583);
+				list();
 				}
 				break;
 			}
@@ -2365,11 +2634,11 @@ public class fplusParser extends Parser {
 	}
 
 	public static class IfStatementContext extends ParserRuleContext {
-		public IfSingleLineContext ifSingleLine() {
-			return getRuleContext(IfSingleLineContext.class,0);
-		}
 		public IfBlockContext ifBlock() {
 			return getRuleContext(IfBlockContext.class,0);
+		}
+		public IfSingleLineContext ifSingleLine() {
+			return getRuleContext(IfSingleLineContext.class,0);
 		}
 		public IfStatementContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2399,14 +2668,15 @@ public class fplusParser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(586); ifBlock();
+				setState(586);
+				ifBlock();
 				}
 				break;
-
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(587); ifSingleLine();
+				setState(587);
+				ifSingleLine();
 				}
 				break;
 			}
@@ -2423,14 +2693,14 @@ public class fplusParser extends Parser {
 	}
 
 	public static class IfSingleLineContext extends ParserRuleContext {
-		public LogicalExprContext logicalExpr() {
-			return getRuleContext(LogicalExprContext.class,0);
-		}
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public TerminalNode If() { return getToken(fplusParser.If, 0); }
 		public TerminalNode Prefix() { return getToken(fplusParser.Prefix, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
+		}
+		public TerminalNode If() { return getToken(fplusParser.If, 0); }
+		public LogicalExprContext logicalExpr() {
+			return getRuleContext(LogicalExprContext.class,0);
 		}
 		public ContentLineContext contentLine() {
 			return getRuleContext(ContentLineContext.class,0);
@@ -2465,49 +2735,61 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(590); match(WS);
+				setState(590);
+				match(WS);
 				}
 			}
 
-			setState(593); match(Prefix);
-			setState(594); match(WS);
-			setState(595); match(If);
+			setState(593);
+			match(Prefix);
+			setState(594);
+			match(WS);
+			setState(595);
+			match(If);
 			setState(597);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(596); match(WS);
+				setState(596);
+				match(WS);
 				}
 			}
 
-			setState(599); match(LeftParen);
+			setState(599);
+			match(LeftParen);
 			setState(601);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(600); match(WS);
+				setState(600);
+				match(WS);
 				}
 			}
 
-			setState(603); logicalExpr(0);
+			setState(603);
+			logicalExpr(0);
 			setState(605);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(604); match(WS);
+				setState(604);
+				match(WS);
 				}
 			}
 
-			setState(607); match(RightParen);
+			setState(607);
+			match(RightParen);
 			setState(609);
 			switch ( getInterpreter().adaptivePredict(_input,131,_ctx) ) {
 			case 1:
 				{
-				setState(608); match(WS);
+				setState(608);
+				match(WS);
 				}
 				break;
 			}
-			setState(611); contentLine();
+			setState(611);
+			contentLine();
 			}
 		}
 		catch (RecognitionException re) {
@@ -2522,14 +2804,25 @@ public class fplusParser extends Parser {
 	}
 
 	public static class IfBlockContext extends ParserRuleContext {
+		public List<TerminalNode> Prefix() { return getTokens(fplusParser.Prefix); }
+		public TerminalNode Prefix(int i) {
+			return getToken(fplusParser.Prefix, i);
+		}
 		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
+		public TerminalNode WS(int i) {
+			return getToken(fplusParser.WS, i);
+		}
+		public List<TerminalNode> If() { return getTokens(fplusParser.If); }
 		public TerminalNode If(int i) {
 			return getToken(fplusParser.If, i);
 		}
-		public TerminalNode Else() { return getToken(fplusParser.Else, 0); }
-		public List<TerminalNode> If() { return getTokens(fplusParser.If); }
-		public TerminalNode WS(int i) {
-			return getToken(fplusParser.WS, i);
+		public LogicalExprContext logicalExpr() {
+			return getRuleContext(LogicalExprContext.class,0);
+		}
+		public TerminalNode Then() { return getToken(fplusParser.Then, 0); }
+		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
+		public TerminalNode Newline(int i) {
+			return getToken(fplusParser.Newline, i);
 		}
 		public List<ContentBlockContext> contentBlock() {
 			return getRuleContexts(ContentBlockContext.class);
@@ -2537,19 +2830,8 @@ public class fplusParser extends Parser {
 		public ContentBlockContext contentBlock(int i) {
 			return getRuleContext(ContentBlockContext.class,i);
 		}
-		public LogicalExprContext logicalExpr() {
-			return getRuleContext(LogicalExprContext.class,0);
-		}
-		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
-		public TerminalNode Newline(int i) {
-			return getToken(fplusParser.Newline, i);
-		}
 		public TerminalNode End() { return getToken(fplusParser.End, 0); }
-		public List<TerminalNode> Prefix() { return getTokens(fplusParser.Prefix); }
-		public TerminalNode Prefix(int i) {
-			return getToken(fplusParser.Prefix, i);
-		}
-		public TerminalNode Then() { return getToken(fplusParser.Then, 0); }
+		public TerminalNode Else() { return getToken(fplusParser.Else, 0); }
 		public IfBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -2580,59 +2862,74 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(613); match(WS);
+				setState(613);
+				match(WS);
 				}
 			}
 
-			setState(616); match(Prefix);
-			setState(617); match(WS);
-			setState(618); match(If);
+			setState(616);
+			match(Prefix);
+			setState(617);
+			match(WS);
+			setState(618);
+			match(If);
 			setState(620);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(619); match(WS);
+				setState(619);
+				match(WS);
 				}
 			}
 
-			setState(622); match(LeftParen);
+			setState(622);
+			match(LeftParen);
 			setState(624);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(623); match(WS);
+				setState(623);
+				match(WS);
 				}
 			}
 
-			setState(626); logicalExpr(0);
+			setState(626);
+			logicalExpr(0);
 			setState(628);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(627); match(WS);
+				setState(627);
+				match(WS);
 				}
 			}
 
-			setState(630); match(RightParen);
+			setState(630);
+			match(RightParen);
 			setState(632);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(631); match(WS);
+				setState(631);
+				match(WS);
 				}
 			}
 
-			setState(634); match(Then);
+			setState(634);
+			match(Then);
 			setState(636);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(635); match(WS);
+				setState(635);
+				match(WS);
 				}
 			}
 
-			setState(638); match(Newline);
-			setState(639); contentBlock();
+			setState(638);
+			match(Newline);
+			setState(639);
+			contentBlock();
 			setState(651);
 			switch ( getInterpreter().adaptivePredict(_input,140,_ctx) ) {
 			case 1:
@@ -2641,23 +2938,30 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(640); match(WS);
+					setState(640);
+					match(WS);
 					}
 				}
 
-				setState(643); match(Prefix);
-				setState(644); match(WS);
-				setState(645); match(Else);
+				setState(643);
+				match(Prefix);
+				setState(644);
+				match(WS);
+				setState(645);
+				match(Else);
 				setState(647);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(646); match(WS);
+					setState(646);
+					match(WS);
 					}
 				}
 
-				setState(649); match(Newline);
-				setState(650); contentBlock();
+				setState(649);
+				match(Newline);
+				setState(650);
+				contentBlock();
 				}
 				break;
 			}
@@ -2665,24 +2969,32 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(653); match(WS);
+				setState(653);
+				match(WS);
 				}
 			}
 
-			setState(656); match(Prefix);
-			setState(657); match(WS);
-			setState(658); match(End);
-			setState(659); match(WS);
-			setState(660); match(If);
+			setState(656);
+			match(Prefix);
+			setState(657);
+			match(WS);
+			setState(658);
+			match(End);
+			setState(659);
+			match(WS);
+			setState(660);
+			match(If);
 			setState(662);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(661); match(WS);
+				setState(661);
+				match(WS);
 				}
 			}
 
-			setState(664); match(Newline);
+			setState(664);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -2697,59 +3009,59 @@ public class fplusParser extends Parser {
 	}
 
 	public static class ContentBlockContext extends ParserRuleContext {
-		public TemplateBlockContext templateBlock(int i) {
-			return getRuleContext(TemplateBlockContext.class,i);
-		}
-		public List<IfStatementContext> ifStatement() {
-			return getRuleContexts(IfStatementContext.class);
-		}
-		public ContentLineContext contentLine(int i) {
-			return getRuleContext(ContentLineContext.class,i);
+		public List<LoopBlockContext> loopBlock() {
+			return getRuleContexts(LoopBlockContext.class);
 		}
 		public LoopBlockContext loopBlock(int i) {
 			return getRuleContext(LoopBlockContext.class,i);
 		}
-		public FortranInterfaceBlockContext fortranInterfaceBlock(int i) {
-			return getRuleContext(FortranInterfaceBlockContext.class,i);
-		}
 		public List<TemplateBlockContext> templateBlock() {
 			return getRuleContexts(TemplateBlockContext.class);
 		}
-		public ProcedureBlockContext procedureBlock(int i) {
-			return getRuleContext(ProcedureBlockContext.class,i);
-		}
-		public TypeDefinitionBlockContext typeDefinitionBlock(int i) {
-			return getRuleContext(TypeDefinitionBlockContext.class,i);
-		}
-		public List<ProcedureBlockContext> procedureBlock() {
-			return getRuleContexts(ProcedureBlockContext.class);
+		public TemplateBlockContext templateBlock(int i) {
+			return getRuleContext(TemplateBlockContext.class,i);
 		}
 		public List<VariableDefinitionContext> variableDefinition() {
 			return getRuleContexts(VariableDefinitionContext.class);
 		}
+		public VariableDefinitionContext variableDefinition(int i) {
+			return getRuleContext(VariableDefinitionContext.class,i);
+		}
+		public List<IfStatementContext> ifStatement() {
+			return getRuleContexts(IfStatementContext.class);
+		}
 		public IfStatementContext ifStatement(int i) {
 			return getRuleContext(IfStatementContext.class,i);
+		}
+		public List<ProcedureBlockContext> procedureBlock() {
+			return getRuleContexts(ProcedureBlockContext.class);
+		}
+		public ProcedureBlockContext procedureBlock(int i) {
+			return getRuleContext(ProcedureBlockContext.class,i);
 		}
 		public List<TypeDefinitionBlockContext> typeDefinitionBlock() {
 			return getRuleContexts(TypeDefinitionBlockContext.class);
 		}
-		public List<LineCommentContext> lineComment() {
-			return getRuleContexts(LineCommentContext.class);
+		public TypeDefinitionBlockContext typeDefinitionBlock(int i) {
+			return getRuleContext(TypeDefinitionBlockContext.class,i);
 		}
 		public List<FortranInterfaceBlockContext> fortranInterfaceBlock() {
 			return getRuleContexts(FortranInterfaceBlockContext.class);
 		}
-		public VariableDefinitionContext variableDefinition(int i) {
-			return getRuleContext(VariableDefinitionContext.class,i);
+		public FortranInterfaceBlockContext fortranInterfaceBlock(int i) {
+			return getRuleContext(FortranInterfaceBlockContext.class,i);
 		}
-		public List<LoopBlockContext> loopBlock() {
-			return getRuleContexts(LoopBlockContext.class);
+		public List<LineCommentContext> lineComment() {
+			return getRuleContexts(LineCommentContext.class);
+		}
+		public LineCommentContext lineComment(int i) {
+			return getRuleContext(LineCommentContext.class,i);
 		}
 		public List<ContentLineContext> contentLine() {
 			return getRuleContexts(ContentLineContext.class);
 		}
-		public LineCommentContext lineComment(int i) {
-			return getRuleContext(LineCommentContext.class,i);
+		public ContentLineContext contentLine(int i) {
+			return getRuleContext(ContentLineContext.class,i);
 		}
 		public ContentBlockContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2779,7 +3091,7 @@ public class fplusParser extends Parser {
 			{
 			setState(675); 
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,144,_ctx);
+			_alt = 1;
 			do {
 				switch (_alt) {
 				case 1:
@@ -2788,55 +3100,56 @@ public class fplusParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,143,_ctx) ) {
 					case 1:
 						{
-						setState(666); loopBlock();
+						setState(666);
+						loopBlock();
 						}
 						break;
-
 					case 2:
 						{
-						setState(667); templateBlock();
+						setState(667);
+						templateBlock();
 						}
 						break;
-
 					case 3:
 						{
-						setState(668); variableDefinition();
+						setState(668);
+						variableDefinition();
 						}
 						break;
-
 					case 4:
 						{
-						setState(669); ifStatement();
+						setState(669);
+						ifStatement();
 						}
 						break;
-
 					case 5:
 						{
-						setState(670); procedureBlock();
+						setState(670);
+						procedureBlock();
 						}
 						break;
-
 					case 6:
 						{
-						setState(671); typeDefinitionBlock();
+						setState(671);
+						typeDefinitionBlock();
 						}
 						break;
-
 					case 7:
 						{
-						setState(672); fortranInterfaceBlock();
+						setState(672);
+						fortranInterfaceBlock();
 						}
 						break;
-
 					case 8:
 						{
-						setState(673); lineComment();
+						setState(673);
+						lineComment();
 						}
 						break;
-
 					case 9:
 						{
-						setState(674); contentLine();
+						setState(674);
+						contentLine();
 						}
 						break;
 					}
@@ -2848,7 +3161,7 @@ public class fplusParser extends Parser {
 				setState(677); 
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,144,_ctx);
-			} while ( _alt!=2 && _alt!=-1 );
+			} while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER );
 			}
 		}
 		catch (RecognitionException re) {
@@ -2863,40 +3176,40 @@ public class fplusParser extends Parser {
 	}
 
 	public static class ContentLineContext extends ParserRuleContext {
-		public List<TerminalNode> Subroutine() { return getTokens(fplusParser.Subroutine); }
-		public TerminalNode WS() { return getToken(fplusParser.WS, 0); }
-		public List<TerminalNode> Function() { return getTokens(fplusParser.Function); }
-		public List<TerminalNode> Contains() { return getTokens(fplusParser.Contains); }
-		public List<TerminalNode> Module() { return getTokens(fplusParser.Module); }
-		public TerminalNode Program(int i) {
-			return getToken(fplusParser.Program, i);
+		public TerminalNode Newline() { return getToken(fplusParser.Newline, 0); }
+		public LineCommentContext lineComment() {
+			return getRuleContext(LineCommentContext.class,0);
 		}
+		public TerminalNode WS() { return getToken(fplusParser.WS, 0); }
 		public List<PlaceholderContext> placeholder() {
 			return getRuleContexts(PlaceholderContext.class);
 		}
-		public TerminalNode Newline() { return getToken(fplusParser.Newline, 0); }
-		public List<TerminalNode> Program() { return getTokens(fplusParser.Program); }
-		public TerminalNode Module(int i) {
-			return getToken(fplusParser.Module, i);
-		}
-		public TerminalNode Contains(int i) {
-			return getToken(fplusParser.Contains, i);
+		public PlaceholderContext placeholder(int i) {
+			return getRuleContext(PlaceholderContext.class,i);
 		}
 		public List<TerminalNode> Prefix() { return getTokens(fplusParser.Prefix); }
 		public TerminalNode Prefix(int i) {
 			return getToken(fplusParser.Prefix, i);
 		}
-		public LineCommentContext lineComment() {
-			return getRuleContext(LineCommentContext.class,0);
+		public List<TerminalNode> Subroutine() { return getTokens(fplusParser.Subroutine); }
+		public TerminalNode Subroutine(int i) {
+			return getToken(fplusParser.Subroutine, i);
 		}
-		public PlaceholderContext placeholder(int i) {
-			return getRuleContext(PlaceholderContext.class,i);
-		}
+		public List<TerminalNode> Function() { return getTokens(fplusParser.Function); }
 		public TerminalNode Function(int i) {
 			return getToken(fplusParser.Function, i);
 		}
-		public TerminalNode Subroutine(int i) {
-			return getToken(fplusParser.Subroutine, i);
+		public List<TerminalNode> Contains() { return getTokens(fplusParser.Contains); }
+		public TerminalNode Contains(int i) {
+			return getToken(fplusParser.Contains, i);
+		}
+		public List<TerminalNode> Module() { return getTokens(fplusParser.Module); }
+		public TerminalNode Module(int i) {
+			return getToken(fplusParser.Module, i);
+		}
+		public List<TerminalNode> Program() { return getTokens(fplusParser.Program); }
+		public TerminalNode Program(int i) {
+			return getToken(fplusParser.Program, i);
 		}
 		public ContentLineContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -2929,32 +3242,34 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,145,_ctx) ) {
 			case 1:
 				{
-				setState(679); match(WS);
+				setState(679);
+				match(WS);
 				}
 				break;
 			}
 			setState(686);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,147,_ctx);
-			while ( _alt!=1 && _alt!=-1 ) {
+			while ( _alt!=1 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1+1 ) {
 					{
 					setState(684);
 					switch ( getInterpreter().adaptivePredict(_input,146,_ctx) ) {
 					case 1:
 						{
-						setState(682); placeholder();
+						setState(682);
+						placeholder();
 						}
 						break;
-
 					case 2:
 						{
 						setState(683);
 						_la = _input.LA(1);
 						if ( _la <= 0 || ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Prefix) | (1L << Program) | (1L << Module) | (1L << Contains) | (1L << Function) | (1L << Subroutine))) != 0)) ) {
 						_errHandler.recoverInline(this);
+						} else {
+							consume();
 						}
-						consume();
 						}
 						break;
 					}
@@ -2968,13 +3283,15 @@ public class fplusParser extends Parser {
 			switch (_input.LA(1)) {
 			case Newline:
 				{
-				setState(689); match(Newline);
+				setState(689);
+				match(Newline);
 				}
 				break;
 			case Exclamation:
 			case WS:
 				{
-				setState(690); lineComment();
+				setState(690);
+				lineComment();
 				}
 				break;
 			default:
@@ -2994,13 +3311,13 @@ public class fplusParser extends Parser {
 	}
 
 	public static class PlaceholderContext extends ParserRuleContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
 		public LogicalExprContext logicalExpr() {
 			return getRuleContext(LogicalExprContext.class,0);
 		}
 		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public ExprContext expr() {
-			return getRuleContext(ExprContext.class,0);
-		}
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
 		}
@@ -3030,13 +3347,16 @@ public class fplusParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(693); match(Dollar);
-			setState(694); match(LeftBrace);
+			setState(693);
+			match(Dollar);
+			setState(694);
+			match(LeftBrace);
 			setState(696);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(695); match(WS);
+				setState(695);
+				match(WS);
 				}
 			}
 
@@ -3044,13 +3364,14 @@ public class fplusParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,150,_ctx) ) {
 			case 1:
 				{
-				setState(698); expr(0);
+				setState(698);
+				expr(0);
 				}
 				break;
-
 			case 2:
 				{
-				setState(699); logicalExpr(0);
+				setState(699);
+				logicalExpr(0);
 				}
 				break;
 			}
@@ -3058,11 +3379,13 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(702); match(WS);
+				setState(702);
+				match(WS);
 				}
 			}
 
-			setState(705); match(RightBrace);
+			setState(705);
+			match(RightBrace);
 			}
 		}
 		catch (RecognitionException re) {
@@ -3077,15 +3400,15 @@ public class fplusParser extends Parser {
 	}
 
 	public static class VariableDefinitionContext extends ParserRuleContext {
-		public TerminalNode Newline() { return getToken(fplusParser.Newline, 0); }
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public ListAssignmentContext listAssignment() {
-			return getRuleContext(ListAssignmentContext.class,0);
-		}
 		public TerminalNode Prefix() { return getToken(fplusParser.Prefix, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
 		}
+		public ListAssignmentContext listAssignment() {
+			return getRuleContext(ListAssignmentContext.class,0);
+		}
+		public TerminalNode Newline() { return getToken(fplusParser.Newline, 0); }
 		public VariableDefinitionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -3116,22 +3439,28 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(707); match(WS);
+				setState(707);
+				match(WS);
 				}
 			}
 
-			setState(710); match(Prefix);
-			setState(711); match(WS);
-			setState(712); listAssignment();
+			setState(710);
+			match(Prefix);
+			setState(711);
+			match(WS);
+			setState(712);
+			listAssignment();
 			setState(714);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(713); match(WS);
+				setState(713);
+				match(WS);
 				}
 			}
 
-			setState(716); match(Newline);
+			setState(716);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -3147,15 +3476,15 @@ public class fplusParser extends Parser {
 
 	public static class LineCommentContext extends ParserRuleContext {
 		public List<TerminalNode> Newline() { return getTokens(fplusParser.Newline); }
-		public TerminalNode WS() { return getToken(fplusParser.WS, 0); }
 		public TerminalNode Newline(int i) {
 			return getToken(fplusParser.Newline, i);
 		}
-		public PlaceholderContext placeholder(int i) {
-			return getRuleContext(PlaceholderContext.class,i);
-		}
+		public TerminalNode WS() { return getToken(fplusParser.WS, 0); }
 		public List<PlaceholderContext> placeholder() {
 			return getRuleContexts(PlaceholderContext.class);
+		}
+		public PlaceholderContext placeholder(int i) {
+			return getRuleContext(PlaceholderContext.class,i);
 		}
 		public LineCommentContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
@@ -3187,17 +3516,20 @@ public class fplusParser extends Parser {
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(718); match(WS);
+				setState(718);
+				match(WS);
 				}
 			}
 
-			setState(721); match(Exclamation);
+			setState(721);
+			match(Exclamation);
 			setState(722);
 			_la = _input.LA(1);
 			if ( _la <= 0 || (_la==Dollar) ) {
 			_errHandler.recoverInline(this);
+			} else {
+				consume();
 			}
-			consume();
 			setState(727);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -3207,18 +3539,19 @@ public class fplusParser extends Parser {
 				switch ( getInterpreter().adaptivePredict(_input,155,_ctx) ) {
 				case 1:
 					{
-					setState(723); placeholder();
+					setState(723);
+					placeholder();
 					}
 					break;
-
 				case 2:
 					{
 					setState(724);
 					_la = _input.LA(1);
 					if ( _la <= 0 || (_la==Newline) ) {
 					_errHandler.recoverInline(this);
+					} else {
+						consume();
 					}
-					consume();
 					}
 					break;
 				}
@@ -3227,7 +3560,8 @@ public class fplusParser extends Parser {
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(730); match(Newline);
+			setState(730);
+			match(Newline);
 			}
 		}
 		catch (RecognitionException re) {
@@ -3242,18 +3576,68 @@ public class fplusParser extends Parser {
 	}
 
 	public static class ExprContext extends ParserRuleContext {
-		public int _p;
-		public ExprContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
-		public ExprContext(ParserRuleContext parent, int invokingState, int _p) {
+		public ExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
-			this._p = _p;
 		}
 		@Override public int getRuleIndex() { return RULE_expr; }
 	 
 		public ExprContext() { }
 		public void copyFrom(ExprContext ctx) {
 			super.copyFrom(ctx);
-			this._p = ctx._p;
+		}
+	}
+	public static class ExprAddSubContext extends ExprContext {
+		public Token op;
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
+		public TerminalNode WS(int i) {
+			return getToken(fplusParser.WS, i);
+		}
+		public ExprAddSubContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof fplusListener ) ((fplusListener)listener).enterExprAddSub(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitExprAddSub(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitExprAddSub(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ExprMulDivContext extends ExprContext {
+		public Token op;
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
+		public TerminalNode WS(int i) {
+			return getToken(fplusParser.WS, i);
+		}
+		public ExprMulDivContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof fplusListener ) ((fplusListener)listener).enterExprMulDiv(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitExprMulDiv(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitExprMulDiv(this);
+			else return visitor.visitChildren(this);
 		}
 	}
 	public static class ExprConstantsContext extends ExprContext {
@@ -3274,10 +3658,10 @@ public class fplusParser extends Parser {
 		}
 	}
 	public static class ExprParensContext extends ExprContext {
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
 		}
@@ -3296,66 +3680,12 @@ public class fplusParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class ExprMulDivContext extends ExprContext {
-		public Token op;
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public TerminalNode WS(int i) {
-			return getToken(fplusParser.WS, i);
-		}
-		public ExprMulDivContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof fplusListener ) ((fplusListener)listener).enterExprMulDiv(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitExprMulDiv(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitExprMulDiv(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class ExprAddSubContext extends ExprContext {
-		public Token op;
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public TerminalNode WS(int i) {
-			return getToken(fplusParser.WS, i);
-		}
-		public ExprAddSubContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof fplusListener ) ((fplusListener)listener).enterExprAddSub(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitExprAddSub(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitExprAddSub(this);
-			else return visitor.visitChildren(this);
-		}
-	}
 	public static class ExprArraySubscriptContext extends ExprContext {
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
+		public TerminalNode Identifier() { return getToken(fplusParser.Identifier, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
-		public TerminalNode Identifier() { return getToken(fplusParser.Identifier, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
 		}
@@ -3392,13 +3722,17 @@ public class fplusParser extends Parser {
 		}
 	}
 
-	public final ExprContext expr(int _p) throws RecognitionException {
+	public final ExprContext expr() throws RecognitionException {
+		return expr(0);
+	}
+
+	private ExprContext expr(int _p) throws RecognitionException {
 		ParserRuleContext _parentctx = _ctx;
 		int _parentState = getState();
-		ExprContext _localctx = new ExprContext(_ctx, _parentState, _p);
+		ExprContext _localctx = new ExprContext(_ctx, _parentState);
 		ExprContext _prevctx = _localctx;
 		int _startState = 50;
-		enterRecursionRule(_localctx, RULE_expr);
+		enterRecursionRule(_localctx, 50, RULE_expr, _p);
 		int _la;
 		try {
 			int _alt;
@@ -3412,79 +3746,90 @@ public class fplusParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(733); match(LeftParen);
+				setState(733);
+				match(LeftParen);
 				setState(735);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(734); match(WS);
+					setState(734);
+					match(WS);
 					}
 				}
 
-				setState(737); expr(0);
+				setState(737);
+				expr(0);
 				setState(739);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(738); match(WS);
+					setState(738);
+					match(WS);
 					}
 				}
 
-				setState(741); match(RightParen);
+				setState(741);
+				match(RightParen);
 				}
 				break;
-
 			case 2:
 				{
 				_localctx = new ExprConstantsContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(743); match(IntegerConstant);
+				setState(743);
+				match(IntegerConstant);
 				}
 				break;
-
 			case 3:
 				{
 				_localctx = new ExprArraySubscriptContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(744); match(Identifier);
+				setState(744);
+				match(Identifier);
 				setState(746);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(745); match(WS);
+					setState(745);
+					match(WS);
 					}
 				}
 
-				setState(748); match(LeftParen);
+				setState(748);
+				match(LeftParen);
 				setState(750);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(749); match(WS);
+					setState(749);
+					match(WS);
 					}
 				}
 
-				setState(752); expr(0);
+				setState(752);
+				expr(0);
 				setState(754);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(753); match(WS);
+					setState(753);
+					match(WS);
 					}
 				}
 
-				setState(756); match(RightParen);
+				setState(756);
+				match(RightParen);
 				}
 				break;
-
 			case 4:
 				{
 				_localctx = new ExprVariableContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(758); match(Identifier);
+				setState(758);
+				match(Identifier);
 				}
 				break;
 			}
@@ -3492,7 +3837,7 @@ public class fplusParser extends Parser {
 			setState(781);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,168,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
@@ -3501,15 +3846,16 @@ public class fplusParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,167,_ctx) ) {
 					case 1:
 						{
-						_localctx = new ExprMulDivContext(new ExprContext(_parentctx, _parentState, _p));
+						_localctx = new ExprMulDivContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(761);
-						if (!(6 >= _localctx._p)) throw new FailedPredicateException(this, "6 >= $_p");
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
 						setState(763);
 						_la = _input.LA(1);
 						if (_la==WS) {
 							{
-							setState(762); match(WS);
+							setState(762);
+							match(WS);
 							}
 						}
 
@@ -3518,31 +3864,34 @@ public class fplusParser extends Parser {
 						_la = _input.LA(1);
 						if ( !(_la==Star || _la==Slash) ) {
 							((ExprMulDivContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						} else {
+							consume();
 						}
-						consume();
 						setState(767);
 						_la = _input.LA(1);
 						if (_la==WS) {
 							{
-							setState(766); match(WS);
+							setState(766);
+							match(WS);
 							}
 						}
 
-						setState(769); expr(0);
+						setState(769);
+						expr(7);
 						}
 						break;
-
 					case 2:
 						{
-						_localctx = new ExprAddSubContext(new ExprContext(_parentctx, _parentState, _p));
+						_localctx = new ExprAddSubContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(770);
-						if (!(5 >= _localctx._p)) throw new FailedPredicateException(this, "5 >= $_p");
+						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
 						setState(772);
 						_la = _input.LA(1);
 						if (_la==WS) {
 							{
-							setState(771); match(WS);
+							setState(771);
+							match(WS);
 							}
 						}
 
@@ -3551,17 +3900,20 @@ public class fplusParser extends Parser {
 						_la = _input.LA(1);
 						if ( !(_la==Plus || _la==Minus) ) {
 							((ExprAddSubContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						} else {
+							consume();
 						}
-						consume();
 						setState(776);
 						_la = _input.LA(1);
 						if (_la==WS) {
 							{
-							setState(775); match(WS);
+							setState(775);
+							match(WS);
 							}
 						}
 
-						setState(778); expr(0);
+						setState(778);
+						expr(6);
 						}
 						break;
 					}
@@ -3585,26 +3937,22 @@ public class fplusParser extends Parser {
 	}
 
 	public static class LogicalExprContext extends ParserRuleContext {
-		public int _p;
-		public LogicalExprContext(ParserRuleContext parent, int invokingState) { super(parent, invokingState); }
-		public LogicalExprContext(ParserRuleContext parent, int invokingState, int _p) {
+		public LogicalExprContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
-			this._p = _p;
 		}
 		@Override public int getRuleIndex() { return RULE_logicalExpr; }
 	 
 		public LogicalExprContext() { }
 		public void copyFrom(LogicalExprContext ctx) {
 			super.copyFrom(ctx);
-			this._p = ctx._p;
 		}
 	}
 	public static class LogicalExprNotContext extends LogicalExprContext {
+		public TerminalNode Not() { return getToken(fplusParser.Not, 0); }
 		public LogicalExprContext logicalExpr() {
 			return getRuleContext(LogicalExprContext.class,0);
 		}
 		public TerminalNode WS() { return getToken(fplusParser.WS, 0); }
-		public TerminalNode Not() { return getToken(fplusParser.Not, 0); }
 		public LogicalExprNotContext(LogicalExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -3624,13 +3972,13 @@ public class fplusParser extends Parser {
 		public List<LogicalExprContext> logicalExpr() {
 			return getRuleContexts(LogicalExprContext.class);
 		}
+		public LogicalExprContext logicalExpr(int i) {
+			return getRuleContext(LogicalExprContext.class,i);
+		}
+		public TerminalNode Or() { return getToken(fplusParser.Or, 0); }
 		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
-		}
-		public TerminalNode Or() { return getToken(fplusParser.Or, 0); }
-		public LogicalExprContext logicalExpr(int i) {
-			return getRuleContext(LogicalExprContext.class,i);
 		}
 		public LogicalExprOrContext(LogicalExprContext ctx) { copyFrom(ctx); }
 		@Override
@@ -3647,15 +3995,42 @@ public class fplusParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class LogicalExprAndContext extends LogicalExprContext {
+		public List<LogicalExprContext> logicalExpr() {
+			return getRuleContexts(LogicalExprContext.class);
+		}
+		public LogicalExprContext logicalExpr(int i) {
+			return getRuleContext(LogicalExprContext.class,i);
+		}
+		public TerminalNode And() { return getToken(fplusParser.And, 0); }
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
+		public TerminalNode WS(int i) {
+			return getToken(fplusParser.WS, i);
+		}
+		public LogicalExprAndContext(LogicalExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof fplusListener ) ((fplusListener)listener).enterLogicalExprAnd(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitLogicalExprAnd(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitLogicalExprAnd(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class LogicalExprCompareContext extends LogicalExprContext {
 		public Token op;
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
 		}
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
+		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
 		public TerminalNode WS(int i) {
 			return getToken(fplusParser.WS, i);
 		}
@@ -3674,41 +4049,18 @@ public class fplusParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
-	public static class LogicalExprAndContext extends LogicalExprContext {
-		public List<LogicalExprContext> logicalExpr() {
-			return getRuleContexts(LogicalExprContext.class);
-		}
-		public TerminalNode And() { return getToken(fplusParser.And, 0); }
-		public List<TerminalNode> WS() { return getTokens(fplusParser.WS); }
-		public TerminalNode WS(int i) {
-			return getToken(fplusParser.WS, i);
-		}
-		public LogicalExprContext logicalExpr(int i) {
-			return getRuleContext(LogicalExprContext.class,i);
-		}
-		public LogicalExprAndContext(LogicalExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof fplusListener ) ((fplusListener)listener).enterLogicalExprAnd(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof fplusListener ) ((fplusListener)listener).exitLogicalExprAnd(this);
-		}
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof fplusVisitor ) return ((fplusVisitor<? extends T>)visitor).visitLogicalExprAnd(this);
-			else return visitor.visitChildren(this);
-		}
+
+	public final LogicalExprContext logicalExpr() throws RecognitionException {
+		return logicalExpr(0);
 	}
 
-	public final LogicalExprContext logicalExpr(int _p) throws RecognitionException {
+	private LogicalExprContext logicalExpr(int _p) throws RecognitionException {
 		ParserRuleContext _parentctx = _ctx;
 		int _parentState = getState();
-		LogicalExprContext _localctx = new LogicalExprContext(_ctx, _parentState, _p);
+		LogicalExprContext _localctx = new LogicalExprContext(_ctx, _parentState);
 		LogicalExprContext _prevctx = _localctx;
 		int _startState = 52;
-		enterRecursionRule(_localctx, RULE_logicalExpr);
+		enterRecursionRule(_localctx, 52, RULE_logicalExpr, _p);
 		int _la;
 		try {
 			int _alt;
@@ -3722,16 +4074,19 @@ public class fplusParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(785); match(Not);
+				setState(785);
+				match(Not);
 				setState(787);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(786); match(WS);
+					setState(786);
+					match(WS);
 					}
 				}
 
-				setState(789); logicalExpr(2);
+				setState(789);
+				logicalExpr(2);
 				}
 				break;
 			case LeftParen:
@@ -3741,12 +4096,14 @@ public class fplusParser extends Parser {
 				_localctx = new LogicalExprCompareContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(790); expr(0);
+				setState(790);
+				expr(0);
 				setState(792);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(791); match(WS);
+					setState(791);
+					match(WS);
 					}
 				}
 
@@ -3755,17 +4112,20 @@ public class fplusParser extends Parser {
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Equal) | (1L << NotEqual) | (1L << Smaller) | (1L << Larger))) != 0)) ) {
 					((LogicalExprCompareContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+				} else {
+					consume();
 				}
-				consume();
 				setState(796);
 				_la = _input.LA(1);
 				if (_la==WS) {
 					{
-					setState(795); match(WS);
+					setState(795);
+					match(WS);
 					}
 				}
 
-				setState(798); expr(0);
+				setState(798);
+				expr(0);
 				}
 				break;
 			default:
@@ -3775,7 +4135,7 @@ public class fplusParser extends Parser {
 			setState(822);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,178,_ctx);
-			while ( _alt!=2 && _alt!=-1 ) {
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
@@ -3784,55 +4144,62 @@ public class fplusParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,177,_ctx) ) {
 					case 1:
 						{
-						_localctx = new LogicalExprAndContext(new LogicalExprContext(_parentctx, _parentState, _p));
+						_localctx = new LogicalExprAndContext(new LogicalExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_logicalExpr);
 						setState(802);
-						if (!(4 >= _localctx._p)) throw new FailedPredicateException(this, "4 >= $_p");
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(804);
 						_la = _input.LA(1);
 						if (_la==WS) {
 							{
-							setState(803); match(WS);
+							setState(803);
+							match(WS);
 							}
 						}
 
-						setState(806); match(And);
+						setState(806);
+						match(And);
 						setState(808);
 						_la = _input.LA(1);
 						if (_la==WS) {
 							{
-							setState(807); match(WS);
+							setState(807);
+							match(WS);
 							}
 						}
 
-						setState(810); logicalExpr(0);
+						setState(810);
+						logicalExpr(5);
 						}
 						break;
-
 					case 2:
 						{
-						_localctx = new LogicalExprOrContext(new LogicalExprContext(_parentctx, _parentState, _p));
+						_localctx = new LogicalExprOrContext(new LogicalExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_logicalExpr);
 						setState(811);
-						if (!(3 >= _localctx._p)) throw new FailedPredicateException(this, "3 >= $_p");
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(813);
 						_la = _input.LA(1);
 						if (_la==WS) {
 							{
-							setState(812); match(WS);
+							setState(812);
+							match(WS);
 							}
 						}
 
-						setState(815); match(Or);
+						setState(815);
+						match(Or);
 						setState(817);
 						_la = _input.LA(1);
 						if (_la==WS) {
 							{
-							setState(816); match(WS);
+							setState(816);
+							match(WS);
 							}
 						}
 
-						setState(819); logicalExpr(0);
+						setState(819);
+						logicalExpr(4);
 						}
 						break;
 					}
@@ -3857,31 +4224,34 @@ public class fplusParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 25: return expr_sempred((ExprContext)_localctx, predIndex);
-
-		case 26: return logicalExpr_sempred((LogicalExprContext)_localctx, predIndex);
-		}
-		return true;
-	}
-	private boolean logicalExpr_sempred(LogicalExprContext _localctx, int predIndex) {
-		switch (predIndex) {
-		case 2: return 4 >= _localctx._p;
-
-		case 3: return 3 >= _localctx._p;
+		case 25:
+			return expr_sempred((ExprContext)_localctx, predIndex);
+		case 26:
+			return logicalExpr_sempred((LogicalExprContext)_localctx, predIndex);
 		}
 		return true;
 	}
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: return 6 >= _localctx._p;
-
-		case 1: return 5 >= _localctx._p;
+		case 0:
+			return precpred(_ctx, 6);
+		case 1:
+			return precpred(_ctx, 5);
+		}
+		return true;
+	}
+	private boolean logicalExpr_sempred(LogicalExprContext _localctx, int predIndex) {
+		switch (predIndex) {
+		case 2:
+			return precpred(_ctx, 4);
+		case 3:
+			return precpred(_ctx, 3);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3:\u033c\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3:\u033c\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"+
 		"\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"+
@@ -3951,13 +4321,13 @@ public class fplusParser extends Parser {
 		"\34\3\34\5\34\u031f\n\34\3\34\3\34\5\34\u0323\n\34\3\34\3\34\5\34\u0327"+
 		"\n\34\3\34\3\34\5\34\u032b\n\34\3\34\3\34\3\34\5\34\u0330\n\34\3\34\3"+
 		"\34\5\34\u0334\n\34\3\34\7\34\u0337\n\34\f\34\16\34\u033a\13\34\3\34\4"+
-		"\u0229\u02b0\35\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\62"+
-		"\64\66\2\r\4\2\37\3788\3\288\3\2\"#\3\2&)\4\2%%**\3\2&\'\4\2\27\27\34"+
-		" \3\2\13\13\3\2\25\26\3\2\23\24\4\2\3\4\20\21\u03dc\2<\3\2\2\2\4F\3\2"+
-		"\2\2\6x\3\2\2\2\b\u00a5\3\2\2\2\n\u00cd\3\2\2\2\f\u00e1\3\2\2\2\16\u00eb"+
-		"\3\2\2\2\20\u00f1\3\2\2\2\22\u0113\3\2\2\2\24\u013a\3\2\2\2\26\u0185\3"+
-		"\2\2\2\30\u01da\3\2\2\2\32\u01dd\3\2\2\2\34\u0209\3\2\2\2\36\u021d\3\2"+
-		"\2\2 \u022e\3\2\2\2\"\u024a\3\2\2\2$\u024e\3\2\2\2&\u0251\3\2\2\2(\u0268"+
+		"\u0229\u02b0\4\64\66\35\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*"+
+		",.\60\62\64\66\2\r\4\2\37\3788\3\288\3\2\"#\3\2&)\4\2%%**\3\2&\'\4\2\27"+
+		"\27\34 \3\2\13\13\3\2\25\26\3\2\23\24\4\2\3\4\20\21\u03dc\2<\3\2\2\2\4"+
+		"F\3\2\2\2\6x\3\2\2\2\b\u00a5\3\2\2\2\n\u00cd\3\2\2\2\f\u00e1\3\2\2\2\16"+
+		"\u00eb\3\2\2\2\20\u00f1\3\2\2\2\22\u0113\3\2\2\2\24\u013a\3\2\2\2\26\u0185"+
+		"\3\2\2\2\30\u01da\3\2\2\2\32\u01dd\3\2\2\2\34\u0209\3\2\2\2\36\u021d\3"+
+		"\2\2\2 \u022e\3\2\2\2\"\u024a\3\2\2\2$\u024e\3\2\2\2&\u0251\3\2\2\2(\u0268"+
 		"\3\2\2\2*\u02a5\3\2\2\2,\u02aa\3\2\2\2.\u02b7\3\2\2\2\60\u02c6\3\2\2\2"+
 		"\62\u02d1\3\2\2\2\64\u02f9\3\2\2\2\66\u0322\3\2\2\28;\5\6\4\29;\5*\26"+
 		"\2:8\3\2\2\2:9\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=@\3\2\2\2><\3\2\2"+
@@ -4194,28 +4564,28 @@ public class fplusParser extends Parser {
 		"\33\2\u02f3\u02f5\79\2\2\u02f4\u02f3\3\2\2\2\u02f4\u02f5\3\2\2\2\u02f5"+
 		"\u02f6\3\2\2\2\u02f6\u02f7\7\r\2\2\u02f7\u02fa\3\2\2\2\u02f8\u02fa\7\62"+
 		"\2\2\u02f9\u02de\3\2\2\2\u02f9\u02e9\3\2\2\2\u02f9\u02ea\3\2\2\2\u02f9"+
-		"\u02f8\3\2\2\2\u02fa\u030f\3\2\2\2\u02fb\u02fd\6\33\2\3\u02fc\u02fe\7"+
-		"9\2\2\u02fd\u02fc\3\2\2\2\u02fd\u02fe\3\2\2\2\u02fe\u02ff\3\2\2\2\u02ff"+
+		"\u02f8\3\2\2\2\u02fa\u030f\3\2\2\2\u02fb\u02fd\f\b\2\2\u02fc\u02fe\79"+
+		"\2\2\u02fd\u02fc\3\2\2\2\u02fd\u02fe\3\2\2\2\u02fe\u02ff\3\2\2\2\u02ff"+
 		"\u0301\t\n\2\2\u0300\u0302\79\2\2\u0301\u0300\3\2\2\2\u0301\u0302\3\2"+
-		"\2\2\u0302\u0303\3\2\2\2\u0303\u030e\5\64\33\2\u0304\u0306\6\33\3\3\u0305"+
+		"\2\2\u0302\u0303\3\2\2\2\u0303\u030e\5\64\33\t\u0304\u0306\f\7\2\2\u0305"+
 		"\u0307\79\2\2\u0306\u0305\3\2\2\2\u0306\u0307\3\2\2\2\u0307\u0308\3\2"+
 		"\2\2\u0308\u030a\t\13\2\2\u0309\u030b\79\2\2\u030a\u0309\3\2\2\2\u030a"+
-		"\u030b\3\2\2\2\u030b\u030c\3\2\2\2\u030c\u030e\5\64\33\2\u030d\u02fb\3"+
+		"\u030b\3\2\2\2\u030b\u030c\3\2\2\2\u030c\u030e\5\64\33\b\u030d\u02fb\3"+
 		"\2\2\2\u030d\u0304\3\2\2\2\u030e\u0311\3\2\2\2\u030f\u030d\3\2\2\2\u030f"+
 		"\u0310\3\2\2\2\u0310\65\3\2\2\2\u0311\u030f\3\2\2\2\u0312\u0313\b\34\1"+
 		"\2\u0313\u0315\7\60\2\2\u0314\u0316\79\2\2\u0315\u0314\3\2\2\2\u0315\u0316"+
-		"\3\2\2\2\u0316\u0317\3\2\2\2\u0317\u0323\5\66\34\2\u0318\u031a\5\64\33"+
+		"\3\2\2\2\u0316\u0317\3\2\2\2\u0317\u0323\5\66\34\4\u0318\u031a\5\64\33"+
 		"\2\u0319\u031b\79\2\2\u031a\u0319\3\2\2\2\u031a\u031b\3\2\2\2\u031b\u031c"+
 		"\3\2\2\2\u031c\u031e\t\f\2\2\u031d\u031f\79\2\2\u031e\u031d\3\2\2\2\u031e"+
 		"\u031f\3\2\2\2\u031f\u0320\3\2\2\2\u0320\u0321\5\64\33\2\u0321\u0323\3"+
 		"\2\2\2\u0322\u0312\3\2\2\2\u0322\u0318\3\2\2\2\u0323\u0338\3\2\2\2\u0324"+
-		"\u0326\6\34\4\3\u0325\u0327\79\2\2\u0326\u0325\3\2\2\2\u0326\u0327\3\2"+
+		"\u0326\f\6\2\2\u0325\u0327\79\2\2\u0326\u0325\3\2\2\2\u0326\u0327\3\2"+
 		"\2\2\u0327\u0328\3\2\2\2\u0328\u032a\7/\2\2\u0329\u032b\79\2\2\u032a\u0329"+
-		"\3\2\2\2\u032a\u032b\3\2\2\2\u032b\u032c\3\2\2\2\u032c\u0337\5\66\34\2"+
-		"\u032d\u032f\6\34\5\3\u032e\u0330\79\2\2\u032f\u032e\3\2\2\2\u032f\u0330"+
+		"\3\2\2\2\u032a\u032b\3\2\2\2\u032b\u032c\3\2\2\2\u032c\u0337\5\66\34\7"+
+		"\u032d\u032f\f\5\2\2\u032e\u0330\79\2\2\u032f\u032e\3\2\2\2\u032f\u0330"+
 		"\3\2\2\2\u0330\u0331\3\2\2\2\u0331\u0333\7\61\2\2\u0332\u0334\79\2\2\u0333"+
 		"\u0332\3\2\2\2\u0333\u0334\3\2\2\2\u0334\u0335\3\2\2\2\u0335\u0337\5\66"+
-		"\34\2\u0336\u0324\3\2\2\2\u0336\u032d\3\2\2\2\u0337\u033a\3\2\2\2\u0338"+
+		"\34\6\u0336\u0324\3\2\2\2\u0336\u032d\3\2\2\2\u0337\u033a\3\2\2\2\u0338"+
 		"\u0336\3\2\2\2\u0338\u0339\3\2\2\2\u0339\67\3\2\2\2\u033a\u0338\3\2\2"+
 		"\2\u00b5:<@CFLRVZ]bflorux~\u0083\u0085\u0089\u008d\u0090\u0093\u0096\u009c"+
 		"\u009f\u00a2\u00a5\u00ab\u00ae\u00b1\u00b4\u00b7\u00bb\u00be\u00c6\u00c9"+
@@ -4232,7 +4602,7 @@ public class fplusParser extends Parser {
 		"\u02e5\u02ec\u02f0\u02f4\u02f9\u02fd\u0301\u0306\u030a\u030d\u030f\u0315"+
 		"\u031a\u031e\u0322\u0326\u032a\u032f\u0333\u0336\u0338";
 	public static final ATN _ATN =
-		ATNSimulator.deserialize(_serializedATN.toCharArray());
+		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
 		_decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
 		for (int i = 0; i < _ATN.getNumberOfDecisions(); i++) {

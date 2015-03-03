@@ -104,7 +104,11 @@
 
     <!-- build a executable shell script with embeded jar -->
     <target name="-post-jar">
-        <copyfile src="starter/starter.sh" dest="dist/fplus"/>        
+        <!--copyfile src="starter/starter.sh" dest="dist/fplus"/-->
+        <concat destfile="dist/fplus" binary="yes">
+            <fileset file="starter/stub.sh" />
+            <fileset file="dist/fplus.jar" />
+        </concat>        
         <chmod file="dist/fplus" perm="+x"/>    
     </target>
 </project>

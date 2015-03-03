@@ -1,6 +1,6 @@
 # this Makefile generates the Parser and extracts the antlr runtime from the jar file
 
-ANTLR4JAR=antlr-4.1-complete.jar
+ANTLR4JAR=antlr-4.5-complete.jar
 ANTLR4=java -jar $(ANTLR4JAR)
 
 all: runtime generated
