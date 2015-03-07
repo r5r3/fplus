@@ -6,7 +6,7 @@ and module procedures, but without additional tools a lot of code duplication is
 needed. The resulting code is hard to maintain and error-prone. Here is an example of
 a generic subroutine:
 
-```
+```fortran
 module mod_swap
     implicit none
     private
@@ -41,12 +41,12 @@ end module
 
 This module provides to its users the subroutine swap which can be used to swap the
 values stored in two real or two integer variables. The problem is, that the two
-implementations swap_real and swap_int are, apart of the data types, identical. This
+implementations `swap_real` and `swap_int` are, apart of the data types, identical. This
 is actually not really a problem with such extremely small procedures, but think about 
 larger procedures that are implemented for more then two data types. 
 
 With fplus the same module looks like that:
-```
+```fortran
 module mod_swap
     implicit none
     private
@@ -77,7 +77,7 @@ Before compiling we have to run fplus on this file:
 
 The output of fplus is again a FORTRAN source file like the hand written example 
 above:
-``` 
+```fortran
 module mod_swap
     implicit none
     private
@@ -113,7 +113,7 @@ The code duplication as well as the interface block are done by fplus. The only 
 you have to do is to maintain the template. There is no need edit every implementation 
 by yourself and it is pretty easy to add additional implementations for more data types:
 
-``` 
+```fortran
 module mod_swap
     implicit none
     private
@@ -141,7 +141,7 @@ end module
 
 Running again fplus creates the following output:
 
-```
+```fortran
 module mod_swap
     implicit none
     private
@@ -221,7 +221,7 @@ compiler itself. A good example of this approach is [OpenMP](http://www.openmp.o
 which adds shared memory parallel programming capabilities to C/C++ and FORTRAN by such
 directives. The fplus preprocessor directives are lines that start with `!$FP`. 
 The example above includes the following directives:
-```
+```fortran
 !$FP interface template swap
 !$FP template swap
     !$FP do T = real integer
