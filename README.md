@@ -235,7 +235,7 @@ This directive is only allowed within  the declaration sections of a module
 above `contains`
 * `!$FP template swap`
 This line marks the beginning of a template. A template is only allowed within 
-the implementation part of a module below `contains
+the implementation part of a module below `contains`
 * `!$FP do T = real integer`
 This line is the beginning of a loop. In this example the variable T iterates 
 over all words appended behind the equal sign. It is allowed to place curly 
