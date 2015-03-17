@@ -78,7 +78,7 @@ public class ExpansionMerger extends fplusBaseListener {
                 buffer.append(child.getText());
             }
         }
-        if (buffer.length() > 0) info.setExpansion(ctx, buffer.toString());
+        info.setExpansion(ctx, buffer.toString());
     }   
     
 }
