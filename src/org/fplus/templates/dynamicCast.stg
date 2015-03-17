@@ -1,13 +1,13 @@
 group dynamicCast;
 
-implementationBlock(typename, fname, has_type_parameter, type_parameter, assignment_oper) ::= <<
+implementationBlock(typename, fname, has_type_parameter, type_parameter, assignment_oper, type_or_class, typename_for_selection) ::= <<
     function <fname>(input, line, position) result (res)
         use, intrinsic :: iso_fortran_env
         class(*)<if(has_type_parameter)>, <type_parameter; separator=", "><endif>, intent(in) :: input
         integer, intent(in) :: line, position
         <typename><if(has_type_parameter)>, <type_parameter; separator=", "><endif> :: res
         select type (input)
-            type is (<typename>)
+            <type_or_class> is (<typename_for_selection>)
                 res <assignment_oper> input
             class default
                 write(error_unit, "(A,I5,A,I5)") &

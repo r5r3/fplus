@@ -245,6 +245,8 @@ contentBlock
 content
     :
         (
+            '(' WS? content WS? ')'
+        |
             placeholder 
         |
             dynamicCast
@@ -261,6 +263,10 @@ content
                 Module
              | 
                 Program
+             |
+                lineComment
+             |
+                Newline
              )
         )
     ;
