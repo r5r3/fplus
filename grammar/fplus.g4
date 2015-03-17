@@ -283,7 +283,7 @@ placeholder
 // dynamic cast
 dynamicCast
     :
-        Dynamic_Cast WS? '<' WS? dataType (WS? ',' WS? dataTypeParameter)* WS? '>' WS? '(' WS? content WS? ')'
+        Dynamic_Cast WS? '<' WS? dataType (WS? ',' WS? dataTypeParameter)* WS? '>' WS? '(' (WS? content)+ WS? ')'
     ;
 
 // variable definition, such a variable can be used everywhere in the same scope unit

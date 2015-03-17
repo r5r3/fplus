@@ -1,6 +1,7 @@
 package org.fplus;
 
 import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.fplus.parser.fplusParser;
@@ -28,7 +29,17 @@ public class Helper {
      * @return
      */
     public static String getLeadingWS(TerminalNode tn, TokenStream ts) {
-        int index = tn.getSymbol().getTokenIndex();
+        return getLeadingWS(tn.getSymbol(), ts);
+    }
+    
+    /**
+     * Get the WS in front of a Token
+     * @param tn
+     * @param ts    token stream from which tn is
+     * @return
+     */
+    public static String getLeadingWS(Token tn, TokenStream ts) {
+        int index = tn.getTokenIndex();
         if (ts.get(index-1).getType() == fplusParser.WS) return ts.get(index-1).getText();
         else return "";
     }
