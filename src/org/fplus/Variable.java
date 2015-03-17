@@ -8,7 +8,7 @@ import org.fplus.parser.fplusParser;
  * All variables are Arrays
  * 
  * @author
- * Robert Schuster
+ * Robert Redl
  */
 public class Variable {
     

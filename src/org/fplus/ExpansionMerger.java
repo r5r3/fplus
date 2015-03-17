@@ -3,15 +3,14 @@ package org.fplus;
 import java.util.GregorianCalendar;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.fplus.parser.fplusBaseListener;
 import org.fplus.parser.fplusParser;
 
 /**
  * This class is used in the second pass to merge all expansion created by
- * the visitor. Rule without expansion use there text content as expansion.
+ * the visitor. Rule without expansion use their text content as expansion.
  * 
- * @author Robert Schuster
+ * @author Robert Redl
  */
 public class ExpansionMerger extends fplusBaseListener {
     

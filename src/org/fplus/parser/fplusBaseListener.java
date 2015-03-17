@@ -53,6 +53,18 @@ public class fplusBaseListener implements fplusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterContainsLine(fplusParser.ContainsLineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitContainsLine(fplusParser.ContainsLineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterTemplateBlock(fplusParser.TemplateBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -132,6 +144,30 @@ public class fplusBaseListener implements fplusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitTypeDefinitionBlock(fplusParser.TypeDefinitionBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDataType(fplusParser.DataTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataType(fplusParser.DataTypeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDataTypeParameter(fplusParser.DataTypeParameterContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDataTypeParameter(fplusParser.DataTypeParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -269,6 +305,18 @@ public class fplusBaseListener implements fplusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterContent(fplusParser.ContentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitContent(fplusParser.ContentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterContentLine(fplusParser.ContentLineContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -288,6 +336,18 @@ public class fplusBaseListener implements fplusListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitPlaceholder(fplusParser.PlaceholderContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDynamicCast(fplusParser.DynamicCastContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDynamicCast(fplusParser.DynamicCastContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

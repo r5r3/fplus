@@ -1,5 +1,5 @@
 /*
- * @author  Robert Schuster
+ * @author  Robert Redl
  * 
  * fplus language extensions work like OpenMP with a preprocessor like syntax, every command 
  * starts with !$fp or !$FP
@@ -20,7 +20,7 @@ programBlock
     :
         WS? Program WS Identifier WS? Newline
         (contentBlock)*
-        (WS? Contains WS? Newline)?
+        containsLine?
         (contentBlock)*
         WS? End WS Program WS? Identifier? WS? Newline?
     ;
@@ -30,10 +30,17 @@ moduleBlock
     :
         WS? Module WS Identifier WS? Newline
         (interfaceLine | contentBlock)*
-        (WS? Contains WS? Newline)?
+        containsLine?
         contentBlock?
         WS? End WS Module WS? Identifier? Newline?
     ;
+
+// separate declaration part from content part in modules and programs 
+containsLine
+    :
+        WS? Contains WS? Newline
+    ;
+
 // a template block contains functions or subroutines and is used to create 
 // a generic interface or a generic type bound procedure
 templateBlock
@@ -89,6 +96,39 @@ typeDefinitionBlock
         (WS? Contains WS? Newline)?
         (contentBlock | genericTypeBoundLine)*
         WS? End WS Type WS? Identifier? WS? Newline
+    ;
+
+dataType
+    :
+        (
+            (
+                Integer
+            |
+                Real
+            |
+                Complex
+            |
+                Logical
+            |
+                Character
+            )
+            WS?
+            ('(' WS? (
+                        Kind WS? '=' WS?
+                     |
+                        Len WS? '=' WS?
+                     )? (Identifier | IntegerConstant) WS? ')'
+            )?
+        |
+            Type WS? '(' WS? Identifier WS? ')'
+        |
+            Class WS? '(' WS? Identifier WS? ')'
+        )
+    ;
+
+dataTypeParameter
+    :
+       Pointer
     ;
 
 // a fortran interface block
@@ -201,13 +241,14 @@ contentBlock
         )+
     ;
 
-// content blocks are build up of content lines
-contentLine
+// content for program lines
+content
     :
-        WS? 
         (
             placeholder 
-        | 
+        |
+            dynamicCast
+        |
             ~(
                 Prefix 
              | 
@@ -221,7 +262,15 @@ contentLine
              | 
                 Program
              )
-        )*? 
+        )
+    ;
+
+
+// content blocks are build up of content lines
+contentLine
+    :
+        WS? 
+        (content)*? 
         ( Newline | lineComment)
     ;
 
@@ -229,6 +278,12 @@ contentLine
 placeholder
     :
         '$' '{' WS? (expr|logicalExpr) WS? '}'
+    ;
+
+// dynamic cast
+dynamicCast
+    :
+        Dynamic_Cast WS? '<' WS? dataType (WS? ',' WS? dataTypeParameter)* WS? '>' WS? '(' WS? content WS? ')'
     ;
 
 // variable definition, such a variable can be used everywhere in the same scope unit
@@ -311,6 +366,7 @@ Procedure       :   [Pp][Rr][Oo][Cc][Ee][Dd][Uu][Rr][Ee] ;
 Recursive       :   [Rr][Ee][Cc][Uu][Rr][Ss][Ii][Vv][Ee] ;
 Elemental       :   [Ee][Ll][Ee][Mm][Ee][Nn][Tt][Aa][Ll] ;
 Type            :   [Tt][Yy][Pp][Ee] ;
+Class           :   [Cc][Ll][Aa][Ss][Ss] ;
 Extends         :   [Ee][Xx][Tt][Ee][Nn][Dd][Ss] ; 
 Private         :   [Pp][Rr][Ii][Vv][Aa][Tt][Ee] ;
 Public          :   [Pp][Uu][Bb][Ll][Ii][Cc] ;
@@ -323,7 +379,18 @@ Then            :   [Tt][Hh][Ee][Nn] ;
 Else            :   [Ee][Ll][Ss][Ee] ;
 And             :   '.'[Aa][Nn][Dd]'.' ;
 Not             :   '.'[Nn][Oo][Tt]'.' ;
-Or              :   '.'[Oo][Rr]'.' ;    
+Or              :   '.'[Oo][Rr]'.' ;
+Integer         :   [Ii][Nn][Tt][Ee][Gg][Ee][Rr] ;
+Real            :   [Rr][Ee][Aa][Ll] ;
+Complex         :   [Cc][Oo][Mm][Pp][Ll][Ee][Xx] ; 
+Logical         :   [Ll][Oo][Gg][Ii][Cc][Aa][Ll] ;
+Character       :   [Cc][Hh][Aa][Rr][Aa][Cc][Tt][Ee][Rr] ;
+Kind            :   [Kk][Ii][Nn][Dd] ;
+Len             :   [Ll][Ee][Nn] ;
+Pointer         :   [Pp][Oo][Ii][Nn][Tt][Ee][Rr] ;
+
+// keywords for fplus intrinsic functions
+Dynamic_Cast    :   [Dd][Yy][Nn][Aa][Mm][Ii][Cc]'_'[Cc][Aa][Ss][Tt] ;
 
 
 Identifier

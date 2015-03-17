@@ -39,6 +39,16 @@ public interface fplusListener extends ParseTreeListener {
 	 */
 	void exitModuleBlock(fplusParser.ModuleBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#containsLine}.
+	 * @param ctx the parse tree
+	 */
+	void enterContainsLine(fplusParser.ContainsLineContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#containsLine}.
+	 * @param ctx the parse tree
+	 */
+	void exitContainsLine(fplusParser.ContainsLineContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#templateBlock}.
 	 * @param ctx the parse tree
 	 */
@@ -108,6 +118,26 @@ public interface fplusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitTypeDefinitionBlock(fplusParser.TypeDefinitionBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataType(fplusParser.DataTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#dataType}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataType(fplusParser.DataTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#dataTypeParameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterDataTypeParameter(fplusParser.DataTypeParameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#dataTypeParameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitDataTypeParameter(fplusParser.DataTypeParameterContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link fplusParser#fortranInterfaceBlock}.
 	 * @param ctx the parse tree
@@ -219,6 +249,16 @@ public interface fplusListener extends ParseTreeListener {
 	 */
 	void exitContentBlock(fplusParser.ContentBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#content}.
+	 * @param ctx the parse tree
+	 */
+	void enterContent(fplusParser.ContentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#content}.
+	 * @param ctx the parse tree
+	 */
+	void exitContent(fplusParser.ContentContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#contentLine}.
 	 * @param ctx the parse tree
 	 */
@@ -238,6 +278,16 @@ public interface fplusListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPlaceholder(fplusParser.PlaceholderContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#dynamicCast}.
+	 * @param ctx the parse tree
+	 */
+	void enterDynamicCast(fplusParser.DynamicCastContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#dynamicCast}.
+	 * @param ctx the parse tree
+	 */
+	void exitDynamicCast(fplusParser.DynamicCastContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link fplusParser#variableDefinition}.
 	 * @param ctx the parse tree

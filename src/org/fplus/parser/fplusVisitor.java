@@ -30,6 +30,12 @@ public interface fplusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitModuleBlock(fplusParser.ModuleBlockContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link fplusParser#containsLine}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitContainsLine(fplusParser.ContainsLineContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link fplusParser#templateBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -71,6 +77,18 @@ public interface fplusVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitTypeDefinitionBlock(fplusParser.TypeDefinitionBlockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link fplusParser#dataType}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataType(fplusParser.DataTypeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link fplusParser#dataTypeParameter}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDataTypeParameter(fplusParser.DataTypeParameterContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link fplusParser#fortranInterfaceBlock}.
 	 * @param ctx the parse tree
@@ -138,6 +156,12 @@ public interface fplusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitContentBlock(fplusParser.ContentBlockContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link fplusParser#content}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitContent(fplusParser.ContentContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link fplusParser#contentLine}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -149,6 +173,12 @@ public interface fplusVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPlaceholder(fplusParser.PlaceholderContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link fplusParser#dynamicCast}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDynamicCast(fplusParser.DynamicCastContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link fplusParser#variableDefinition}.
 	 * @param ctx the parse tree

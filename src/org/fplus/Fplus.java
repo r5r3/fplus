@@ -19,7 +19,7 @@ import org.fplus.parser.fplusParser;
 /**
  *
  * @author
- * Robert Schuster
+ * Robert Redl
  */
 public class Fplus {
 

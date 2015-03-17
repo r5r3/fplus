@@ -3,7 +3,7 @@ package org.fplus;
 /**
  * Some methods for errors and warnings
  * @author
- * Robert Schuster
+ * Robert Redl
  */
 public class Logger {
     
@@ -22,7 +22,11 @@ public class Logger {
      * @param line
      */
     public static void Error(String text, Integer line) {
-        System.err.println("ERROR: "+text);
+        if (line != null) {
+            System.err.printf("ERROR: %s (line %d)\n", text, line);
+        } else {
+            System.err.println("ERROR: "+text);        
+        }
         System.exit(-1);
     }
 }

@@ -13,7 +13,7 @@ import org.fplus.parser.fplusParser;
  * The Informations created during the different parsing steps are collected 
  * in this class. 
  * 
- * @author Robert Schuster
+ * @author Robert Redl
  */
 public class ParseTreeAnnotations {
 
@@ -35,9 +35,15 @@ public class ParseTreeAnnotations {
     protected HashMap<String, fplusParser.InterfaceLineContext> interfaceLines = new HashMap<String, fplusParser.InterfaceLineContext>();
 
     // generic type bound procedures are located in the first walk, but the expansion
-    // is generated when the tamplate is reached
+    // is generated when the template is reached
     protected HashMap<String, fplusParser.GenericTypeBoundLineContext> genericLines = new HashMap<String, fplusParser.GenericTypeBoundLineContext>();
 
+    // content to be added at the end of a program or module
+    protected ParseTreeProperty<ArrayList<String>> endOfModuleOrProgramContent = new ParseTreeProperty<ArrayList<String>>();
+    
+    // content to be added at the end of the declaration part of a modue or program
+    protected ParseTreeProperty<ArrayList<String>> endOfDeclarationContent = new ParseTreeProperty<ArrayList<String>>();    
+       
     // a sign used to add comments to the file
     protected char LineCommentPrefix = '!';
     
@@ -68,6 +74,77 @@ public class ParseTreeAnnotations {
     }
     
     /**
+     * Add auto generated content for the end of a module or a program
+     * @param ctx       the context from which the content was created. 
+     *                  The corresponding module or program is retrieved 
+     *                  automatically.
+     * @param content   the content to be added.
+     * @param createContains    in a program, create a contains statement if not present
+     * @return          true, if the content was not already present.
+     */
+    public boolean addEndOFModuleOrProgramContent(ParserRuleContext ctx, String content, boolean createContains) {
+        // find the parent module or program.
+        ParserRuleContext parent = this.getModuleOrProgram(ctx);
+        
+        // add the content
+        ArrayList<String> cont = this.endOfModuleOrProgramContent.get(parent);
+        if (cont == null) {
+            cont = new ArrayList<String>();
+            this.endOfModuleOrProgramContent.put(parent, cont);
+        }
+        // add a conatins line if required
+        if (createContains && cont.isEmpty()) {
+            boolean hasContains = false;
+            if (parent instanceof fplusParser.ModuleBlockContext) {
+                hasContains = ((fplusParser.ModuleBlockContext)parent).containsLine() != null;
+            }
+            if (parent instanceof fplusParser.ProgramBlockContext) {
+                hasContains = ((fplusParser.ProgramBlockContext)parent).containsLine() != null;
+            }
+            if (!hasContains) {
+                cont.add("contains");
+                cont.add("\n");
+            }
+        }
+        if (cont.contains(content)) {
+            return false;
+        } else {
+            cont.add(content);
+            return true;
+        }
+    }
+    
+    /**
+     * Add auto generated content for the end of a module or a program
+     * @param ctx       the context from which the content was created. 
+     *                  The corresponding module or program is retrieved 
+     *                  automatically.
+     * @param content   the content to be added.
+     * @param moduleOnly    if true, the content is only added if we are in a module
+     * @return          true, if the new content was added, false if this content is already present or not added
+     */
+    public boolean addEndOfDeclarationContent(ParserRuleContext ctx, String content, boolean moduleOnly) {
+        // find the parent module or program.
+        ParserRuleContext parent = this.getModuleOrProgram(ctx);
+        
+        // is this module only content? 
+        if (parent instanceof fplusParser.ProgramBlockContext && moduleOnly) return false;
+        
+        // add the content
+        ArrayList<String> cont = this.endOfDeclarationContent.get(parent);
+        if (cont == null) {
+            cont = new ArrayList<String>();
+            this.endOfDeclarationContent.put(parent, cont);
+        }
+        if (cont.contains(content)) {
+            return false;
+        } else {
+            cont.add(content);
+            return true;
+        }
+    }
+    
+    /**
      * Add a variable to a node, it is visible for this node and all children
      * @param ctx
      * @param var
@@ -84,6 +161,28 @@ public class ParseTreeAnnotations {
             vars.put(var.name, var);
         }
         
+    }
+    
+    /**
+     * find the module or program to which a rule belongs.
+     * @param ctx
+     * @return 
+     */
+    private ParserRuleContext getModuleOrProgram(ParserRuleContext ctx) {
+        // find the module or program which is the parent of this dynamic_cast
+        ParserRuleContext parent = ctx.getParent();
+        boolean found = false;
+        while (parent.depth() != 1) {
+            if (parent instanceof fplusParser.ProgramBlockContext || parent instanceof fplusParser.ModuleBlockContext) {
+                found = true;
+                break;
+            }
+            parent = parent.getParent();
+        }
+        if (!found) {
+            Logger.Error("construct only allowed inside of program or module bodys!", ctx.getStart().getLine());
+        }        
+        return parent;
     }
     
     /**
@@ -121,6 +220,7 @@ public class ParseTreeAnnotations {
         if (ctx instanceof fplusParser.LogicalExprContext) return true;
         if (ctx instanceof fplusParser.IfSingleLineContext) return true;
         if (ctx instanceof fplusParser.IfBlockContext) return true;
+        if (ctx instanceof fplusParser.DynamicCastContext) return true;
         return false;
     }
 }
