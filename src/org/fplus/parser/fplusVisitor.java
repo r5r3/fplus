@@ -72,6 +72,30 @@ public interface fplusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSubroutineBlock(fplusParser.SubroutineBlockContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link fplusParser#parameterList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameterList(fplusParser.ParameterListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link fplusParser#parameterListElement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParameterListElement(fplusParser.ParameterListElementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link fplusParser#functionResult}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionResult(fplusParser.FunctionResultContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link fplusParser#procedureBinding}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProcedureBinding(fplusParser.ProcedureBindingContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link fplusParser#typeDefinitionBlock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

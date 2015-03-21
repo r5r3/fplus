@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import org.antlr.v4.runtime.*; 
+import org.antlr.v4.runtime.atn.PredictionMode;
 import org.antlr.v4.runtime.tree.*;
 import org.fplus.parser.fplusLexer;
 import org.fplus.parser.fplusParser;
@@ -60,8 +61,16 @@ public class Fplus {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         // create a parser that feeds off the tokens buffer
         fplusParser parser = new fplusParser(tokens);
+        // tell the parser how to handle errors
+        parser.removeErrorListeners();
+        FortranFileErrorListener errorListerner = new FortranFileErrorListener();
+        parser.addErrorListener(errorListerner);
+        //parser.getInterpreter().setPredictionMode(PredictionMode.LL_EXACT_AMBIG_DETECTION);
+        //parser.addErrorListener(new DiagnosticErrorListener());
         // begin parsing at fortranFile rule
         ParseTree tree = parser.fortranFile();
+        // ana errors reported?
+        errorListerner.exitIfErrorsWereFound();
 
         // walk the tree
         // create the container for all informations created during parsing

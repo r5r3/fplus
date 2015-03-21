@@ -75,7 +75,7 @@ procedureBlock
 // a function block, can have a return type
 functionBlock
     :
-        (placeholder | ~(Function|Newline))* Function WS Identifier (~Newline)* Newline
+        (placeholder | ~(Function|Newline))* Function WS Identifier (WS? parameterList)? (WS? functionResult)? (WS? procedureBinding)? WS? Newline
         (contentBlock)?
         WS? End WS Function WS? Identifier? WS? Newline
     ;
@@ -83,9 +83,38 @@ functionBlock
 // a subroutine block, no return type
 subroutineBlock
     :
-        WS? (Recursive | Elemental)? WS? Subroutine WS Identifier (~Newline)* Newline
+        WS? (Recursive | Elemental)? WS? Subroutine WS Identifier (WS? parameterList)? (WS? procedureBinding)? WS? Newline
         (contentBlock)?
         WS? End WS Subroutine WS? Identifier? WS? Newline
+    ;
+
+// a list of parameters for funcions and procedures
+parameterList
+    :
+        '(' ( WS? parameterListElement
+                (
+                    ( WS? ',' WS? parameterListElement)
+                |
+                    WS? lineContinuation (ifStatement)*
+                )*
+            )?
+        WS? ')'
+    ;
+
+parameterListElement
+    :
+        ( ~Newline | lineContinuation (ifStatement)* )
+    ;
+
+
+functionResult
+    :
+        Identifier WS? '(' WS? Identifier WS? ')'
+    ;
+
+procedureBinding
+    :
+        Bind WS? '(' WS? Identifier (WS? ',' WS? Identifier WS? '=' WS? StringLiteral)? WS? ')'
     ;
 
 // a definition of a type with possibly included generic templates
@@ -235,8 +264,6 @@ contentBlock
         |
             fortranInterfaceBlock
         |
-            lineComment
-        |
             contentLine
         )+
     ;
@@ -247,13 +274,17 @@ content
         (
             '(' (WS? content)* WS? ')'
         |
+            '(' (WS? content)*                  {notifyErrorListeners("Missing closing ')'");}
+        |
+            '(' (WS? content)* WS? ')' ')'      {notifyErrorListeners("Too many closing ')'");}
+        |
             StringLiteral
         |
             placeholder 
         |
             dynamicCast
         |
-            lineContinuation
+            lineContinuation (ifStatement)*
         |
            ~(
                 '('

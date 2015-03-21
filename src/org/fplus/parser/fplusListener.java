@@ -109,6 +109,46 @@ public interface fplusListener extends ParseTreeListener {
 	 */
 	void exitSubroutineBlock(fplusParser.SubroutineBlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#parameterList}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameterList(fplusParser.ParameterListContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#parameterList}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameterList(fplusParser.ParameterListContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#parameterListElement}.
+	 * @param ctx the parse tree
+	 */
+	void enterParameterListElement(fplusParser.ParameterListElementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#parameterListElement}.
+	 * @param ctx the parse tree
+	 */
+	void exitParameterListElement(fplusParser.ParameterListElementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#functionResult}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionResult(fplusParser.FunctionResultContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#functionResult}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionResult(fplusParser.FunctionResultContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link fplusParser#procedureBinding}.
+	 * @param ctx the parse tree
+	 */
+	void enterProcedureBinding(fplusParser.ProcedureBindingContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#procedureBinding}.
+	 * @param ctx the parse tree
+	 */
+	void exitProcedureBinding(fplusParser.ProcedureBindingContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#typeDefinitionBlock}.
 	 * @param ctx the parse tree
 	 */
