@@ -110,5 +110,9 @@
             <fileset file="dist/fplus.jar" />
         </concat>        
         <chmod file="dist/fplus" perm="+x"/>    
+        <!-- create tar file for distribution -->
+        <exec executable="tar" dir="dist">
+            <arg line="-cvzf fplus.tar.gz fplus"/>
+        </exec>
     </target>
 </project>
