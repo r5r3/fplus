@@ -259,6 +259,16 @@ public interface fplusListener extends ParseTreeListener {
 	 */
 	void exitContent(fplusParser.ContentContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#lineContinuation}.
+	 * @param ctx the parse tree
+	 */
+	void enterLineContinuation(fplusParser.LineContinuationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#lineContinuation}.
+	 * @param ctx the parse tree
+	 */
+	void exitLineContinuation(fplusParser.LineContinuationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#contentLine}.
 	 * @param ctx the parse tree
 	 */

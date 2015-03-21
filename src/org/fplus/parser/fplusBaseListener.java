@@ -317,6 +317,18 @@ public class fplusBaseListener implements fplusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterLineContinuation(fplusParser.LineContinuationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLineContinuation(fplusParser.LineContinuationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterContentLine(fplusParser.ContentLineContext ctx) { }
 	/**
 	 * {@inheritDoc}

@@ -245,32 +245,49 @@ contentBlock
 content
     :
         (
-            '(' WS? content WS? ')'
+            '(' (WS? content)* WS? ')'
+        |
+            StringLiteral
         |
             placeholder 
         |
             dynamicCast
         |
-            ~(
+            lineContinuation
+        |
+           ~(
+                '('
+            |
+                ')'
+            |
+                '\''
+            |
+                '"'
+            |
+                '!'
+            |
                 Prefix 
-             | 
+            | 
                 Subroutine 
-             | 
+            | 
                 Function 
-             | 
+            | 
                 Contains 
-             | 
+            | 
                 Module
-             | 
+            | 
                 Program
-             |
-                lineComment
-             |
+            |
                 Newline
-             )
+            )
         )
     ;
 
+// content is allowed to contain line continuations
+lineContinuation
+    :
+        '&' WS? Newline
+    ;
 
 // content blocks are build up of content lines
 contentLine
@@ -301,7 +318,12 @@ variableDefinition
 // the last rule is an line comment
 lineComment
     :
-        WS? '!' ~('$') (placeholder | ~(Newline))* Newline
+        WS? '!' 
+        (
+            Newline
+        |
+            ~('$') (placeholder | ~(Newline))* Newline        
+        )
     ;
 
 // expressions could be used in if statements or placeholders
@@ -354,6 +376,7 @@ Plus            :   '+';
 Minus           :   '-';
 Star            :   '*';
 Slash           :   '/';
+Ampersand       :   '&';
 
 // All commands start with this prefix
 Prefix          :   '!$'[Ff][Pp] ;
@@ -430,7 +453,16 @@ FloatConstant
 
 StringLiteral
     :
-        '"' .*? '"'
+        (
+            '"' ( StringEscSequence | ~[\\\r\n"] )* '"'
+        |
+            '\'' ( StringEscSequence | ~[\\\r\n'] )* '\''
+        )
+    ;
+
+fragment StringEscSequence
+    : 
+        '\\' .
     ;
 
 AssignPointer

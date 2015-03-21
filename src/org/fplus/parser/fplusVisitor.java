@@ -162,6 +162,12 @@ public interface fplusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitContent(fplusParser.ContentContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link fplusParser#lineContinuation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLineContinuation(fplusParser.LineContinuationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link fplusParser#contentLine}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
