@@ -4,7 +4,7 @@ program inplace
     integer :: x, y, i, j
 
     x = 0
-    x += 1
+    x += 1      ! x = x + 1
     print*, x
 
     !$FP do v1 = x y

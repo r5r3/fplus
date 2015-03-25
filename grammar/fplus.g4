@@ -357,7 +357,7 @@ inPlaceOperationLine
         (content WS?)+
         op=('+='|'*='|'-='|'//=')
         WS? (content WS?)+
-        Newline
+        ( Newline | lineComment)
     ;
 
 // variable definition, such a variable can be used everywhere in the same scope unit

@@ -702,8 +702,18 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
             else behind += text;
         }
 
+        // new line or comment
+        String lineending;
+        if (ctx.Newline() != null) {
+            // normal line ending
+            lineending = ctx.Newline().getText();
+        } else {
+            // line ending of the line comment
+            lineending = ctx.lineComment().getChild(ctx.lineComment().getChildCount()-1).getText();
+        }
+        
         // construct the new line
-        String newline = String.format("%s%s = %s %s %s%s", leadingWS, infront.trim(), infront.trim(), ctx.op.getText().charAt(0), behind.trim(), ctx.Newline().getText());
+        String newline = String.format("%s%s = %s %s %s%s", leadingWS, infront.trim(), infront.trim(), ctx.op.getText().charAt(0), behind.trim(), lineending);
         info.setExpansion(ctx, newline);
         
         // this rule returns nothing
