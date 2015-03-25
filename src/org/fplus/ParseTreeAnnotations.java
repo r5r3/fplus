@@ -221,6 +221,7 @@ public class ParseTreeAnnotations {
         if (ctx instanceof fplusParser.IfSingleLineContext) return true;
         if (ctx instanceof fplusParser.IfBlockContext) return true;
         if (ctx instanceof fplusParser.DynamicCastContext) return true;
+        if (ctx instanceof fplusParser.InPlaceOperationLineContext) return true;
         return false;
     }
 }

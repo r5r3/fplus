@@ -210,6 +210,12 @@ public interface fplusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDynamicCast(fplusParser.DynamicCastContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link fplusParser#inPlaceOperationLine}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInPlaceOperationLine(fplusParser.InPlaceOperationLineContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link fplusParser#variableDefinition}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

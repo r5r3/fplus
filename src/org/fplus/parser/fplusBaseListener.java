@@ -413,6 +413,18 @@ public class fplusBaseListener implements fplusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterInPlaceOperationLine(fplusParser.InPlaceOperationLineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitInPlaceOperationLine(fplusParser.InPlaceOperationLineContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterVariableDefinition(fplusParser.VariableDefinitionContext ctx) { }
 	/**
 	 * {@inheritDoc}

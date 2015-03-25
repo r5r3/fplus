@@ -264,6 +264,8 @@ contentBlock
         |
             fortranInterfaceBlock
         |
+            inPlaceOperationLine
+        |
             contentLine
         )+
     ;
@@ -296,6 +298,14 @@ content
                 '"'
             |
                 '!'
+            |
+                InPlaceAdd
+            |
+                InPlaceSub
+            |
+                InPlaceMul
+            |
+                InPlaceDiv
             |
                 Prefix 
             | 
@@ -338,6 +348,16 @@ placeholder
 dynamicCast
     :
         Dynamic_Cast WS? '<' WS? dataType (WS? ',' WS? dataTypeParameter)* WS? '>' WS? '(' (WS? content)+ WS? ')'
+    ;
+
+// in-place operators
+inPlaceOperationLine
+    :
+        WS?
+        (content WS?)+
+        op=('+='|'*='|'-='|'//=')
+        WS? (content WS?)+
+        Newline
     ;
 
 // variable definition, such a variable can be used everywhere in the same scope unit
@@ -408,6 +428,12 @@ Minus           :   '-';
 Star            :   '*';
 Slash           :   '/';
 Ampersand       :   '&';
+
+// in-place operators
+InPlaceAdd      :   '+=';
+InPlaceSub      :   '-=';
+InPlaceMul      :   '*=';
+InPlaceDiv      :   '//=';
 
 // All commands start with this prefix
 Prefix          :   '!$'[Ff][Pp] ;

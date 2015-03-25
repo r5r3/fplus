@@ -339,6 +339,16 @@ public interface fplusListener extends ParseTreeListener {
 	 */
 	void exitDynamicCast(fplusParser.DynamicCastContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link fplusParser#inPlaceOperationLine}.
+	 * @param ctx the parse tree
+	 */
+	void enterInPlaceOperationLine(fplusParser.InPlaceOperationLineContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link fplusParser#inPlaceOperationLine}.
+	 * @param ctx the parse tree
+	 */
+	void exitInPlaceOperationLine(fplusParser.InPlaceOperationLineContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link fplusParser#variableDefinition}.
 	 * @param ctx the parse tree
 	 */

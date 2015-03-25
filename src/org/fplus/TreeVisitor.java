@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
-import org.antlr.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.misc.Interval;
+import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.fplus.parser.fplusBaseVisitor;
@@ -674,6 +674,39 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
         }
         functionBlock.add("assignment_oper", assignment_oper);
         info.addEndOFModuleOrProgramContent(ctx, functionBlock.render(), true);
+        return null;
+    }
+
+    @Override
+    public Object visitInPlaceOperationLine(fplusParser.InPlaceOperationLineContext ctx) {
+        // expand all childrens content
+        visitChildren(ctx);
+        
+        // get the leading whitspace
+        String leadingWS = Helper.getLeadingWS(ctx);
+        
+        // get the text infront and behind of the operator
+        String infront = "";
+        String behind = "";
+        int nchilds = ctx.getChildCount();
+        boolean isInFront = true;
+        for (int i=0; i<nchilds; i++) {
+            ParseTree child = ctx.getChild(i);
+            String text = info.getExpansion(child);
+            if (text == null) text = child.getText();
+            if (text.equals(ctx.op.getText())) {
+                isInFront = false;
+                continue;
+            }
+            if (isInFront) infront += text;
+            else behind += text;
+        }
+
+        // construct the new line
+        String newline = String.format("%s%s = %s %s %s%s", leadingWS, infront.trim(), infront.trim(), ctx.op.getText().charAt(0), behind.trim(), ctx.Newline().getText());
+        info.setExpansion(ctx, newline);
+        
+        // this rule returns nothing
         return null;
     }
 
