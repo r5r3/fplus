@@ -405,6 +405,18 @@ public interface fplusListener extends ParseTreeListener {
 	 */
 	void exitExprConstants(fplusParser.ExprConstantsContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code ExprString}
+	 * labeled alternative in {@link fplusParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterExprString(fplusParser.ExprStringContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code ExprString}
+	 * labeled alternative in {@link fplusParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitExprString(fplusParser.ExprStringContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code ExprParens}
 	 * labeled alternative in {@link fplusParser#expr}.
 	 * @param ctx the parse tree

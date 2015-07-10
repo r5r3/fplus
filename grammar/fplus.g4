@@ -373,7 +373,7 @@ lineComment
         (
             Newline
         |
-            ~('$') (placeholder | ~(Newline))* Newline        
+            ~('$[Ff][Pp]') (placeholder | ~(Newline))* Newline        
         )
     ;
 
@@ -391,6 +391,8 @@ expr
         Identifier WS? '(' WS? expr WS? ')'                 # ExprArraySubscript
     |
         Identifier                                          # ExprVariable
+    |
+        StringLiteral                                       # ExprString
     ;
 
 

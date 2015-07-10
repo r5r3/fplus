@@ -249,6 +249,13 @@ public interface fplusVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExprConstants(fplusParser.ExprConstantsContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ExprString}
+	 * labeled alternative in {@link fplusParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprString(fplusParser.ExprStringContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code ExprParens}
 	 * labeled alternative in {@link fplusParser#expr}.
 	 * @param ctx the parse tree

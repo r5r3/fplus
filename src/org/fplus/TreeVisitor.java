@@ -63,6 +63,8 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
             return (Variable) visitExprParens((fplusParser.ExprParensContext)ctx);
         if (ctx instanceof fplusParser.ExprVariableContext) 
             return (Variable) visitExprVariable((fplusParser.ExprVariableContext)ctx);
+        if (ctx instanceof fplusParser.ExprStringContext)
+            return (Variable) visitExprString((fplusParser.ExprStringContext)ctx);
         return null;
     }
 
@@ -139,6 +141,19 @@ public class TreeVisitor extends fplusBaseVisitor<Object> {
         // set expansion and expression value
         info.setExpansion(ctx, ctx.IntegerConstant().getText());
         return var;       
+    }
+
+    @Override
+    public Object visitExprString(fplusParser.ExprStringContext ctx) {
+        // create a new variable
+        String name = String.format("anonymous_l%d_c%d", ctx.StringLiteral().getSymbol().getLine(), ctx.StringLiteral().getSymbol().getCharPositionInLine());
+        String str = ctx.StringLiteral().getText();
+        str = str.substring(1, str.length()-1);
+        Variable var = new Variable(name);
+        var.addValue(str);
+        // set expansion and expression value
+        info.setExpansion(ctx, ctx.StringLiteral().getText());
+        return var;
     }
 
     @Override

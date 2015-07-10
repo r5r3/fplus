@@ -485,6 +485,18 @@ public class fplusBaseListener implements fplusListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterExprString(fplusParser.ExprStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExprString(fplusParser.ExprStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterExprParens(fplusParser.ExprParensContext ctx) { }
 	/**
 	 * {@inheritDoc}
